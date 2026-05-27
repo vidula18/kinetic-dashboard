@@ -7,6 +7,8 @@ import { LeadQueue } from './components/LeadQueue';
 import { LeadDetail } from './components/LeadDetail';
 import { QuickFilterBar } from './components/QuickFilterBar';
 
+import { AIAlertsTable } from './components/AIAlertsTable';
+
 export default function App() {
   const [activeFilter, setActiveFilter] = useState<LabelType | null>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(MOCK_LEADS[0]?.id || null);
@@ -68,9 +70,9 @@ export default function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+      <main className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 flex items-center justify-between flex-shrink-0 z-20 shadow-sm relative">
+        <header className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 flex items-center justify-between flex-shrink-0 z-20 shadow-sm sticky top-0">
           <div className="flex-1 flex items-center">
             <button className="lg:hidden p-2 text-gray-400 hover:text-gray-500 mr-2">
               <MenuIcon className="h-6 w-6" />
@@ -105,7 +107,7 @@ export default function App() {
         </header>
 
         {/* Master-Detail Split Screen Layout */}
-        <div className="flex-1 overflow-hidden relative z-10">
+        <div className="h-[600px] lg:h-[750px] flex-shrink-0 relative z-10 border-b border-gray-200 bg-white">
           <SplitScreenLayout 
             topBar={
               <QuickFilterBar 
@@ -125,6 +127,11 @@ export default function App() {
               <LeadDetail lead={selectedLead} />
             }
           />
+        </div>
+
+        {/* AI Alerts Table */}
+        <div className="pb-12">
+          <AIAlertsTable />
         </div>
       </main>
     </div>
