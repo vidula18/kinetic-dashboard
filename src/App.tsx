@@ -108,7 +108,7 @@ export default function App() {
     ? MOCK_LEADS.filter(lead => lead.labels.some(l => l.text === activeFilter))
     : MOCK_LEADS;
 
-  const visibleLeads = showAllLeads ? filteredLeads : filteredLeads.slice(0, 5);
+  const visibleLeads = showAllLeads ? filteredLeads : filteredLeads.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -188,7 +188,7 @@ export default function App() {
           </div>
 
           {/* Fresh Leads Section */}
-          <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+          <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
             <div className="px-6 py-5 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-gray-900">Today's Fresh Leads</h2>
@@ -245,7 +245,7 @@ export default function App() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {visibleLeads.map((lead) => (
                     <tr key={lead.id} className="hover:bg-gray-50 transition-colors group">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100">
                             <Users className="h-5 w-5 text-blue-500" />
@@ -260,7 +260,7 @@ export default function App() {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-6 py-3 whitespace-nowrap">
                         <div className="flex gap-2">
                           {lead.labels.map((label, idx) => {
                             const Icon = label.icon;
@@ -273,7 +273,7 @@ export default function App() {
                           })}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500">
+                      <td className="px-6 py-3 whitespace-nowrap text-right text-sm text-gray-500">
                         {formatDistanceToNow(lead.timeReceived, { addSuffix: true })}
                       </td>
                     </tr>
@@ -283,8 +283,8 @@ export default function App() {
             </div>
 
             {/* Progressive Disclosure Footer */}
-            {!showAllLeads && filteredLeads.length > 5 && (
-              <div className="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-center">
+            {!showAllLeads && filteredLeads.length > 3 && (
+              <div className="bg-gray-50 px-6 py-3 border-t border-gray-200 flex justify-center">
                 <button 
                   onClick={() => setShowAllLeads(true)}
                   className="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-200"
@@ -294,7 +294,7 @@ export default function App() {
               </div>
             )}
             {showAllLeads && (
-              <div className="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-center">
+              <div className="bg-gray-50 px-6 py-3 border-t border-gray-200 flex justify-center">
                 <button 
                   onClick={() => setShowAllLeads(false)}
                   className="text-sm font-medium text-gray-600 hover:text-gray-900 flex items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-200"
