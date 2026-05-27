@@ -9,7 +9,10 @@ import { QuickFilterBar } from './components/QuickFilterBar';
 
 import { AIAlertsTable } from './components/AIAlertsTable';
 
+import { FreshLeadsTable } from './components/FreshLeadsTable';
+
 export default function App() {
+  const [activeTab, setActiveTab] = useState<'Alerts' | 'Leads'>('Alerts');
   const [activeFilter, setActiveFilter] = useState<LabelType | null>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(MOCK_LEADS[0]?.id || null);
 
@@ -77,7 +80,7 @@ export default function App() {
             <button className="lg:hidden p-2 text-gray-400 hover:text-gray-500 mr-2">
               <MenuIcon className="h-6 w-6" />
             </button>
-            <h1 className="text-xl font-bold text-gray-900 mr-6">Today's Fresh Leads</h1>
+            <h1 className="text-xl font-bold text-gray-900 mr-6">Dashboard</h1>
             <div className="max-w-md w-full relative hidden sm:block">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-4 w-4 text-gray-400" />
@@ -106,33 +109,53 @@ export default function App() {
           </div>
         </header>
 
-        {/* Master-Detail Split Screen Layout */}
-        <div className="h-[600px] lg:h-[750px] flex-shrink-0 relative z-10 border-b border-gray-200 bg-white">
-          <SplitScreenLayout 
-            topBar={
-              <QuickFilterBar 
-                leads={MOCK_LEADS} 
-                activeFilter={activeFilter} 
-                onFilterChange={handleFilterChange} 
-              />
-            }
-            leftPane={
-              <LeadQueue 
-                leads={filteredLeads} 
-                selectedLeadId={selectedLeadId} 
-                onSelectLead={setSelectedLeadId} 
-              />
-            }
-            rightPane={
-              <LeadDetail lead={selectedLead} />
-            }
-          />
+        {/* Tabs Area */}
+        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex space-x-1 p-1 bg-gray-200 rounded-lg inline-flex mt-6 self-start">
+          <button 
+            onClick={() => setActiveTab('Alerts')}
+            className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+              activeTab === 'Alerts' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            }`}>
+            Alerts
+          </button>
+          <button 
+            onClick={() => setActiveTab('Leads')}
+            className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+              activeTab === 'Leads' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            }`}>
+            Leads
+          </button>
         </div>
 
-        {/* AI Alerts Table */}
-        <div className="pb-12">
-          <AIAlertsTable />
-        </div>
+        {activeTab === 'Leads' ? (
+          /* Master-Detail Split Screen Layout */
+          <div className="h-[600px] lg:h-[750px] flex-shrink-0 relative z-10 border-y border-gray-200 bg-white">
+            <SplitScreenLayout 
+              topBar={
+                <QuickFilterBar 
+                  leads={MOCK_LEADS} 
+                  activeFilter={activeFilter} 
+                  onFilterChange={handleFilterChange} 
+                />
+              }
+              leftPane={
+                <LeadQueue 
+                  leads={filteredLeads} 
+                  selectedLeadId={selectedLeadId} 
+                  onSelectLead={setSelectedLeadId} 
+                />
+              }
+              rightPane={
+                <LeadDetail lead={selectedLead} />
+              }
+            />
+          </div>
+        ) : (
+          <div className="pb-12 mt-4">
+            <FreshLeadsTable leads={MOCK_LEADS} />
+            <AIAlertsTable />
+          </div>
+        )}
       </main>
     </div>
   );
