@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { 
   Search, LayoutDashboard, BarChart3, Users, Calendar, 
-  Settings, HelpCircle, Bell, Filter, TrendingUp, AlertTriangle, 
-  MessageSquare, Clock, Phone, Globe, ShieldAlert, CheckCircle2, ChevronDown
+  Bell, Filter, TrendingUp, AlertTriangle, 
+  MessageSquare, Clock, Phone, Globe, CheckCircle2, ChevronDown
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
