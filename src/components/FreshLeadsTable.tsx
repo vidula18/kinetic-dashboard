@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Users } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { LabelPill } from './LabelPill';
 import type { Lead } from '../data/mockLeads';
 import type { LabelType } from '../data/labelConfig';
 import { MOCK_LABELS } from '../data/labelConfig';
@@ -77,7 +76,6 @@ export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
           <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lead</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status / Labels</th>
               <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Time Received</th>
             </tr>
           </thead>
@@ -97,19 +95,6 @@ export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
                         <span className="text-gray-400 font-mono text-xs">{lead.phone}</span>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td className="px-6 py-3 whitespace-nowrap">
-                  <div className="flex gap-2">
-                    {lead.labels.map((label, idx) => {
-                      const Icon = label.icon;
-                      return (
-                        <LabelPill key={idx} color={label.color}>
-                          <Icon className="w-3 h-3 mr-1" />
-                          {label.text}
-                        </LabelPill>
-                      );
-                    })}
                   </div>
                 </td>
                 <td className="px-6 py-3 whitespace-nowrap text-right text-sm text-gray-500">

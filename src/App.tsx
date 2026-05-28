@@ -41,6 +41,14 @@ export default function App() {
     return MOCK_LEADS.find(l => l.id === selectedLeadId) || null;
   }, [selectedLeadId]);
 
+  const handleNavigateToLead = (leadName: string) => {
+    const lead = MOCK_LEADS.find(l => l.name === leadName);
+    if (lead) {
+      setSelectedLeadId(lead.id);
+      setActiveTab('Leads');
+    }
+  };
+
   return (
     <div className="h-screen bg-gray-50 flex overflow-hidden">
       {/* Sidebar Navigation */}
@@ -153,7 +161,7 @@ export default function App() {
         ) : (
           <div className="pb-12 mt-4">
             <FreshLeadsTable leads={MOCK_LEADS} />
-            <AIAlertsTable />
+            <AIAlertsTable onNavigateToLead={handleNavigateToLead} />
           </div>
         )}
       </main>

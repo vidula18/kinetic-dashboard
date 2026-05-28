@@ -2,7 +2,11 @@ import { Filter } from 'lucide-react';
 import { LabelPill } from './LabelPill';
 import { MOCK_ALERTS } from '../data/mockAlerts';
 
-export function AIAlertsTable() {
+interface AIAlertsTableProps {
+  onNavigateToLead?: (leadName: string) => void;
+}
+
+export function AIAlertsTable({ onNavigateToLead }: AIAlertsTableProps) {
   return (
     <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mx-4 sm:mx-6 lg:mx-8 mb-8 mt-6">
       <div className="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
@@ -28,7 +32,7 @@ export function AIAlertsTable() {
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[20%]">Lead Name</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[35%]">AI Insight</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[15%]">Action</th>
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-[15%]">Date</th>
+              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-[15%]">Date of Alert</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -38,7 +42,12 @@ export function AIAlertsTable() {
                   <LabelPill color={alert.labelColor}>{alert.labelText}</LabelPill>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-bold text-gray-900">{alert.leadName}</div>
+                  <div 
+                    className={`text-sm font-bold text-gray-900 ${onNavigateToLead ? 'cursor-pointer hover:text-blue-600 hover:underline' : ''}`}
+                    onClick={() => onNavigateToLead && onNavigateToLead(alert.leadName)}
+                  >
+                    {alert.leadName}
+                  </div>
                 </td>
                 <td className="px-6 py-4">
                   <div className="text-sm text-gray-600" dangerouslySetInnerHTML={{ 
