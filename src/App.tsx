@@ -9,7 +9,6 @@ import { QuickFilterBar } from './components/QuickFilterBar';
 import { AIAlertsTable } from './components/AIAlertsTable';
 import { FreshLeadsTable } from './components/FreshLeadsTable';
 import { WeeklySummary } from './components/WeeklySummary';
-import { MOCK_ALERTS } from './data/mockAlerts';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'WeeklySummary' | 'Alerts' | 'Leads'>('WeeklySummary');
@@ -143,11 +142,7 @@ export default function App() {
         </div>
 
         {activeTab === 'WeeklySummary' && (
-          <WeeklySummary 
-            leads={MOCK_LEADS} 
-            alerts={MOCK_ALERTS} 
-            onNavigateToTab={setActiveTab} 
-          />
+          <WeeklySummary />
         )}
 
         {activeTab === 'Leads' && (
