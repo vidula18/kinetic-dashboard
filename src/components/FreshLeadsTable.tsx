@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { ChevronDown, Users } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import type { Lead } from '../data/mockLeads';
-import type { LabelType } from '../data/labelConfig';
-import { MOCK_LABELS } from '../data/labelConfig';
 
 interface FreshLeadsTableProps {
   leads: Lead[];
@@ -11,19 +9,8 @@ interface FreshLeadsTableProps {
 
 export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
   const [showAllLeads, setShowAllLeads] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<LabelType | null>(null);
 
-  // Compute label counts
-  const labelCounts = MOCK_LABELS.map(label => {
-    const count = leads.filter(lead => lead.labels.some(l => l.text === label.text)).length;
-    return { ...label, count };
-  }).filter(l => l.count > 0);
-
-  const filteredLeads = activeFilter 
-    ? leads.filter(lead => lead.labels.some(l => l.text === activeFilter))
-    : leads;
-
-  const visibleLeads = showAllLeads ? filteredLeads : filteredLeads.slice(0, 3);
+  const visibleLeads = showAllLeads ? leads : leads.slice(0, 3);
 
   return (
     <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6 mx-4 sm:mx-6 lg:mx-8">
@@ -35,39 +22,6 @@ export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
           </span>
         </div>
 
-        {/* Quick Filter Bar */}
-        <div className="mt-4 flex flex-wrap gap-2">
-          <button 
-            onClick={() => setActiveFilter(null)}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-              activeFilter === null 
-                ? 'bg-gray-800 text-white border-gray-800' 
-                : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            All
-          </button>
-          {labelCounts.map(label => {
-            const Icon = label.icon;
-            return (
-              <button
-                key={label.text}
-                onClick={() => setActiveFilter(activeFilter === label.text ? null : label.text)}
-                className={`flex items-center px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                  activeFilter === label.text
-                    ? 'ring-2 ring-blue-500 ring-offset-1 border-transparent'
-                    : 'bg-white border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5 mr-1.5 opacity-70" />
-                {label.text}
-                <span className="ml-1.5 bg-gray-100 px-1.5 py-0.5 rounded-full text-[10px] text-gray-600">
-                  {label.count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
       </div>
 
       {/* Table Layout */}
@@ -107,13 +61,13 @@ export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
       </div>
 
       {/* Progressive Disclosure Footer */}
-      {!showAllLeads && filteredLeads.length > 3 && (
+      {!showAllLeads && leads.length > 3 && (
         <div className="bg-gray-50 px-6 py-3 border-t border-gray-200 flex justify-center">
           <button 
             onClick={() => setShowAllLeads(true)}
             className="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center bg-white px-4 py-2 rounded-md shadow-sm border border-gray-200"
           >
-            View All ({filteredLeads.length}) <ChevronDown className="ml-1 w-4 h-4" />
+            View All ({leads.length}) <ChevronDown className="ml-1 w-4 h-4" />
           </button>
         </div>
       )}
