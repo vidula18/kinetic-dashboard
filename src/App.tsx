@@ -6,13 +6,13 @@ import { SplitScreenLayout } from './components/SplitScreenLayout';
 import { LeadQueue } from './components/LeadQueue';
 import { LeadDetail } from './components/LeadDetail';
 import { QuickFilterBar } from './components/QuickFilterBar';
+
 import { AIAlertsTable } from './components/AIAlertsTable';
+
 import { FreshLeadsTable } from './components/FreshLeadsTable';
-import { WeeklySummary } from './components/WeeklySummary';
-import { MOCK_ALERTS } from './data/mockAlerts';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'WeeklySummary' | 'Alerts' | 'Leads'>('WeeklySummary');
+  const [activeTab, setActiveTab] = useState<'Alerts' | 'Leads' | 'Weekly Summary'>('Alerts');
   const [activeFilter, setActiveFilter] = useState<LabelType | null>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(MOCK_LEADS[0]?.id || null);
 
@@ -118,37 +118,29 @@ export default function App() {
         </header>
 
         {/* Tabs Area */}
-        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex space-x-1 p-1 bg-gray-200 rounded-lg inline-flex mt-6 self-start overflow-x-auto max-w-full">
-          <button 
-            onClick={() => setActiveTab('WeeklySummary')}
-            className={`px-6 py-2 text-sm font-medium rounded-md transition-all whitespace-nowrap ${
-              activeTab === 'WeeklySummary' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-            }`}>
-            Weekly Summary
-          </button>
+        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex space-x-1 p-1 bg-gray-200 rounded-lg inline-flex mt-6 self-start">
           <button 
             onClick={() => setActiveTab('Alerts')}
-            className={`px-6 py-2 text-sm font-medium rounded-md transition-all whitespace-nowrap ${
+            className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
               activeTab === 'Alerts' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
             }`}>
             Alerts
           </button>
           <button 
             onClick={() => setActiveTab('Leads')}
-            className={`px-6 py-2 text-sm font-medium rounded-md transition-all whitespace-nowrap ${
+            className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
               activeTab === 'Leads' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
             }`}>
             Leads
           </button>
+          <button 
+            onClick={() => setActiveTab('Weekly Summary')}
+            className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+              activeTab === 'Weekly Summary' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+            }`}>
+            Weekly Summary
+          </button>
         </div>
-
-        {activeTab === 'WeeklySummary' && (
-          <WeeklySummary 
-            leads={MOCK_LEADS} 
-            alerts={MOCK_ALERTS} 
-            onNavigateToTab={setActiveTab} 
-          />
-        )}
 
         {activeTab === 'Leads' && (
           /* Master-Detail Split Screen Layout */
@@ -174,11 +166,21 @@ export default function App() {
             />
           </div>
         )}
-        
+
         {activeTab === 'Alerts' && (
           <div className="pb-12 mt-4">
             <FreshLeadsTable leads={MOCK_LEADS} />
             <AIAlertsTable onNavigateToLead={handleNavigateToLead} />
+          </div>
+        )}
+
+        {activeTab === 'Weekly Summary' && (
+          <div className="p-8 flex items-center justify-center h-full">
+            <div className="text-center text-gray-500">
+              <BarChart3 className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+              <h3 className="text-lg font-medium text-gray-900">Weekly Summary</h3>
+              <p className="mt-1">This section is under construction.</p>
+            </div>
           </div>
         )}
       </main>
