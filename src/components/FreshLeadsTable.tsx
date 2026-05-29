@@ -35,7 +35,7 @@ export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
                     <Users className="h-5 w-5 text-blue-500" />
                   </div>
                   <div>
-                    <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">{lead.name}</h3>
+                    <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">{lead.name}</h3>
                     <div className="text-[12px] text-gray-500 flex items-center gap-1.5 mt-0.5">
                       <span className="truncate">{lead.source}</span>
                     </div>

@@ -46,8 +46,8 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
         
         <div className="flex-1 min-w-0 flex flex-col justify-center">
           {/* Top Row: Name and Time */}
-          <div className="flex justify-between items-center mb-1">
-            <h3 className={`font-bold text-[14px] truncate mr-2 ${isSelected ? 'text-blue-900' : 'text-gray-900'}`}>
+          <div className="flex justify-between items-start mb-1">
+            <h3 className={`font-bold text-[14px] leading-tight mr-2 ${isSelected ? 'text-blue-900' : 'text-gray-900'}`}>
               {lead.name}
             </h3>
             <span className="text-[10px] text-gray-400 font-medium whitespace-nowrap flex-shrink-0">
