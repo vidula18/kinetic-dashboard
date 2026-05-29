@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { Sparkles, AlertCircle, CheckCircle, AlertTriangle, Activity, ChevronDown, ChevronUp, PlayCircle } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 export function SalesPerformance() {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
   // Mock data for weekly trend
   const trendDays = [
-    { day: 'Mon', calls: 12, conversions: 4, height: 'h-12' },
-    { day: 'Tue', calls: 19, conversions: 6, height: 'h-20' },
-    { day: 'Wed', calls: 15, conversions: 5, height: 'h-16' },
-    { day: 'Thu', calls: 24, conversions: 8, height: 'h-24' },
-    { day: 'Fri', calls: 18, conversions: 7, height: 'h-20' },
-    { day: 'Sat', calls: 8, conversions: 2, height: 'h-8' },
-    { day: 'Sun', calls: 5, conversions: 1, height: 'h-5' },
+    { day: 'Mon', calls: 12, conversions: 4 },
+    { day: 'Tue', calls: 19, conversions: 6 },
+    { day: 'Wed', calls: 15, conversions: 5 },
+    { day: 'Thu', calls: 24, conversions: 8 },
+    { day: 'Fri', calls: 18, conversions: 7 },
+    { day: 'Sat', calls: 8, conversions: 2 },
+    { day: 'Sun', calls: 5, conversions: 1 },
   ];
 
   const teamPerformance = [
@@ -86,51 +87,38 @@ export function SalesPerformance() {
   return (
     <div className="mx-4 sm:mx-6 lg:mx-8 mb-12 mt-4 space-y-6">
 
-      {/* 2. Band 2: Trends & AI Insights */}
+      <div className="flex justify-between items-end mb-2">
+        <div>
+          <h2 className="text-xl font-extrabold text-gray-900">Sales Performance</h2>
+          <p className="text-sm text-gray-600 font-medium mt-1">Activity trends and team conversion metrics</p>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         
         {/* Left Column: Visual Trend Chart (3 cols) */}
         <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:col-span-3 flex flex-col">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-base font-bold text-gray-900 flex items-center">
+            <h3 className="text-base font-extrabold text-gray-900 flex items-center">
               <Activity className="w-5 h-5 mr-2 text-blue-500" /> Weekly Activity Trend
             </h3>
-            <div className="flex items-center space-x-4 text-xs font-medium text-gray-500">
-              <div className="flex items-center"><span className="w-3 h-3 rounded-sm bg-gray-100 border border-gray-200 mr-2"></span>Total Calls</div>
-              <div className="flex items-center"><span className="w-3 h-3 rounded-sm bg-blue-500 mr-2"></span>Conversions</div>
-            </div>
           </div>
           
           {/* Chart Graphic Area */}
-          <div className="flex items-end justify-between flex-1 pt-4 px-2 relative mt-4">
-            {trendDays.map((stat, idx) => (
-              <div key={idx} className="flex flex-col items-center w-full">
-                <div className="relative w-8 sm:w-12 flex justify-center">
-                   {/* Bar for calls */}
-                   <div className={`w-full bg-gray-100 rounded-t-md relative ${stat.height} transition-colors hover:bg-gray-200`}>
-                   </div>
-                   {/* Solid bar for conversions overlaying the calls bar */}
-                   <div 
-                     className="absolute bottom-0 w-full rounded-b-md bg-blue-500 z-10 opacity-90 transition-all border-t border-blue-400" 
-                     style={{ height: `${(stat.conversions / stat.calls) * 100}%` }}
-                   ></div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* Summary Row */}
-          <div className="flex justify-between px-2 mt-4 pt-4 border-t border-gray-100">
-             {trendDays.map((stat, idx) => (
-                <div key={`summary-${idx}`} className="flex flex-col items-center w-full text-[10px] sm:text-xs text-gray-500">
-                   <div className="font-bold text-gray-800 mb-1.5">{stat.day}</div>
-                   <div className="flex flex-col items-center gap-0.5">
-                     <div>Calls: <span className="font-mono text-gray-900 font-medium">{stat.calls}</span></div>
-                     <div>Conv: <span className="font-mono text-blue-600 font-bold">{stat.conversions}</span></div>
-                     <div className="text-[10px] mt-1 text-gray-400 font-semibold bg-gray-50 px-1.5 py-0.5 rounded">{Math.round((stat.conversions/stat.calls)*100)}% Rate</div>
-                   </div>
-                </div>
-             ))}
+          <div className="flex-1 w-full h-[250px] mt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={trendDays} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  cursor={{ fill: '#f3f4f6' }}
+                />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                <Bar dataKey="calls" name="Total Calls" fill="#e5e7eb" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                <Bar dataKey="conversions" name="Conversions" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={40} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </section>
 
@@ -138,7 +126,7 @@ export function SalesPerformance() {
         <section className="bg-blue-50/50 rounded-xl border border-blue-100 p-6 lg:col-span-2">
           <div className="flex items-center mb-6">
             <Sparkles className="w-5 h-5 text-blue-600 mr-2" />
-            <h3 className="text-base font-bold text-gray-900">AI Weekly Insights</h3>
+            <h3 className="text-base font-extrabold text-gray-900">AI Weekly Insights</h3>
           </div>
           
           <div className="space-y-5">
@@ -178,12 +166,12 @@ export function SalesPerformance() {
       {/* 3. Band 3: Team Breakdown */}
       <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center bg-gray-50/50">
-          <h3 className="text-base font-bold text-gray-900">Team Performance Breakdown</h3>
+          <h3 className="text-base font-extrabold text-gray-900">Team Performance Breakdown</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-gray-200 text-[11px] uppercase tracking-wider text-gray-500 font-bold bg-white">
+              <tr className="border-b border-gray-200 text-[11px] uppercase tracking-wider text-gray-700 font-extrabold bg-gray-50/50">
                 <th className="px-6 py-4">Rep Name</th>
                 <th className="px-6 py-4">Role</th>
                 <th className="px-6 py-4 text-right">Leads Handled</th>

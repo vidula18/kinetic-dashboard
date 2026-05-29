@@ -16,7 +16,7 @@ export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
     <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6 mx-4 sm:mx-6 lg:mx-8">
       <div className="px-6 py-5 border-b border-gray-200">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">Today's Fresh Leads</h2>
+          <h2 className="text-lg font-extrabold text-gray-900">Today's Fresh Leads</h2>
           <span className="bg-blue-100 text-blue-700 py-1 px-3 rounded-full text-sm font-medium">
             {leads.length} New
           </span>
