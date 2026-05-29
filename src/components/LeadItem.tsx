@@ -30,7 +30,7 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
         isSelected 
           ? 'bg-blue-50 border-y-blue-300 border-r-blue-300 border-l-[4px] border-l-blue-600 shadow-md' 
           : lead.isFresh
-            ? 'bg-yellow-50 border-yellow-200 hover:shadow-md hover:border-yellow-300 border-l-[4px] border-l-yellow-400'
+            ? 'bg-yellow-100/80 border-yellow-300 hover:shadow-md hover:border-yellow-400 border-l-[4px] border-l-yellow-500'
             : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[4px] border-l-transparent'
       }`}
     >
@@ -42,23 +42,29 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
 
       <div className={`flex items-center gap-2.5 ${isSelected ? 'pr-5' : ''}`}>
         {/* Avatar */}
-        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isSelected ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 text-gray-600 border border-gray-200'}`}>
+        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isSelected ? 'bg-blue-600 text-white shadow-sm' : lead.isFresh && !isSelected ? 'bg-yellow-200 text-yellow-800 border-yellow-300' : 'bg-gray-100 text-gray-600 border border-gray-200'}`}>
           {initials}
         </div>
         
         <div className="flex-1 min-w-0 flex flex-col justify-center">
           {/* Top Row: Name */}
-          <h3 className={`font-bold text-[14px] leading-tight mb-1 break-words pr-2 ${isSelected ? 'text-blue-900' : 'text-gray-900'}`}>
+          <h3 className={`font-bold text-[14px] leading-tight mb-1 break-words pr-2 ${isSelected ? 'text-blue-900' : lead.isFresh ? 'text-yellow-900' : 'text-gray-900'}`}>
             {lead.name}
           </h3>
           
           {/* Middle Row: Label and Time */}
-          <div className="flex items-center justify-between gap-2 mb-1.5 overflow-hidden">
+          <div className="flex items-center gap-2 mb-1.5 overflow-hidden">
             <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide whitespace-nowrap flex-shrink-0 ${colorStyles[primaryLabel.color]}`}>
               <Icon className="w-2.5 h-2.5 mr-1 flex-shrink-0 opacity-80" />
               {primaryLabel.text}
             </span>
-            <span className="text-[10px] text-gray-400 font-medium whitespace-nowrap truncate">
+            {lead.isFresh && !isSelected && (
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide whitespace-nowrap flex-shrink-0 bg-yellow-200 text-yellow-800">
+                ⭐ FRESH
+              </span>
+            )}
+            <div className="flex-1"></div>
+            <span className={`text-[10px] font-medium whitespace-nowrap truncate flex-shrink-0 ${lead.isFresh && !isSelected ? 'text-yellow-700' : 'text-gray-400'}`}>
               {formatDistanceToNow(lead.timeReceived, { addSuffix: true })}
             </span>
           </div>
