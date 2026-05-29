@@ -52,7 +52,7 @@ export function FreshLeadsTable({ leads, onNavigateToLead }: FreshLeadsTableProp
               
               <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100 group-active:border-blue-100 transition-colors">
                 <span className="text-[12px] font-medium text-gray-500 group-active:text-blue-800 truncate mr-2 flex items-center transition-colors">
-                   <span className="mr-1.5 opacity-60">📞</span> {lead.phone}
+                  {lead.phone}
                 </span>
                 <span className="text-[11px] font-bold text-gray-400 group-active:text-blue-700 whitespace-nowrap bg-gray-50 group-active:bg-white group-active:border-blue-200 px-2 py-0.5 rounded-full border border-gray-100 shadow-sm transition-colors">
                   {formatDistanceToNow(lead.timeReceived, { addSuffix: true })}

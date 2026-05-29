@@ -60,7 +60,7 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
             </span>
             {lead.isFresh && !isSelected && (
               <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide whitespace-nowrap flex-shrink-0 bg-yellow-50 text-yellow-600 border border-yellow-100">
-                ⭐ FRESH
+                FRESH
               </span>
             )}
             <div className="flex-1"></div>
@@ -71,7 +71,7 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
           
           {/* Bottom Row: Phone */}
           <span className="text-[11px] text-gray-500 font-medium truncate flex items-center">
-            <span className="mr-1 opacity-60">📞</span> {lead.phone}
+            {lead.phone}
           </span>
         </div>
       </div>
