@@ -156,7 +156,7 @@ export default function App() {
           </div>
           
           {activeTab === 'Leads' && (
-            <div className="flex-shrink-0 ml-4 pb-2 relative z-10 flex items-center">
+            <div className="flex-shrink-0 ml-4 pb-2 flex items-center">
               <QuickFilterBar 
                 leads={MOCK_LEADS} 
                 activeFilter={activeFilter} 
