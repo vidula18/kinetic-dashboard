@@ -21,7 +21,23 @@ export function QuickFilterBar({ leads, activeFilter, onFilterChange }: QuickFil
 
   return (
     <div className="bg-white border-b border-gray-200">
-      <div className="px-4 py-3 sm:px-6 flex items-center">
+      <div className="px-4 py-3 sm:px-6 flex items-center justify-end">
+        {/* Active Filter Visibility when closed */}
+        {!isOpen && activeFilter && (
+          <div className="mr-4 flex items-center text-sm">
+            <span className="text-gray-500 mr-2">Showing:</span>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200">
+              {activeFilter}
+              <button 
+                onClick={(e) => { e.stopPropagation(); onFilterChange(null); }}
+                className="ml-1.5 hover:text-blue-900 focus:outline-none"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          </div>
+        )}
+
         <button 
           onClick={() => setIsOpen(!isOpen)}
           className={`flex items-center px-4 py-2 border rounded-md text-sm font-bold transition-all shadow-sm ${
@@ -38,22 +54,6 @@ export function QuickFilterBar({ leads, activeFilter, onFilterChange }: QuickFil
             </span>
           )}
         </button>
-        
-        {/* Active Filter Visibility when closed */}
-        {!isOpen && activeFilter && (
-          <div className="ml-4 flex items-center text-sm">
-            <span className="text-gray-500 mr-2">Showing:</span>
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200">
-              {activeFilter}
-              <button 
-                onClick={(e) => { e.stopPropagation(); onFilterChange(null); }}
-                className="ml-1.5 hover:text-blue-900 focus:outline-none"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </span>
-          </div>
-        )}
       </div>
 
       <div 

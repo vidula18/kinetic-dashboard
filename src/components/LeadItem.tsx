@@ -26,46 +26,44 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
   return (
     <div 
       onClick={onClick}
-      className={`p-3.5 rounded-lg border transition-all duration-200 cursor-pointer flex flex-col justify-center h-full relative overflow-hidden ${
+      className={`p-3 rounded-lg border transition-all duration-200 cursor-pointer flex flex-col justify-center h-full relative overflow-hidden ${
         isSelected 
-          ? 'bg-blue-50/80 border-y-blue-300 border-r-blue-300 border-l-[5px] border-l-blue-600 shadow-md' 
-          : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[5px] border-l-transparent'
+          ? 'bg-blue-50/80 border-y-blue-300 border-r-blue-300 border-l-[4px] border-l-blue-600 shadow-md' 
+          : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[4px] border-l-transparent'
       }`}
     >
       {isSelected && (
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600">
-          <ChevronRight className="w-5 h-5" />
+        <div className="absolute right-1 top-1/2 -translate-y-1/2 text-blue-600">
+          <ChevronRight className="w-4 h-4" />
         </div>
       )}
 
-      <div className={`flex items-start gap-3 ${isSelected ? 'pr-6' : ''}`}>
+      <div className={`flex items-center gap-2.5 ${isSelected ? 'pr-5' : ''}`}>
         {/* Avatar */}
-        <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${isSelected ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 text-gray-600 border border-gray-200'}`}>
+        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isSelected ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 text-gray-600 border border-gray-200'}`}>
           {initials}
         </div>
         
-        <div className="flex-1 min-w-0">
-          {/* Top Row: Name */}
-          <div className="flex justify-between items-center mb-1.5">
-            <h3 className={`font-bold text-[15px] truncate ${isSelected ? 'text-blue-900' : 'text-gray-900'}`}>
+        <div className="flex-1 min-w-0 flex flex-col justify-center">
+          {/* Top Row: Name and Time */}
+          <div className="flex justify-between items-center mb-1">
+            <h3 className={`font-bold text-[14px] truncate mr-2 ${isSelected ? 'text-blue-900' : 'text-gray-900'}`}>
               {lead.name}
             </h3>
-          </div>
-          
-          {/* Middle Row: Label + Time */}
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${colorStyles[primaryLabel.color]}`}>
-              <Icon className="w-3 h-3 mr-1 opacity-80" />
-              {primaryLabel.text}
-            </span>
-            <span className="text-[11px] text-gray-400 font-medium whitespace-nowrap">
+            <span className="text-[10px] text-gray-400 font-medium whitespace-nowrap flex-shrink-0">
               {formatDistanceToNow(lead.timeReceived, { addSuffix: true })}
             </span>
           </div>
-
-          {/* Bottom Row: Phone */}
-          <div className="text-[12px] text-gray-500 font-medium flex items-center">
-            <span className="mr-1.5 opacity-60">📞</span> {lead.phone}
+          
+          {/* Bottom Row: Label + Phone */}
+          <div className="flex items-center gap-2 overflow-hidden">
+            <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide whitespace-nowrap flex-shrink-0 ${colorStyles[primaryLabel.color]}`}>
+              <Icon className="w-2.5 h-2.5 mr-1 flex-shrink-0 opacity-80" />
+              {primaryLabel.text}
+            </span>
+            <span className="text-[11px] text-gray-500 font-medium whitespace-nowrap truncate flex items-center">
+              <span className="mr-1 opacity-60">📞</span> {lead.phone}
+            </span>
           </div>
         </div>
       </div>

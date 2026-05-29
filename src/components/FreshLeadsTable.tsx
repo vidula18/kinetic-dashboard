@@ -24,40 +24,36 @@ export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
 
       </div>
 
-      {/* Table Layout */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lead</th>
-              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Time Received</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {visibleLeads.map((lead) => (
-              <tr key={lead.id} className="hover:bg-gray-50 transition-colors group">
-                <td className="px-6 py-3 whitespace-nowrap">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100">
-                      <Users className="h-5 w-5 text-blue-500" />
-                    </div>
-                    <div className="ml-4">
-                      <div className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{lead.name}</div>
-                      <div className="text-sm text-gray-500 flex items-center gap-2 mt-0.5">
-                        <span>{lead.source}</span>
-                        <span className="text-gray-300">•</span>
-                        <span className="text-gray-400 font-mono text-xs">{lead.phone}</span>
-                      </div>
+      {/* Card Grid Layout */}
+      <div className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {visibleLeads.map((lead) => (
+            <div key={lead.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow group flex flex-col justify-between h-full relative overflow-hidden">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 mr-3">
+                    <Users className="h-5 w-5 text-blue-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">{lead.name}</h3>
+                    <div className="text-[12px] text-gray-500 flex items-center gap-1.5 mt-0.5">
+                      <span className="truncate">{lead.source}</span>
                     </div>
                   </div>
-                </td>
-                <td className="px-6 py-3 whitespace-nowrap text-right text-sm text-gray-500">
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+                <span className="text-[12px] font-medium text-gray-500 truncate mr-2 flex items-center">
+                   <span className="mr-1.5 opacity-60">📞</span> {lead.phone}
+                </span>
+                <span className="text-[11px] font-bold text-gray-400 whitespace-nowrap bg-gray-50 px-2 py-0.5 rounded-full border border-gray-100">
                   {formatDistanceToNow(lead.timeReceived, { addSuffix: true })}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Progressive Disclosure Footer */}

@@ -41,12 +41,22 @@ export function LeadDetail({ lead }: LeadDetailProps) {
     // In a real app, you would save this via API
   };
 
+  const renderMarkdown = (text: string) => {
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index} className="font-bold text-blue-900">{part.slice(2, -2)}</strong>;
+      }
+      return <span key={index}>{part}</span>;
+    });
+  };
+
   const renderStructuredInsight = (text: string) => {
     // Basic heuristic to split long paragraphs into structured parts
     const sentences = text.split('. ').filter(s => s.trim().length > 0).map(s => s.endsWith('.') ? s : s + '.');
     
     if (sentences.length <= 2) {
-      return <p className="text-[15px] leading-relaxed text-gray-700 whitespace-pre-wrap">{text}</p>;
+      return <p className="text-[15px] leading-relaxed text-gray-700 whitespace-pre-wrap">{renderMarkdown(text)}</p>;
     }
     
     const context = sentences[0];
@@ -59,21 +69,21 @@ export function LeadDetail({ lead }: LeadDetailProps) {
           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
              Lead Context
           </h4>
-          <p className="text-[15px] leading-relaxed text-gray-800 bg-gray-50/50 p-3 rounded-md border border-gray-100">{context}</p>
+          <p className="text-[15px] leading-relaxed text-gray-800 bg-gray-50/50 p-3 rounded-md border border-gray-100">{renderMarkdown(context)}</p>
         </div>
         {details && (
           <div>
             <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
                Supporting Notes
             </h4>
-            <p className="text-[15px] leading-relaxed text-gray-800 bg-gray-50/50 p-3 rounded-md border border-gray-100">{details}</p>
+            <p className="text-[15px] leading-relaxed text-gray-800 bg-gray-50/50 p-3 rounded-md border border-gray-100">{renderMarkdown(details)}</p>
           </div>
         )}
         <div>
           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
              Suggested Next Action
           </h4>
-          <p className="text-[15px] leading-relaxed text-gray-900 font-medium bg-blue-50/50 p-3 rounded-md border border-blue-100">{nextAction}</p>
+          <p className="text-[15px] leading-relaxed text-gray-900 font-medium bg-blue-50/50 p-3 rounded-md border border-blue-100">{renderMarkdown(nextAction)}</p>
         </div>
       </div>
     );
@@ -173,9 +183,11 @@ export function LeadDetail({ lead }: LeadDetailProps) {
                   className="bg-white border border-gray-300 text-gray-900 text-sm font-medium rounded-md focus:ring-blue-500 focus:border-blue-500 p-1.5 px-3 shadow-sm cursor-pointer"
                 >
                   <option value="Unrated">Unrated</option>
-                  <option value="Hot">🔥 Hot</option>
-                  <option value="Warm">☀️ Warm</option>
-                  <option value="Cold">❄️ Cold</option>
+                  <option value="90%">90%+</option>
+                  <option value="75%">75%</option>
+                  <option value="50%">50%</option>
+                  <option value="25%">25%</option>
+                  <option value="10%">10%</option>
                 </select>
               </div>
             </div>
