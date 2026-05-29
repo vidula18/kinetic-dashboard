@@ -20,8 +20,8 @@ export function QuickFilterBar({ leads, activeFilter, onFilterChange }: QuickFil
   }).filter(l => l.count > 0);
 
   return (
-    <div className="bg-white border-b border-gray-200">
-      <div className="px-4 py-3 sm:px-6 flex items-center justify-end">
+    <>
+      <div className="flex items-center justify-end">
         {/* Active Filter Visibility when closed */}
         {!isOpen && activeFilter && (
           <div className="mr-4 flex items-center text-sm">
@@ -175,6 +175,6 @@ export function QuickFilterBar({ leads, activeFilter, onFilterChange }: QuickFil
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -122,36 +122,48 @@ export default function App() {
           <p className="text-sm text-gray-500 mt-1 mb-4">Monitor leads, alerts, and team performance.</p>
         </div>
 
-        {/* Tabs Area */}
-        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex space-x-1 border-b border-gray-200 overflow-x-auto flex-shrink-0 self-start">
-          <button 
-            onClick={() => setActiveTab('Alerts')}
-            className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
-              activeTab === 'Alerts' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
-            }`}>
-            Alerts
-          </button>
-          <button 
-            onClick={() => setActiveTab('Leads')}
-            className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
-              activeTab === 'Leads' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
-            }`}>
-            Leads
-          </button>
-          <button 
-            onClick={() => setActiveTab('WeeklySummary')}
-            className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
-              activeTab === 'WeeklySummary' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
-            }`}>
-            Weekly Summary
-          </button>
-          <button 
-            onClick={() => setActiveTab('SalesPerformance')}
-            className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
-              activeTab === 'SalesPerformance' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
-            }`}>
-            Sales Performance
-          </button>
+        {/* Tabs and Filters Area */}
+        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex justify-between items-end border-b border-gray-200">
+          <div className="flex space-x-1 overflow-x-auto flex-shrink-0 self-start">
+            <button 
+              onClick={() => setActiveTab('Alerts')}
+              className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
+                activeTab === 'Alerts' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+              }`}>
+              Alerts
+            </button>
+            <button 
+              onClick={() => setActiveTab('Leads')}
+              className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
+                activeTab === 'Leads' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+              }`}>
+              Leads
+            </button>
+            <button 
+              onClick={() => setActiveTab('WeeklySummary')}
+              className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
+                activeTab === 'WeeklySummary' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+              }`}>
+              Weekly Summary
+            </button>
+            <button 
+              onClick={() => setActiveTab('SalesPerformance')}
+              className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
+                activeTab === 'SalesPerformance' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+              }`}>
+              Sales Performance
+            </button>
+          </div>
+          
+          {activeTab === 'Leads' && (
+            <div className="pb-2">
+              <QuickFilterBar 
+                leads={MOCK_LEADS} 
+                activeFilter={activeFilter} 
+                onFilterChange={handleFilterChange} 
+              />
+            </div>
+          )}
         </div>
 
         {activeTab === 'WeeklySummary' && (
@@ -166,13 +178,6 @@ export default function App() {
           /* Master-Detail Split Screen Layout */
           <div className="h-[600px] lg:h-[750px] flex-shrink-0 relative z-10 border-y border-gray-200 bg-white">
             <SplitScreenLayout 
-              topBar={
-                <QuickFilterBar 
-                  leads={MOCK_LEADS} 
-                  activeFilter={activeFilter} 
-                  onFilterChange={handleFilterChange} 
-                />
-              }
               leftPane={
                 <LeadQueue 
                   leads={filteredLeads} 
