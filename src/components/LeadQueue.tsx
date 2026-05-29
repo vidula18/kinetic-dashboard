@@ -19,7 +19,7 @@ export function LeadQueue({ leads, selectedLeadId, onSelectLead }: LeadQueueProp
 
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50/50 p-4 border-r border-gray-200">
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+      <div className={`grid grid-cols-1 gap-3 ${selectedLeadId ? '' : 'xl:grid-cols-2'}`}>
         {leads.map((lead) => (
           <LeadItem 
             key={lead.id} 

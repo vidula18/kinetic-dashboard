@@ -64,26 +64,26 @@ export function LeadDetail({ lead }: LeadDetailProps) {
     const details = sentences.slice(1, sentences.length - 1).join(' ');
 
     return (
-      <div className="space-y-5">
+      <div className="space-y-3">
         <div>
-          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
+          <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
              Lead Context
           </h4>
-          <p className="text-[15px] leading-relaxed text-gray-800 bg-gray-50/50 p-3 rounded-md border border-gray-100">{renderMarkdown(context)}</p>
+          <p className="text-sm leading-snug text-gray-800 bg-gray-50/50 p-2 rounded-md border border-gray-100">{renderMarkdown(context)}</p>
         </div>
         {details && (
           <div>
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
+            <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
                Supporting Notes
             </h4>
-            <p className="text-[15px] leading-relaxed text-gray-800 bg-gray-50/50 p-3 rounded-md border border-gray-100">{renderMarkdown(details)}</p>
+            <p className="text-sm leading-snug text-gray-800 bg-gray-50/50 p-2 rounded-md border border-gray-100">{renderMarkdown(details)}</p>
           </div>
         )}
         <div>
-          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
+          <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
              Suggested Next Action
           </h4>
-          <p className="text-[15px] leading-relaxed text-gray-900 font-medium bg-blue-50/50 p-3 rounded-md border border-blue-100">{renderMarkdown(nextAction)}</p>
+          <p className="text-sm leading-snug text-gray-900 font-medium bg-blue-50/50 p-2 rounded-md border border-blue-100">{renderMarkdown(nextAction)}</p>
         </div>
       </div>
     );
