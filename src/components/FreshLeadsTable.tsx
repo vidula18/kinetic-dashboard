@@ -29,17 +29,18 @@ export function FreshLeadsTable({ leads, onNavigateToLead }: FreshLeadsTableProp
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {visibleLeads.map((lead) => (
-            <div key={lead.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow group flex flex-col justify-between h-full relative overflow-hidden">
+            <div 
+              key={lead.id} 
+              className={`bg-white rounded-lg border p-4 transition-all flex flex-col justify-between h-full relative overflow-hidden group ${onNavigateToLead ? 'cursor-pointer hover:shadow-md hover:border-blue-300' : 'border-gray-200 hover:shadow-md'}`}
+              onClick={() => onNavigateToLead && onNavigateToLead(lead.name)}
+            >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center">
                   <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 mr-3">
                     <Users className="h-5 w-5 text-blue-500" />
                   </div>
                   <div>
-                    <h3 
-                      className={`text-[15px] font-bold text-gray-900 transition-colors leading-tight ${onNavigateToLead ? 'cursor-pointer hover:text-blue-600 hover:underline' : 'group-hover:text-blue-600'}`}
-                      onClick={() => onNavigateToLead && onNavigateToLead(lead.name)}
-                    >
+                    <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
                       {lead.name}
                     </h3>
                     <div className="text-[12px] text-gray-500 flex items-center gap-1.5 mt-0.5">
