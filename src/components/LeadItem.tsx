@@ -45,26 +45,26 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
         </div>
         
         <div className="flex-1 min-w-0 flex flex-col justify-center">
-          {/* Top Row: Name and Time */}
-          <div className="flex justify-between items-start mb-1">
-            <h3 className={`font-bold text-[14px] leading-tight mr-2 ${isSelected ? 'text-blue-900' : 'text-gray-900'}`}>
-              {lead.name}
-            </h3>
-            <span className="text-[10px] text-gray-400 font-medium whitespace-nowrap flex-shrink-0">
-              {formatDistanceToNow(lead.timeReceived, { addSuffix: true })}
-            </span>
-          </div>
+          {/* Top Row: Name */}
+          <h3 className={`font-bold text-[14px] leading-tight mb-1 break-words pr-2 ${isSelected ? 'text-blue-900' : 'text-gray-900'}`}>
+            {lead.name}
+          </h3>
           
-          {/* Bottom Row: Label + Phone */}
-          <div className="flex items-center gap-2 overflow-hidden">
+          {/* Middle Row: Label and Time */}
+          <div className="flex items-center justify-between gap-2 mb-1.5 overflow-hidden">
             <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide whitespace-nowrap flex-shrink-0 ${colorStyles[primaryLabel.color]}`}>
               <Icon className="w-2.5 h-2.5 mr-1 flex-shrink-0 opacity-80" />
               {primaryLabel.text}
             </span>
-            <span className="text-[11px] text-gray-500 font-medium whitespace-nowrap truncate flex items-center">
-              <span className="mr-1 opacity-60">📞</span> {lead.phone}
+            <span className="text-[10px] text-gray-400 font-medium whitespace-nowrap truncate">
+              {formatDistanceToNow(lead.timeReceived, { addSuffix: true })}
             </span>
           </div>
+          
+          {/* Bottom Row: Phone */}
+          <span className="text-[11px] text-gray-500 font-medium truncate flex items-center">
+            <span className="mr-1 opacity-60">📞</span> {lead.phone}
+          </span>
         </div>
       </div>
     </div>
