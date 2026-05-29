@@ -71,7 +71,7 @@ export function LeadDetail({ lead }: LeadDetailProps) {
           </h4>
           <p className="text-sm leading-snug text-gray-800 bg-gray-50/50 p-2 rounded-md border border-gray-100">{renderMarkdown(context)}</p>
         </div>
-        {details && (
+        {details && !lead.isFresh && (
           <div>
             <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
                Supporting Notes
