@@ -124,7 +124,7 @@ export default function App() {
 
         {/* Tabs and Filters Area */}
         <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex justify-between items-end border-b border-gray-200">
-          <div className="flex space-x-1 overflow-x-auto flex-shrink-0 self-start">
+          <div className="flex space-x-1 overflow-x-auto min-w-0">
             <button 
               onClick={() => setActiveTab('Alerts')}
               className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
@@ -156,7 +156,7 @@ export default function App() {
           </div>
           
           {activeTab === 'Leads' && (
-            <div className="pb-2">
+            <div className="flex-shrink-0 ml-4 pb-2 relative z-10 flex items-center">
               <QuickFilterBar 
                 leads={MOCK_LEADS} 
                 activeFilter={activeFilter} 
