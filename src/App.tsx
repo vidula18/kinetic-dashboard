@@ -117,7 +117,7 @@ export default function App() {
         </header>
 
         {/* Tabs Area */}
-        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex space-x-2 p-1 bg-gray-200 rounded-lg overflow-x-auto mt-6">
+        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex space-x-2 p-1 bg-gray-200 rounded-lg overflow-x-auto mt-6 flex-shrink-0 self-start">
           <button 
             onClick={() => setActiveTab('WeeklySummary')}
             className={`px-6 py-2 text-sm font-medium rounded-md transition-all whitespace-nowrap ${
