@@ -189,7 +189,7 @@ export default function App() {
         
         {activeTab === 'Alerts' && (
           <div className="pb-12 mt-4">
-            <FreshLeadsTable leads={MOCK_LEADS} />
+            <FreshLeadsTable leads={MOCK_LEADS} onNavigateToLead={handleNavigateToLead} />
             <AIAlertsTable onNavigateToLead={handleNavigateToLead} />
           </div>
         )}

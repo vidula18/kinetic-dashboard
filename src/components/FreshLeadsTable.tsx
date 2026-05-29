@@ -5,9 +5,10 @@ import type { Lead } from '../data/mockLeads';
 
 interface FreshLeadsTableProps {
   leads: Lead[];
+  onNavigateToLead?: (leadName: string) => void;
 }
 
-export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
+export function FreshLeadsTable({ leads, onNavigateToLead }: FreshLeadsTableProps) {
   const [showAllLeads, setShowAllLeads] = useState(false);
 
   const visibleLeads = showAllLeads ? leads : leads.slice(0, 3);
@@ -35,7 +36,12 @@ export function FreshLeadsTable({ leads }: FreshLeadsTableProps) {
                     <Users className="h-5 w-5 text-blue-500" />
                   </div>
                   <div>
-                    <h3 className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">{lead.name}</h3>
+                    <h3 
+                      className={`text-[15px] font-bold text-gray-900 transition-colors leading-tight ${onNavigateToLead ? 'cursor-pointer hover:text-blue-600 hover:underline' : 'group-hover:text-blue-600'}`}
+                      onClick={() => onNavigateToLead && onNavigateToLead(lead.name)}
+                    >
+                      {lead.name}
+                    </h3>
                     <div className="text-[12px] text-gray-500 flex items-center gap-1.5 mt-0.5">
                       <span className="truncate">{lead.source}</span>
                     </div>
