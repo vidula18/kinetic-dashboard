@@ -30,7 +30,7 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
         isSelected 
           ? 'bg-blue-50 border-y-blue-300 border-r-blue-300 border-l-[4px] border-l-blue-600 shadow-md' 
           : lead.isFresh
-            ? 'bg-yellow-100/80 border-yellow-300 hover:shadow-md hover:border-yellow-400 border-l-[4px] border-l-yellow-500'
+            ? 'bg-yellow-50/70 border-yellow-200 hover:shadow-md hover:border-yellow-300 border-l-[4px] border-l-yellow-400'
             : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[4px] border-l-transparent'
       }`}
     >
@@ -42,7 +42,7 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
 
       <div className={`flex items-center gap-2.5 ${isSelected ? 'pr-5' : ''}`}>
         {/* Avatar */}
-        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isSelected ? 'bg-blue-600 text-white shadow-sm' : lead.isFresh && !isSelected ? 'bg-yellow-200 text-yellow-800 border-yellow-300' : 'bg-gray-100 text-gray-600 border border-gray-200'}`}>
+        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isSelected ? 'bg-blue-600 text-white shadow-sm' : lead.isFresh && !isSelected ? 'bg-yellow-100 text-yellow-700 border border-yellow-200' : 'bg-gray-100 text-gray-600 border border-gray-200'}`}>
           {initials}
         </div>
         
@@ -59,7 +59,7 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
               {primaryLabel.text}
             </span>
             {lead.isFresh && !isSelected && (
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide whitespace-nowrap flex-shrink-0 bg-yellow-200 text-yellow-800">
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide whitespace-nowrap flex-shrink-0 bg-yellow-100 text-yellow-700 border border-yellow-200">
                 ⭐ FRESH
               </span>
             )}
