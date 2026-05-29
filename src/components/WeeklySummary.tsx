@@ -23,89 +23,89 @@ export function WeeklySummary() {
       </div>
         
       {/* Bento-box Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Top-Left: Hero Card (spanning 2 columns, 2 rows) */}
         <div className="md:col-span-2 lg:col-span-2 md:row-span-2 flex">
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-md border border-blue-800 p-8 flex flex-col justify-between w-full relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-8 opacity-20 transform group-hover:scale-110 transition-transform duration-700">
-              <Activity className="w-48 h-48 text-white" />
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-md border border-blue-800 p-6 flex flex-col justify-between w-full relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-6 opacity-20 transform group-hover:scale-110 transition-transform duration-700">
+              <Activity className="w-32 h-32 text-white" />
             </div>
             <div className="relative z-10">
-              <div className="text-blue-100 font-bold uppercase tracking-widest text-sm mb-2 flex items-center">
-                <Zap className="w-4 h-4 mr-2" />
+              <div className="text-blue-100 font-bold uppercase tracking-widest text-[11px] mb-2 flex items-center">
+                <Zap className="w-3.5 h-3.5 mr-2" />
                 Total Leads Captured
               </div>
-              <div className="text-7xl font-black text-white tracking-tighter mb-4 drop-shadow-sm">
+              <div className="text-6xl font-black text-white tracking-tighter mb-3 drop-shadow-sm">
                 214
               </div>
-              <div className="inline-flex items-center text-sm font-bold px-3 py-1.5 rounded-lg text-white bg-white/20 backdrop-blur-sm border border-white/30">
-                <ArrowUpRight className="w-4 h-4 mr-1.5" />
+              <div className="inline-flex items-center text-xs font-bold px-2.5 py-1 rounded-md text-white bg-white/20 backdrop-blur-sm border border-white/30">
+                <ArrowUpRight className="w-3.5 h-3.5 mr-1" />
                 +12% vs last week
               </div>
             </div>
             
-            <div className="relative z-10 mt-10 pt-6 border-t border-blue-500/50 flex gap-8">
+            <div className="relative z-10 mt-6 pt-5 border-t border-blue-500/50 flex gap-6">
               <div>
-                <div className="text-blue-200 text-xs font-semibold uppercase mb-1">Online</div>
-                <div className="text-2xl font-bold text-white">168</div>
+                <div className="text-blue-200 text-[10px] font-semibold uppercase mb-0.5">Online</div>
+                <div className="text-xl font-bold text-white">168</div>
               </div>
               <div>
-                <div className="text-blue-200 text-xs font-semibold uppercase mb-1">Walk-in</div>
-                <div className="text-2xl font-bold text-white">46</div>
+                <div className="text-blue-200 text-[10px] font-semibold uppercase mb-0.5">Walk-in</div>
+                <div className="text-xl font-bold text-white">46</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Top-Right: 2 Stat Cards */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
-              <Flame className="w-5 h-5 text-orange-500" />
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-3">
+            <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center">
+              <Flame className="w-4 h-4 text-orange-500" />
             </div>
-            <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-md border border-orange-100">Action Needed</span>
+            <span className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded border border-orange-100">Action Needed</span>
           </div>
           <div>
-            <div className="text-3xl font-black text-gray-900">42</div>
-            <div className="text-sm font-bold text-gray-500 mt-1">Hot Leads</div>
+            <div className="text-2xl font-black text-gray-900">42</div>
+            <div className="text-xs font-bold text-gray-500 mt-1">Hot Leads</div>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
-              <Activity className="w-5 h-5 text-green-500" />
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-3">
+            <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center">
+              <Activity className="w-4 h-4 text-green-500" />
             </div>
-            <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md border border-green-100">Near Finish</span>
+            <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded border border-green-100">Near Finish</span>
           </div>
           <div>
-            <div className="text-3xl font-black text-gray-900">18</div>
-            <div className="text-sm font-bold text-gray-500 mt-1">Ready to Convert</div>
+            <div className="text-2xl font-black text-gray-900">18</div>
+            <div className="text-xs font-bold text-gray-500 mt-1">Ready to Convert</div>
           </div>
         </div>
 
         {/* Middle-Right: Progress Card & Trend Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 flex flex-col justify-center">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 flex flex-col justify-center">
           <div className="flex justify-between items-start mb-2">
-            <div className="text-sm font-bold text-gray-500">Calls Made</div>
-            <PhoneCall className="w-5 h-5 text-gray-400" />
+            <div className="text-xs font-bold text-gray-500">Calls Made</div>
+            <PhoneCall className="w-4 h-4 text-gray-400" />
           </div>
-          <div className="flex items-baseline gap-2 mb-4">
-            <div className="text-4xl font-black text-gray-900">196</div>
-            <div className="text-sm font-medium text-gray-400">/ 245</div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <div className="text-3xl font-black text-gray-900">196</div>
+            <div className="text-xs font-medium text-gray-400">/ 245</div>
           </div>
-          <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
-            <div className="bg-blue-500 h-2.5 rounded-full" style={{ width: '80%' }}></div>
+          <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+            <div className="bg-blue-500 h-2 rounded-full" style={{ width: '80%' }}></div>
           </div>
-          <div className="text-xs font-bold text-gray-500 mt-2 text-right">80% of Target</div>
+          <div className="text-[10px] font-bold text-gray-500 mt-1.5 text-right">80% of Target</div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 flex flex-col justify-center relative overflow-hidden">
-          <div className="text-sm font-bold text-gray-500 mb-1 z-10">Alerts Generated</div>
-          <div className="text-4xl font-black text-gray-900 z-10">35</div>
-          <div className="flex items-center text-xs font-bold text-red-600 mt-2 z-10">
-            <ArrowUpRight className="w-3.5 h-3.5 mr-1" />
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 flex flex-col justify-center relative overflow-hidden">
+          <div className="text-xs font-bold text-gray-500 mb-1 z-10">Alerts Generated</div>
+          <div className="text-3xl font-black text-gray-900 z-10">35</div>
+          <div className="flex items-center text-[11px] font-bold text-red-600 mt-1.5 z-10">
+            <ArrowUpRight className="w-3 h-3 mr-1" />
             +5 this week
           </div>
           {/* Mock Sparkline Graphic */}
@@ -121,42 +121,42 @@ export function WeeklySummary() {
         </div>
 
         {/* Bottom Wide: Attention Needed Area */}
-        <div className="md:col-span-2 lg:col-span-4 bg-orange-50/50 rounded-2xl border border-orange-100 p-6 mt-2">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 bg-orange-100 rounded-lg text-orange-600">
-              <AlertTriangle className="w-5 h-5" />
+        <div className="md:col-span-2 lg:col-span-4 bg-orange-50/50 rounded-2xl border border-orange-100 p-5 mt-1">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="p-1.5 bg-orange-100 rounded-lg text-orange-600">
+              <AlertTriangle className="w-4 h-4" />
             </div>
-            <h3 className="text-base font-extrabold text-gray-900">Requires Attention</h3>
+            <h3 className="text-sm font-extrabold text-gray-900">Requires Attention</h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl border border-red-100 shadow-sm p-4 flex items-center gap-4 border-l-4 border-l-red-500">
-              <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0">
-                <Clock className="w-6 h-6 text-red-500" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white rounded-xl border border-red-100 shadow-sm p-3 flex items-center gap-3 border-l-4 border-l-red-500">
+              <div className="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0">
+                <Clock className="w-5 h-5 text-red-500" />
               </div>
               <div>
-                <div className="text-2xl font-black text-gray-900">12</div>
-                <div className="text-xs font-bold text-gray-500">Overdue Leads</div>
+                <div className="text-xl font-black text-gray-900">12</div>
+                <div className="text-[11px] font-bold text-gray-500">Overdue Leads</div>
               </div>
             </div>
             
-            <div className="bg-white rounded-xl border border-orange-100 shadow-sm p-4 flex items-center gap-4 border-l-4 border-l-orange-500">
-              <div className="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center flex-shrink-0">
-                <Activity className="w-6 h-6 text-orange-500" />
+            <div className="bg-white rounded-xl border border-orange-100 shadow-sm p-3 flex items-center gap-3 border-l-4 border-l-orange-500">
+              <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center flex-shrink-0">
+                <Activity className="w-5 h-5 text-orange-500" />
               </div>
               <div>
-                <div className="text-2xl font-black text-gray-900">24</div>
-                <div className="text-xs font-bold text-gray-500">Untouched Leads</div>
+                <div className="text-xl font-black text-gray-900">24</div>
+                <div className="text-[11px] font-bold text-gray-500">Untouched Leads</div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl border border-blue-100 shadow-sm p-4 flex items-center gap-4 border-l-4 border-l-blue-500">
-              <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0">
-                <PhoneCall className="w-6 h-6 text-blue-500" />
+            <div className="bg-white rounded-xl border border-blue-100 shadow-sm p-3 flex items-center gap-3 border-l-4 border-l-blue-500">
+              <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0">
+                <PhoneCall className="w-5 h-5 text-blue-500" />
               </div>
               <div>
-                <div className="text-2xl font-black text-gray-900">64</div>
-                <div className="text-xs font-bold text-gray-500">Follow-ups Due</div>
+                <div className="text-xl font-black text-gray-900">64</div>
+                <div className="text-[11px] font-bold text-gray-500">Follow-ups Due</div>
               </div>
             </div>
           </div>
