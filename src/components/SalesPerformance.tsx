@@ -210,9 +210,16 @@ export function SalesPerformance() {
                     <tr className="bg-gray-50/50">
                       <td colSpan={8} className="px-6 py-6 border-b border-gray-200">
                         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-5">
-                          <div className="flex justify-between items-center mb-5">
-                            <h4 className="text-sm font-bold text-gray-900">{rep.name}'s Call History (May 18 - 24)</h4>
-                            <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">{rep.leadsInteracted.length} Leads Contacted</span>
+                          <div className="flex justify-between items-start mb-5">
+                            <div>
+                              <h4 className="text-sm font-bold text-gray-900">{rep.name}'s Call History (May 18 - 24)</h4>
+                              <div className="flex items-center mt-1.5 text-xs text-gray-600 bg-purple-50/50 px-2.5 py-1.5 rounded-md border border-purple-100/50 inline-flex">
+                                <Sparkles className="w-3.5 h-3.5 text-purple-500 mr-1.5" />
+                                <span className="font-bold text-purple-900">AI Note:</span>
+                                <span className="ml-1.5 italic text-gray-700">"{rep.note}"</span>
+                              </div>
+                            </div>
+                            <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full flex-shrink-0">{rep.leadsInteracted.length} Leads Contacted</span>
                           </div>
                           
                           <div className="space-y-6">
