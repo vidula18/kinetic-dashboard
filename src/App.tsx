@@ -15,6 +15,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'WeeklySummary' | 'Alerts' | 'Leads' | 'SalesPerformance'>('WeeklySummary');
   const [activeFilter, setActiveFilter] = useState<LabelType | null>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(MOCK_LEADS[0]?.id || null);
+  const [isCalling, setIsCalling] = useState(false);
 
   // Filter leads based on active filter
   const filteredLeads = useMemo(() => {
@@ -100,36 +101,38 @@ export default function App() {
               />
             </div>
           </div>
-          <div className="ml-4 flex items-center gap-4">
-            <button className="text-gray-400 hover:text-gray-500 relative">
+          <div className="flex items-center space-x-4">
+            <button className="p-2 text-gray-400 hover:text-gray-500 relative">
               <Bell className="h-6 w-6" />
-              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+              <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
             </button>
-            <div className="flex items-center gap-3 border-l border-gray-200 pl-4">
-              <div className="text-right hidden sm:block">
-                <p className="text-sm font-medium text-gray-900">Riddhi</p>
-                <p className="text-xs text-gray-500">Admin</p>
-              </div>
-              <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-medium">
-                AD
-              </div>
+            <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200">
+              JS
             </div>
           </div>
         </header>
 
+        {/* Page Title */}
         <div className="mx-4 sm:mx-6 lg:mx-8 mt-6">
           <h1 className="text-2xl font-black text-gray-900 tracking-tight">Sales Operations Dashboard</h1>
           <p className="text-sm text-gray-500 mt-1 mb-4">Monitor leads, alerts, and team performance.</p>
         </div>
 
-        {/* Tabs Area */}
-        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex space-x-1 border-b border-gray-200 overflow-x-auto flex-shrink-0 self-start">
+        {/* Tab Navigation */}
+        <div className="flex px-4 sm:px-6 bg-white border-b border-gray-200 flex-shrink-0">
+          <button 
+            onClick={() => setActiveTab('WeeklySummary')}
+            className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
+              activeTab === 'WeeklySummary' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+            }`}>
+            Weekly Summary
+          </button>
           <button 
             onClick={() => setActiveTab('Alerts')}
             className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
               activeTab === 'Alerts' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
             }`}>
-            Alerts
+            Action Alerts <span className="ml-1.5 bg-red-100 text-red-600 py-0.5 px-2 rounded-full text-xs">10</span>
           </button>
           <button 
             onClick={() => setActiveTab('Leads')}
@@ -137,13 +140,6 @@ export default function App() {
               activeTab === 'Leads' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
             }`}>
             Leads
-          </button>
-          <button 
-            onClick={() => setActiveTab('WeeklySummary')}
-            className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
-              activeTab === 'WeeklySummary' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
-            }`}>
-            Weekly Summary
           </button>
           <button 
             onClick={() => setActiveTab('SalesPerformance')}
@@ -163,33 +159,42 @@ export default function App() {
         )}
 
         {activeTab === 'Leads' && (
-          /* Master-Detail Split Screen Layout */
-          <div className="h-[600px] lg:h-[750px] flex-shrink-0 relative z-10 border-y border-gray-200 bg-white">
-            <SplitScreenLayout 
-              topBar={
-                <QuickFilterBar 
-                  leads={MOCK_LEADS} 
-                  activeFilter={activeFilter} 
-                  onFilterChange={handleFilterChange} 
-                />
-              }
-              leftPane={
-                <LeadQueue 
-                  leads={filteredLeads} 
-                  selectedLeadId={selectedLeadId} 
-                  onSelectLead={setSelectedLeadId} 
-                />
-              }
-              rightPane={
-                <LeadDetail lead={selectedLead} />
-              }
-            />
+          <div className="flex flex-col h-full overflow-hidden">
+            <div className="flex-shrink-0 mt-4">
+              <FreshLeadsTable leads={MOCK_LEADS} onNavigateToLead={handleNavigateToLead} />
+            </div>
+            {/* Master-Detail Split Screen Layout */}
+            <div className="flex-1 min-h-0 relative z-10 border-t border-gray-200 bg-white">
+              <SplitScreenLayout 
+                topBar={
+                  <QuickFilterBar 
+                    leads={MOCK_LEADS} 
+                    activeFilter={activeFilter} 
+                    onFilterChange={handleFilterChange} 
+                  />
+                }
+                leftPane={
+                  <LeadQueue 
+                    leads={filteredLeads} 
+                    selectedLeadId={selectedLeadId} 
+                    onSelectLead={setSelectedLeadId} 
+                    isCalling={isCalling}
+                  />
+                }
+                rightPane={
+                  <LeadDetail 
+                    lead={selectedLead} 
+                    isCalling={isCalling} 
+                    onCallToggle={() => setIsCalling(!isCalling)} 
+                  />
+                }
+              />
+            </div>
           </div>
         )}
         
         {activeTab === 'Alerts' && (
           <div className="pb-12 mt-4">
-            <FreshLeadsTable leads={MOCK_LEADS} onNavigateToLead={handleNavigateToLead} />
             <AIAlertsTable onNavigateToLead={handleNavigateToLead} />
           </div>
         )}

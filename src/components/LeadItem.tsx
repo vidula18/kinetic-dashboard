@@ -23,13 +23,17 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
   // Extract initials for the avatar
   const initials = lead.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
+  const isFresh = (new Date().getTime() - lead.timeReceived.getTime()) / 60000 < 60;
+
   return (
     <div 
       onClick={onClick}
       className={`p-3 rounded-lg border transition-all duration-200 cursor-pointer flex flex-col justify-center h-full relative overflow-hidden ${
         isSelected 
           ? 'bg-blue-50/80 border-y-blue-300 border-r-blue-300 border-l-[4px] border-l-blue-600 shadow-md' 
-          : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[4px] border-l-transparent'
+          : isFresh
+            ? 'bg-green-50/50 border-green-200 hover:shadow-md hover:border-green-300 border-l-[4px] border-l-green-500'
+            : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[4px] border-l-transparent'
       }`}
     >
       {isSelected && (
