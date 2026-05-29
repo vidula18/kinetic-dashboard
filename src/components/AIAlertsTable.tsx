@@ -30,8 +30,9 @@ export function AIAlertsTable({ onNavigateToLead }: AIAlertsTableProps) {
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-extrabold text-gray-700 uppercase tracking-wider w-[15%]">Status</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-extrabold text-gray-700 uppercase tracking-wider w-[20%]">Lead Name</th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-extrabold text-gray-700 uppercase tracking-wider w-[45%]">AI Insight</th>
-              <th scope="col" className="px-6 py-3 text-right text-xs font-extrabold text-gray-700 uppercase tracking-wider w-[20%]">Date of Alert</th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-extrabold text-gray-700 uppercase tracking-wider w-[35%]">AI Insight</th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-extrabold text-gray-700 uppercase tracking-wider w-[15%]">Action</th>
+              <th scope="col" className="px-6 py-3 text-right text-xs font-extrabold text-gray-700 uppercase tracking-wider w-[15%]">Date of Alert</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -53,7 +54,12 @@ export function AIAlertsTable({ onNavigateToLead }: AIAlertsTableProps) {
                     __html: alert.insight.replace(/(\d+%|follow-up overdue|language gap flagged|call not started)/i, '<strong>$1</strong>') 
                   }} />
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium text-right">
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <button className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                    {alert.action}
+                  </button>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500">
                   {alert.date}
                 </td>
               </tr>

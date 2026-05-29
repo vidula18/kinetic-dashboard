@@ -6,10 +6,9 @@ interface LeadQueueProps {
   leads: Lead[];
   selectedLeadId: string | null;
   onSelectLead: (id: string) => void;
-  isCalling?: boolean;
 }
 
-export function LeadQueue({ leads, selectedLeadId, onSelectLead, isCalling }: LeadQueueProps) {
+export function LeadQueue({ leads, selectedLeadId, onSelectLead }: LeadQueueProps) {
   if (leads.length === 0) {
     return (
       <div className="flex-1 flex items-center justify-center bg-white border-r border-gray-200">
@@ -20,7 +19,7 @@ export function LeadQueue({ leads, selectedLeadId, onSelectLead, isCalling }: Le
 
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50/50 p-4 border-r border-gray-200">
-      <div className={`grid grid-cols-1 ${isCalling ? '' : 'xl:grid-cols-2'} gap-3`}>
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
         {leads.map((lead) => (
           <LeadItem 
             key={lead.id} 

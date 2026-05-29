@@ -7,11 +7,9 @@ import { Phone, Calendar, Clock, Briefcase, Activity, Edit2, Save, X } from 'luc
 
 interface LeadDetailProps {
   lead: Lead | null;
-  isCalling?: boolean;
-  onCallToggle?: () => void;
 }
 
-export function LeadDetail({ lead, isCalling, onCallToggle }: LeadDetailProps) {
+export function LeadDetail({ lead }: LeadDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [insightText, setInsightText] = useState("");
   const [leadRate, setLeadRate] = useState("Unrated");
@@ -66,26 +64,26 @@ export function LeadDetail({ lead, isCalling, onCallToggle }: LeadDetailProps) {
     const details = sentences.slice(1, sentences.length - 1).join(' ');
 
     return (
-      <div className="space-y-3">
+      <div className="space-y-5">
         <div>
-          <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
+          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
              Lead Context
           </h4>
-          <p className="text-sm leading-relaxed text-gray-800 bg-gray-50/50 p-2.5 rounded-md border border-gray-100">{renderMarkdown(context)}</p>
+          <p className="text-[15px] leading-relaxed text-gray-800 bg-gray-50/50 p-3 rounded-md border border-gray-100">{renderMarkdown(context)}</p>
         </div>
         {details && (
           <div>
-            <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
+            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
                Supporting Notes
             </h4>
-            <p className="text-sm leading-relaxed text-gray-800 bg-gray-50/50 p-2.5 rounded-md border border-gray-100">{renderMarkdown(details)}</p>
+            <p className="text-[15px] leading-relaxed text-gray-800 bg-gray-50/50 p-3 rounded-md border border-gray-100">{renderMarkdown(details)}</p>
           </div>
         )}
         <div>
-          <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
+          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5 flex items-center">
              Suggested Next Action
           </h4>
-          <p className="text-sm leading-relaxed text-gray-900 font-medium bg-blue-50/50 p-2.5 rounded-md border border-blue-100">{renderMarkdown(nextAction)}</p>
+          <p className="text-[15px] leading-relaxed text-gray-900 font-medium bg-blue-50/50 p-3 rounded-md border border-blue-100">{renderMarkdown(nextAction)}</p>
         </div>
       </div>
     );
@@ -107,11 +105,7 @@ export function LeadDetail({ lead, isCalling, onCallToggle }: LeadDetailProps) {
             </div>
           </div>
           
-          <PrimaryActionButton 
-            label={isCalling ? "End Sales Call" : lead.actionRequired} 
-            onClick={onCallToggle}
-            isDestructive={isCalling}
-          />
+          <PrimaryActionButton label={lead.actionRequired} />
         </div>
 
         <div className="mt-5 flex flex-wrap gap-2">
@@ -131,24 +125,24 @@ export function LeadDetail({ lead, isCalling, onCallToggle }: LeadDetailProps) {
       <div className="p-8 max-w-4xl">
         
         {/* AI Insight & Context Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-5">
-          <div className="px-5 py-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
-            <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider flex items-center">
-              <Activity className="w-3.5 h-3.5 mr-1.5 text-blue-600" /> 
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+          <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
+            <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider flex items-center">
+              <Activity className="w-4 h-4 mr-2 text-blue-600" /> 
               AI Insight & Context
             </h3>
             
             {!isEditing && (
               <button 
                 onClick={() => setIsEditing(true)} 
-                className="text-[11px] font-bold text-gray-500 hover:text-blue-600 flex items-center px-2 py-1 rounded transition-colors"
+                className="text-xs font-bold text-gray-500 hover:text-blue-600 flex items-center px-2 py-1 rounded transition-colors"
               >
-                <Edit2 className="w-3 h-3 mr-1" /> Edit
+                <Edit2 className="w-3.5 h-3.5 mr-1" /> Edit
               </button>
             )}
           </div>
           
-          <div className="p-4">
+          <div className="p-6">
             {isEditing ? (
               <div className="space-y-3">
                 <textarea
