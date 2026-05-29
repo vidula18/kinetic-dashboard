@@ -108,16 +108,34 @@ export function LeadDetail({ lead }: LeadDetailProps) {
           <PrimaryActionButton label={lead.actionRequired} />
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-2">
-          {lead.labels.map((label, idx) => {
-            const Icon = label.icon;
-            return (
-              <LabelPill key={idx} color={label.color}>
-                <Icon className="w-3.5 h-3.5 mr-1.5" />
-                {label.text}
-              </LabelPill>
-            );
-          })}
+        <div className="mt-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-gray-100 pt-5">
+          <div className="flex flex-wrap gap-2">
+            {lead.labels.map((label, idx) => {
+              const Icon = label.icon;
+              return (
+                <LabelPill key={idx} color={label.color}>
+                  <Icon className="w-3.5 h-3.5 mr-1.5" />
+                  {label.text}
+                </LabelPill>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-3 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
+            <span className="text-xs font-bold text-gray-600 uppercase tracking-wider">Lead Rate:</span>
+            <select 
+              value={leadRate}
+              onChange={(e) => setLeadRate(e.target.value)}
+              className="bg-white border border-gray-300 text-gray-900 text-xs font-bold rounded focus:ring-blue-500 focus:border-blue-500 py-1.5 px-2.5 shadow-sm cursor-pointer"
+            >
+              <option value="Unrated">Unrated</option>
+              <option value="90%">90%+</option>
+              <option value="75%">75%</option>
+              <option value="50%">50%</option>
+              <option value="25%">25%</option>
+              <option value="10%">10%</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -173,24 +191,6 @@ export function LeadDetail({ lead }: LeadDetailProps) {
               renderStructuredInsight(insightText)
             )}
 
-            {/* Sales Team Input Section */}
-            <div className="mt-6 pt-5 border-t border-gray-100">
-              <div className="flex items-center gap-4 bg-gray-50/50 p-3 rounded-lg border border-gray-200 inline-flex">
-                <span className="text-sm font-bold text-gray-700">Sales Team Lead Rate:</span>
-                <select 
-                  value={leadRate}
-                  onChange={(e) => setLeadRate(e.target.value)}
-                  className="bg-white border border-gray-300 text-gray-900 text-sm font-medium rounded-md focus:ring-blue-500 focus:border-blue-500 p-1.5 px-3 shadow-sm cursor-pointer"
-                >
-                  <option value="Unrated">Unrated</option>
-                  <option value="90%">90%+</option>
-                  <option value="75%">75%</option>
-                  <option value="50%">50%</option>
-                  <option value="25%">25%</option>
-                  <option value="10%">10%</option>
-                </select>
-              </div>
-            </div>
           </div>
         </div>
 
