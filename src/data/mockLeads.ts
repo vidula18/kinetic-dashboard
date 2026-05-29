@@ -9,6 +9,7 @@ export interface Lead {
   labels: LeadLabel[];
   aiInsight: string;
   actionRequired: string;
+  isFresh?: boolean;
 }
 
 const AI_INSIGHTS = [
@@ -67,6 +68,7 @@ export const MOCK_LEADS: Lead[] = Array.from({ length: 15 }).map((_, i) => {
     timeReceived: new Date(now.getTime() - minutesAgo * 60000),
     labels: randomLabels,
     aiInsight: AI_INSIGHTS[i],
-    actionRequired: ACTIONS[i]
+    actionRequired: ACTIONS[i],
+    isFresh: i < 3
   };
 });

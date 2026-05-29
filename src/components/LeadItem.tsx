@@ -29,7 +29,9 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
       className={`p-3 rounded-lg border transition-all duration-200 cursor-pointer flex flex-col justify-center h-full relative overflow-hidden ${
         isSelected 
           ? 'bg-blue-50/80 border-y-blue-300 border-r-blue-300 border-l-[4px] border-l-blue-600 shadow-md' 
-          : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[4px] border-l-transparent'
+          : lead.isFresh
+            ? 'bg-blue-50/40 border-blue-200 hover:shadow-md hover:border-blue-300 border-l-[4px] border-l-blue-400/50'
+            : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[4px] border-l-transparent'
       }`}
     >
       {isSelected && (
