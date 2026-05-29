@@ -30,7 +30,7 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
         isSelected 
           ? 'bg-blue-50 border-y-blue-300 border-r-blue-300 border-l-[4px] border-l-blue-600 shadow-md' 
           : lead.isFresh
-            ? 'bg-indigo-50 border-indigo-200 hover:shadow-md hover:border-indigo-300 border-l-[4px] border-l-indigo-400'
+            ? 'bg-yellow-50 border-yellow-200 hover:shadow-md hover:border-yellow-300 border-l-[4px] border-l-yellow-400'
             : 'bg-white border-gray-200 hover:shadow-md hover:border-gray-300 border-l-[4px] border-l-transparent'
       }`}
     >
