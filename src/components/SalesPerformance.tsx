@@ -1,288 +1,327 @@
-import React, { useState } from 'react';
-import { Sparkles, AlertCircle, CheckCircle, AlertTriangle, Activity, ChevronDown, ChevronUp, PlayCircle } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { useState, useMemo } from 'react';
+import { Sparkles, BarChart2, IndianRupee, Clock, AlertTriangle, TrendingUp, Filter } from 'lucide-react';
+import { PERF_DATA, type PerfData, type SalespersonPerformance } from '../data/mockPerformance';
+
+const LABEL_COLORS: Record<number, string> = {
+  1: '#10b981', // green
+  2: '#3b82f6', // blue
+  3: '#f59e0b', // amber
+  4: '#ef4444', // red
+  5: '#8b5cf6', // purple
+};
+
+const PERIOD_LABELS: Record<string, string> = { 
+  week: 'This Week', 
+  month: 'This Month', 
+  quarter: 'This Quarter' 
+};
+const SALES_REPS = ['Aarav Mehta', 'Priya Nair'];
+
+function formatINR(amount: number) {
+  if (amount >= 100000) return `₹${(amount / 100000).toFixed(1)}L`;
+  return `₹${amount.toLocaleString()}`;
+}
 
 export function SalesPerformance() {
-  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const [period, setPeriod] = useState<keyof PerfData>('week');
+  const [person, setPerson] = useState<string>('all');
 
-  // Mock data for weekly trend
-  const trendDays = [
-    { day: 'Mon', calls: 12, conversions: 4 },
-    { day: 'Tue', calls: 19, conversions: 6 },
-    { day: 'Wed', calls: 15, conversions: 5 },
-    { day: 'Thu', calls: 24, conversions: 8 },
-    { day: 'Fri', calls: 18, conversions: 7 },
-    { day: 'Sat', calls: 8, conversions: 2 },
-    { day: 'Sun', calls: 5, conversions: 1 },
-  ];
+  const slice = useMemo(() => {
+    const all = PERF_DATA[period];
+    const names = person === 'all' ? Object.keys(all) : [person];
+    const recs = names.map(n => ({ name: n, ...all[n] }));
+    
+    const sum = (k: keyof SalespersonPerformance) => recs.reduce((s, r) => s + (r[k] as number), 0);
+    
+    const wLeads = sum('leads') || 1;
+    const wConv = sum('conversions') || 1;
+    const tatHours = recs.reduce((s, r) => s + r.tatHours * r.leads, 0) / wLeads;
+    const convertDays = recs.reduce((s, r) => s + r.convertDays * r.conversions, 0) / wConv;
+    
+    const tag = <T,>(arr: T[], r: any) => arr.map(x => ({ ...x, owner: r.name } as T & { owner: string }));
+    const prospects = recs.flatMap(r => tag(r.prospects, r));
+    const losses = recs.flatMap(r => tag(r.losses, r));
+    const misses = {
+      reminder: recs.flatMap(r => tag(r.misses.reminder, r)),
+      fresh: recs.flatMap(r => tag(r.misses.fresh, r)),
+      cold: recs.flatMap(r => tag(r.misses.cold, r))
+    };
+    
+    const labelDist = [1, 2, 3, 4, 5].reduce((acc, l) => {
+      acc[l] = recs.reduce((t, r) => t + (r.labelDist[l] || 0), 0);
+      return acc;
+    }, {} as Record<number, number>);
 
-  const teamPerformance = [
-    { 
-      name: 'Aarav Mehta', role: 'Sales', leads: 24, calls: 24, conversions: 8, winRate: 33, note: 'Strong discovery, weak trial push',
-      leadsInteracted: [
-        {
-          leadName: 'John Doe',
-          calls: [
-            { datetime: 'May 18, 10:30 AM', outcome: 'Trial Started', duration: '12m 40s', summary: 'Good engagement on pricing. Needs follow up on Friday.' },
-            { datetime: 'May 20, 2:15 PM', outcome: 'Follow Up', duration: '8m 15s', summary: 'Checked in on trial progress. Answered technical integration questions.' },
-            { datetime: 'May 22, 11:00 AM', outcome: 'Converted', duration: '5m 20s', summary: 'Successfully closed. Sent payment link.' }
-          ]
-        },
-        {
-          leadName: 'Sarah Smith',
-          calls: [
-            { datetime: 'May 19, 2:15 PM', outcome: 'Not Interested', duration: '3m 10s', summary: 'Budget constraints.' }
-          ]
-        }
-      ]
-    },
-    { 
-      name: 'Priya Nair', role: 'Sales', leads: 18, calls: 18, conversions: 6, winRate: 33, note: 'Warm, empathetic calls',
-      leadsInteracted: [
-        {
-          leadName: 'Amit Patel',
-          calls: [
-            { datetime: 'May 18, 1:00 PM', outcome: 'Converted', duration: '18m 20s', summary: 'Excellent rapport building. Signed up for Pro tier.' }
-          ]
-        },
-        {
-          leadName: 'Neha Sharma',
-          calls: [
-            { datetime: 'May 21, 4:45 PM', outcome: 'Follow Up', duration: '10m 05s', summary: 'Waiting for manager approval.' },
-            { datetime: 'May 23, 10:30 AM', outcome: 'Follow Up', duration: '4m 10s', summary: 'Manager is out of office. Re-engage next week.' }
-          ]
-        }
-      ]
-    },
-    { 
-      name: 'Rohan Gupta', role: 'FSE', leads: 15, calls: 15, conversions: 9, winRate: 60, note: 'Thorough assessments',
-      leadsInteracted: [
-        {
-          leadName: 'Vikram Singh',
-          calls: [
-            { datetime: 'May 22, 9:30 AM', outcome: 'Trial Started', duration: '22m 15s', summary: 'Deep dive into feature set. Very interested.' }
-          ]
-        }
-      ]
-    },
-    { 
-      name: 'Sneha Iyer', role: 'FSE', leads: 12, calls: 12, conversions: 7, winRate: 58, note: 'Needs clear next steps',
-      leadsInteracted: [
-        {
-          leadName: 'Karan Desai',
-          calls: [
-            { datetime: 'May 23, 3:20 PM', outcome: 'Converted', duration: '15m 50s', summary: 'Quick close. Handled objections well.' }
-          ]
-        },
-        {
-          leadName: 'Pooja Reddy',
-          calls: [
-            { datetime: 'May 24, 11:45 AM', outcome: 'Follow Up', duration: '11m 30s', summary: 'Requested demo for larger team.' }
-          ]
-        }
-      ]
-    },
+    return {
+      multi: names.length > 1,
+      leads: sum('leads'), called: sum('called'), trial: sum('trial'),
+      conversions: sum('conversions'), captured: sum('captured'),
+      missedLeads: sum('leads') - sum('called'), labelDist,
+      tatHours, convertDays, prospects, losses, misses,
+      potential: prospects.reduce((s, p) => s + p.amount, 0),
+      missed: losses.reduce((s, l) => s + l.amount, 0)
+    };
+  }, [period, person]);
+
+  const funnelStages: Array<{ label: string; n: number; all?: boolean; conv?: boolean; color?: string }> = [
+    { label: 'All Leads', n: slice.leads, all: true },
+    ...[1, 2, 3, 4, 5].map(l => ({ label: `Label ${l}`, n: slice.labelDist[l] || 0, color: LABEL_COLORS[l] })),
+    { label: 'Converted', n: slice.conversions, conv: true }
   ];
+  const fMax = slice.leads || 1;
+  const convRate = slice.leads ? Math.round((slice.conversions / slice.leads) * 100) : 0;
+
+  const missCount = slice.misses.reminder.length + slice.misses.fresh.length + slice.misses.cold.length;
+
+  const firstName = (full: string) => full.split(' ')[0];
 
   return (
     <div className="mx-4 sm:mx-6 lg:mx-8 mb-12 mt-4 space-y-6">
-
-      <div className="flex justify-between items-end mb-2">
-        <div>
-          <h2 className="text-xl font-extrabold text-gray-900">Sales Performance</h2>
-          <p className="text-sm text-gray-600 font-medium mt-1">Activity trends and team conversion metrics</p>
+      
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+        <div className="flex items-center space-x-2">
+          <Filter className="w-4 h-4 text-gray-500" />
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Period</span>
+          <div className="flex bg-gray-100 p-1 rounded-lg ml-2">
+            {(Object.keys(PERIOD_LABELS) as Array<keyof PerfData>).map(p => (
+              <button
+                key={p}
+                onClick={() => setPeriod(p)}
+                className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${period === p ? 'bg-white text-blue-700 shadow-sm' : 'text-gray-500 hover:text-gray-900'}`}
+              >
+                {PERIOD_LABELS[p]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Salesperson</span>
+          <select 
+            value={person}
+            onChange={(e) => setPerson(e.target.value)}
+            className="text-sm font-semibold text-gray-700 border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md shadow-sm border bg-white cursor-pointer py-1.5 pl-3 pr-8"
+          >
+            <option value="all">All Salespeople</option>
+            {SALES_REPS.map(p => <option key={p} value={p}>{p}</option>)}
+          </select>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        
-        {/* Left Column: Visual Trend Chart (3 cols) */}
-        <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:col-span-3 flex flex-col">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-base font-extrabold text-gray-900 flex items-center">
-              <Activity className="w-5 h-5 mr-2 text-blue-500" /> Weekly Activity Trend
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Revenue & Time */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+          <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-3">
+            <h3 className="text-[15px] font-bold text-gray-900 flex items-center">
+              <IndianRupee className="w-5 h-5 mr-2 text-green-600" />
+              Revenue & Timing
             </h3>
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wide bg-gray-100 px-2 py-0.5 rounded-full">{PERIOD_LABELS[period]}</span>
           </div>
           
-          {/* Chart Graphic Area */}
-          <div className="flex-1 w-full h-[250px] mt-2">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={trendDays} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-                <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  cursor={{ fill: '#f3f4f6' }}
-                />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Bar dataKey="calls" name="Total Calls" fill="#e5e7eb" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                <Bar dataKey="conversions" name="Conversions" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={40} />
-              </BarChart>
-            </ResponsiveContainer>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div className="bg-green-50/50 p-4 rounded-xl border border-green-100">
+              <div className="text-[10px] font-bold text-green-700 uppercase tracking-wider mb-1">Captured</div>
+              <div className="text-2xl font-black text-green-900 mb-1">{formatINR(slice.captured)}</div>
+              <div className="text-[10px] text-green-600 font-medium">from {slice.conversions} conversions</div>
+            </div>
+            <div className="bg-red-50/50 p-4 rounded-xl border border-red-100">
+              <div className="text-[10px] font-bold text-red-700 uppercase tracking-wider mb-1">Missed</div>
+              <div className="text-2xl font-black text-red-900 mb-1">{formatINR(slice.missed)}</div>
+              <div className="text-[10px] text-red-600 font-medium">from {slice.losses.length} losses</div>
+            </div>
+            <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+              <div className="text-[10px] font-bold text-blue-700 uppercase tracking-wider mb-1">Potential</div>
+              <div className="text-2xl font-black text-blue-900 mb-1">{formatINR(slice.potential)}</div>
+              <div className="text-[10px] text-blue-600 font-medium">across {slice.prospects.length} prospects</div>
+            </div>
           </div>
-        </section>
 
-        {/* Right Column: AI Insights (2 cols) */}
-        <section className="bg-blue-50/50 rounded-xl border border-blue-100 p-6 lg:col-span-2">
-          <div className="flex items-center mb-6">
-            <Sparkles className="w-5 h-5 text-blue-600 mr-2" />
-            <h3 className="text-base font-extrabold text-gray-900">AI Weekly Insights</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex items-center p-3 bg-gray-50 border border-gray-100 rounded-lg">
+              <Clock className="w-8 h-8 text-gray-400 mr-3" />
+              <div>
+                <div className="text-lg font-black text-gray-900">{slice.tatHours.toFixed(1)}h</div>
+                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Turn Around Time</div>
+              </div>
+            </div>
+            <div className="flex items-center p-3 bg-gray-50 border border-gray-100 rounded-lg">
+              <TrendingUp className="w-8 h-8 text-gray-400 mr-3" />
+              <div>
+                <div className="text-lg font-black text-gray-900">{slice.convertDays.toFixed(1)}d</div>
+                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Time to Convert</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Funnel */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+          <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-3">
+            <h3 className="text-[15px] font-bold text-gray-900 flex items-center">
+              <BarChart2 className="w-5 h-5 mr-2 text-blue-600" />
+              Client Funnel
+            </h3>
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wide bg-gray-100 px-2 py-0.5 rounded-full">{PERIOD_LABELS[period]}</span>
+          </div>
+
+          <div className="space-y-3 mb-6">
+            {funnelStages.map((st, idx) => (
+              <div key={idx} className="flex items-center text-xs">
+                <span className={`w-20 font-bold ${st.conv ? 'text-green-700' : st.all ? 'text-blue-700' : 'text-gray-600'}`}>{st.label}</span>
+                <div className="flex-1 mx-3 flex justify-center">
+                  <div 
+                    className={`h-6 rounded-md transition-all ${st.conv ? 'bg-green-500' : st.all ? 'bg-blue-500' : ''}`}
+                    style={{ 
+                      width: `${Math.max(5, (st.n / fMax) * 100)}%`, 
+                      backgroundColor: st.color,
+                      opacity: st.color ? 0.9 : 1
+                    }}
+                  />
+                </div>
+                <span className={`w-10 text-right font-black ${st.conv ? 'text-green-700' : st.all ? 'text-blue-700' : 'text-gray-900'}`}>{st.n}</span>
+              </div>
+            ))}
           </div>
           
-          <div className="space-y-5">
-            <div className="flex items-start bg-white p-3.5 rounded-lg border border-red-100 shadow-sm">
-              <div className="p-1 bg-red-100 rounded text-red-600 mt-0.5 mr-3 flex-shrink-0">
-                <AlertCircle className="w-3.5 h-3.5" />
-              </div>
-              <div>
-                <span className="text-[10px] font-bold text-red-700 uppercase tracking-wider block mb-1">Risk</span>
-                <p className="text-sm text-gray-800 leading-snug font-medium">Offline trial follow-ups are slipping (avg TAT increased by 1.2 days).</p>
-              </div>
-            </div>
-            
-            <div className="flex items-start bg-white p-3.5 rounded-lg border border-green-100 shadow-sm">
-              <div className="p-1 bg-green-100 rounded text-green-600 mt-0.5 mr-3 flex-shrink-0">
-                <CheckCircle className="w-3.5 h-3.5" />
-              </div>
-              <div>
-                <span className="text-[10px] font-bold text-green-700 uppercase tracking-wider block mb-1">Win</span>
-                <p className="text-sm text-gray-800 leading-snug font-medium">Aarav Mehta drove a record 36% conversion rate on online leads.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start bg-white p-3.5 rounded-lg border border-orange-100 shadow-sm">
-              <div className="p-1 bg-orange-100 rounded text-orange-600 mt-0.5 mr-3 flex-shrink-0">
-                <AlertTriangle className="w-3.5 h-3.5" />
-              </div>
-              <div>
-                <span className="text-[10px] font-bold text-orange-700 uppercase tracking-wider block mb-1">Action</span>
-                <p className="text-sm text-gray-800 leading-snug font-medium">14 fresh leads from Meta Ads are untouched. Reassign immediately.</p>
-              </div>
-            </div>
+          <div className="bg-gray-50 border border-gray-100 rounded-lg p-3 text-center text-xs font-semibold text-gray-600">
+            <span className="font-black text-gray-900">{slice.conversions} / {slice.leads}</span> conversions · {convRate}% of all leads converted
           </div>
-        </section>
+        </div>
       </div>
 
-      {/* 3. Band 3: Team Breakdown */}
-      <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-5 border-b border-gray-200 flex justify-between items-center bg-gray-50/50">
-          <h3 className="text-base font-extrabold text-gray-900">Team Performance Breakdown</h3>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Prospects */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col h-full">
+          <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
+            <h3 className="text-[15px] font-bold text-gray-900">Open Prospects</h3>
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wide bg-gray-100 px-2 py-0.5 rounded-full">{slice.prospects.length}</span>
+          </div>
+          <div className="flex-1 overflow-y-auto max-h-96 pr-2 space-y-4">
+            {slice.prospects.length === 0 ? (
+              <div className="text-sm text-gray-400 italic text-center mt-8">No open prospects in this period.</div>
+            ) : (
+              slice.prospects.map((p, idx) => (
+                <div key={idx} className="border border-gray-100 rounded-lg p-3 bg-gray-50/50">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="font-bold text-sm text-gray-900">
+                      {p.lead}
+                      {slice.multi && <span className="ml-2 px-1.5 py-0.5 bg-gray-200 text-gray-600 rounded text-[9px] uppercase tracking-wider">{firstName(p.owner)}</span>}
+                    </div>
+                    <div className="text-right">
+                      <div className="font-black text-[13px] text-gray-900">{p.amount.toLocaleString()}</div>
+                      <div className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-sm inline-block mt-1 ${p.likelihood === 'High' ? 'bg-green-100 text-green-700' : p.likelihood === 'Medium' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'}`}>
+                        {p.likelihood}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-start text-xs text-blue-800 bg-blue-50/50 p-2 rounded border border-blue-100/50">
+                    <Sparkles className="w-3.5 h-3.5 mr-1.5 mt-0.5 text-blue-500 flex-shrink-0" />
+                    <span className="font-medium leading-snug">{p.ai}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-gray-200 text-[11px] uppercase tracking-wider text-gray-700 font-extrabold bg-gray-50/50">
-                <th className="px-6 py-4">Rep Name</th>
-                <th className="px-6 py-4">Role</th>
-                <th className="px-6 py-4 text-right">Leads Handled</th>
-                <th className="px-6 py-4 text-right">Calls Made</th>
-                <th className="px-6 py-4 text-right">Conversions</th>
-                <th className="px-6 py-4 text-right">Win Rate</th>
-                <th className="px-6 py-4">AI Performance Note</th>
-                <th className="px-4 py-4"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {teamPerformance.map((rep, idx) => (
-                <React.Fragment key={idx}>
-                  <tr 
-                    onClick={() => setExpandedRow(expandedRow === idx ? null : idx)}
-                    className={`hover:bg-gray-50 transition-colors cursor-pointer border-l-4 ${expandedRow === idx ? 'bg-blue-50/50 border-l-blue-600' : 'bg-white border-l-transparent'}`}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap font-bold text-sm text-gray-900">{rep.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${rep.role === 'Sales' ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-purple-50 text-purple-700 border border-purple-100'}`}>
-                        {rep.role}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-mono text-right">{rep.leads}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 font-bold font-mono text-right underline decoration-blue-300 underline-offset-2 decoration-dashed">{rep.calls}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold font-mono text-right">{rep.conversions}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold font-mono text-right">{rep.winRate}%</td>
-                    <td className="px-6 py-4 text-sm text-gray-600 truncate max-w-[200px]" title={rep.note}>{rep.note}</td>
-                    <td className="px-4 py-4 text-right">
-                      {expandedRow === idx ? <ChevronUp className="w-5 h-5 text-gray-400 inline" /> : <ChevronDown className="w-5 h-5 text-gray-400 inline" />}
-                    </td>
-                  </tr>
-                  
-                  {/* Expanded Call List Row - Grouped by Lead */}
-                  {expandedRow === idx && (
-                    <tr className="bg-gray-50/50">
-                      <td colSpan={8} className="px-6 py-6 border-b border-gray-200">
-                        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-5">
-                          <div className="flex justify-between items-start mb-5">
-                            <div>
-                              <h4 className="text-sm font-bold text-gray-900">{rep.name}'s Call History (May 18 - 24)</h4>
-                              <div className="flex items-center mt-1.5 text-xs text-gray-600 bg-purple-50/50 px-2.5 py-1.5 rounded-md border border-purple-100/50 inline-flex">
-                                <Sparkles className="w-3.5 h-3.5 text-purple-500 mr-1.5" />
-                                <span className="font-bold text-purple-900">AI Note:</span>
-                                <span className="ml-1.5 italic text-gray-700">"{rep.note}"</span>
-                              </div>
-                            </div>
-                            <span className="text-xs font-medium bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full flex-shrink-0">{rep.leadsInteracted.length} Leads Contacted</span>
-                          </div>
-                          
-                          <div className="space-y-6">
-                            {rep.leadsInteracted.map((leadGroup: any, lgIdx: number) => (
-                              <div key={lgIdx} className="bg-gray-50/50 rounded-lg border border-gray-100 overflow-hidden shadow-sm">
-                                {/* Lead Group Header */}
-                                <div className="bg-gray-100/80 px-4 py-2 border-b border-gray-200/60 flex items-center">
-                                   <div className="font-bold text-gray-800 text-sm flex items-center">
-                                      <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs mr-2">{leadGroup.leadName.charAt(0)}</span>
-                                      {leadGroup.leadName}
-                                   </div>
-                                   <div className="ml-3 text-[10px] font-bold text-gray-500 bg-white px-2 py-0.5 rounded shadow-sm border border-gray-200">
-                                     {leadGroup.calls.length} Call{leadGroup.calls.length > 1 ? 's' : ''}
-                                   </div>
-                                </div>
-                                
-                                {/* Calls for this Lead */}
-                                <div className="overflow-x-auto">
-                                  <table className="w-full text-left text-sm">
-                                    <tbody className="divide-y divide-gray-100">
-                                      {leadGroup.calls.map((call: any, cIdx: number) => (
-                                        <tr key={cIdx} className="hover:bg-white transition-colors">
-                                          <td className="py-3 px-4 text-gray-500 text-xs w-32 whitespace-nowrap border-r border-gray-50">{call.datetime}</td>
-                                          <td className="py-3 px-4 w-32">
-                                            <span className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
-                                              call.outcome === 'Converted' || call.outcome === 'Trial Started' ? 'bg-green-50 text-green-700 border border-green-100' :
-                                              call.outcome === 'Follow Up' ? 'bg-blue-50 text-blue-700 border border-blue-100' :
-                                              'bg-gray-100 text-gray-700 border border-gray-200'
-                                            }`}>
-                                              {call.outcome}
-                                            </span>
-                                          </td>
-                                          <td className="py-3 px-4 text-gray-500 font-mono text-xs w-20">{call.duration}</td>
-                                          <td className="py-3 px-4 w-24">
-                                            <button className="text-blue-600 hover:text-blue-800 flex items-center font-medium text-[11px] transition-colors bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded border border-blue-100">
-                                              <PlayCircle className="w-3.5 h-3.5 mr-1.5" /> Play
-                                            </button>
-                                          </td>
-                                          <td className="py-3 px-4 text-gray-600 text-xs pr-4">
-                                            <div className="bg-white px-3 py-2 rounded border border-gray-100 flex shadow-sm">
-                                              <Sparkles className="w-3 h-3 text-blue-500 mr-2 flex-shrink-0 mt-0.5" />
-                                              <span className="italic leading-tight">{call.summary}</span>
-                                            </div>
-                                          </td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
 
+        {/* Misses */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col h-full">
+          <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
+            <h3 className="text-[15px] font-bold text-gray-900 flex items-center">
+              Misses
+              {missCount > 0 && <AlertTriangle className="w-4 h-4 ml-2 text-amber-500" />}
+            </h3>
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wide bg-gray-100 px-2 py-0.5 rounded-full">
+              {slice.missedLeads} / {slice.leads} missed
+            </span>
+          </div>
+          <div className="flex-1 overflow-y-auto max-h-96 pr-2 space-y-5">
+            {missCount === 0 ? (
+              <div className="text-sm text-gray-400 italic text-center mt-8">No misses in this period — reminders, SLAs and fresh-lead ages are all on track.</div>
+            ) : (
+              <>
+                {slice.misses.reminder.length > 0 && (
+                  <div>
+                    <h4 className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-2 flex justify-between">
+                      Reminders missed <span>{slice.misses.reminder.length}</span>
+                    </h4>
+                    <div className="space-y-2">
+                      {slice.misses.reminder.map((m, idx) => (
+                        <div key={idx} className="text-xs flex items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1 mr-2 flex-shrink-0" />
+                          <span className="text-gray-600"><b className="text-gray-900">{m.lead}</b> {slice.multi && `· ${firstName(m.owner)}`} — {m.detail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {slice.misses.fresh.length > 0 && (
+                  <div>
+                    <h4 className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-2 flex justify-between">
+                      Fresh leads pending {'>'} 7 days <span>{slice.misses.fresh.length}</span>
+                    </h4>
+                    <div className="space-y-2">
+                      {slice.misses.fresh.map((m, idx) => (
+                        <div key={idx} className="text-xs flex items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1 mr-2 flex-shrink-0" />
+                          <span className="text-gray-600"><b className="text-gray-900">{m.lead}</b> {slice.multi && `· ${firstName(m.owner)}`} — {m.detail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {slice.misses.cold.length > 0 && (
+                  <div>
+                    <h4 className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-2 flex justify-between">
+                      Try 1 → Cold not done in 4 days <span>{slice.misses.cold.length}</span>
+                    </h4>
+                    <div className="space-y-2">
+                      {slice.misses.cold.map((m, idx) => (
+                        <div key={idx} className="text-xs flex items-start">
+                          <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1 mr-2 flex-shrink-0" />
+                          <span className="text-gray-600"><b className="text-gray-900">{m.lead}</b> {slice.multi && `· ${firstName(m.owner)}`} — {m.detail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Losses */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col h-full">
+          <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
+            <h3 className="text-[15px] font-bold text-gray-900">Losses</h3>
+            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wide bg-gray-100 px-2 py-0.5 rounded-full">{slice.losses.length}</span>
+          </div>
+          <div className="flex-1 overflow-y-auto max-h-96 pr-2 space-y-4">
+            {slice.losses.length === 0 ? (
+              <div className="text-sm text-gray-400 italic text-center mt-8">No losses in this period.</div>
+            ) : (
+              slice.losses.map((l, idx) => (
+                <div key={idx} className="border border-red-100 bg-red-50/30 rounded-lg p-3">
+                  <div className="flex justify-between items-start mb-1">
+                    <div className="font-bold text-sm text-gray-900">
+                      {l.lead}
+                      {slice.multi && <span className="ml-2 px-1.5 py-0.5 bg-gray-200 text-gray-600 rounded text-[9px] uppercase tracking-wider">{firstName(l.owner)}</span>}
+                    </div>
+                    <div className="text-[13px] font-black text-gray-900">{l.amount.toLocaleString()}</div>
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs text-gray-600 font-medium italic pr-2">{l.note}</span>
+                    <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-100 text-red-700 flex-shrink-0">
+                      {l.reason}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

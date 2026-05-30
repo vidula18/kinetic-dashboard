@@ -8,11 +8,13 @@ import { LeadDetail } from './components/LeadDetail';
 import { QuickFilterBar } from './components/QuickFilterBar';
 import { AIAlertsTable } from './components/AIAlertsTable';
 import { FreshLeadsTable } from './components/FreshLeadsTable';
-import { WeeklySummary } from './components/WeeklySummary';
+import { SalesTeamPerformance } from './components/SalesTeamPerformance';
 import { SalesPerformance } from './components/SalesPerformance';
 
+type TabType = 'Alerts' | 'Leads' | 'SalesTeamPerformance' | 'SalesPerformance';
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'WeeklySummary' | 'Alerts' | 'Leads' | 'SalesPerformance'>('WeeklySummary');
+  const [activeTab, setActiveTab] = useState<TabType>('SalesTeamPerformance');
   const [activeFilter, setActiveFilter] = useState<LabelType | null>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(MOCK_LEADS[0]?.id || null);
 
@@ -137,11 +139,11 @@ export default function App() {
               Leads
             </button>
             <button 
-              onClick={() => setActiveTab('WeeklySummary')}
+              onClick={() => setActiveTab('SalesTeamPerformance')}
               className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
-                activeTab === 'WeeklySummary' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+                activeTab === 'SalesTeamPerformance' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
               }`}>
-              Weekly Summary
+              Sales Team Performance
             </button>
             <button 
               onClick={() => setActiveTab('SalesPerformance')}
@@ -163,8 +165,8 @@ export default function App() {
           )}
         </div>
 
-        {activeTab === 'WeeklySummary' && (
-          <WeeklySummary />
+        {activeTab === 'SalesTeamPerformance' && (
+          <SalesTeamPerformance />
         )}
 
         {activeTab === 'SalesPerformance' && (
