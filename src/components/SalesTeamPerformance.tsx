@@ -1,4 +1,5 @@
-import { Phone, Clock, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import { Phone, Clock, Sparkles, ChevronDown, ChevronRight } from 'lucide-react';
 import { WEEKLY_CALLERS, type WeeklyCaller } from '../data/mockPerformance';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -130,10 +131,15 @@ function LabelDistChart({ dist }: { dist: Record<string, number> }) {
 }
 
 function PersonRow(props: WeeklyCaller & { isTeam: boolean }) {
+  const [expanded, setExpanded] = useState(props.isTeam);
+
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-6">
       {/* Header */}
-      <div className="flex items-center p-4 bg-gray-50 border-b border-gray-100">
+      <div 
+        className={`flex items-center p-4 bg-gray-50 border-b border-gray-100 ${!props.isTeam ? 'cursor-pointer hover:bg-gray-100 transition-colors' : ''}`}
+        onClick={() => !props.isTeam && setExpanded(!expanded)}
+      >
         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-sm flex-shrink-0 ${props.isTeam ? 'bg-gradient-to-br from-indigo-500 to-purple-600' : 'bg-blue-600'}`}>
           {props.initials}
         </div>
@@ -141,14 +147,20 @@ function PersonRow(props: WeeklyCaller & { isTeam: boolean }) {
           <h3 className="text-[15px] font-bold text-gray-900">{props.name}</h3>
           {props.isTeam && <p className="text-xs text-gray-500">2 salespeople · this week</p>}
         </div>
-        <div className="text-right mr-2">
+        <div className="text-right mr-4">
           <div className="text-lg font-black text-gray-900">{props.total}</div>
           <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wide">Calls this week</div>
         </div>
+        {!props.isTeam && (
+          <div className="text-gray-400">
+            {expanded ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+          </div>
+        )}
       </div>
 
       {/* Body */}
-      <div className="p-6">
+      {expanded && (
+        <div className="p-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
           
           {/* Card 1: Total Calls & TAT */}
@@ -230,6 +242,7 @@ function PersonRow(props: WeeklyCaller & { isTeam: boolean }) {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }
