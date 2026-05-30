@@ -4,7 +4,7 @@ import { LabelPill } from './LabelPill';
 import { PrimaryActionButton } from './PrimaryActionButton';
 import { formatDistanceToNow } from 'date-fns';
 import { Phone, Calendar, Clock, Briefcase, Activity, Edit2, Save, X, Star, Tag } from 'lucide-react';
-import { MOCK_LABELS } from '../data/labelConfig';
+import { MOCK_LABELS, type LabelType } from '../data/labelConfig';
 
 interface LeadDetailProps {
   lead: Lead | null;
@@ -162,25 +162,18 @@ export function LeadDetail({ lead }: LeadDetailProps) {
             <Tag className="w-4 h-4 mr-2 text-blue-600" /> 
             Update Lead Status
           </h3>
-          <div className="flex flex-wrap gap-2">
-            {MOCK_LABELS.map((labelOption, idx) => {
-              const Icon = labelOption.icon;
-              const isSelected = selectedLabel === labelOption.text;
-              return (
-                <button
-                  key={idx}
-                  onClick={() => setSelectedLabel(labelOption.text)}
-                  className={`flex items-center px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
-                    isSelected 
-                      ? 'bg-blue-600 text-white border-blue-700 shadow-sm' 
-                      : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 mr-1.5 ${isSelected ? 'text-blue-100' : 'text-gray-400'}`} />
+          <div className="max-w-xs relative">
+            <select
+              value={selectedLabel}
+              onChange={(e) => setSelectedLabel(e.target.value as LabelType)}
+              className="block w-full pl-3 pr-10 py-2.5 text-sm font-medium text-gray-700 border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md shadow-sm border bg-white cursor-pointer transition-colors"
+            >
+              {MOCK_LABELS.map((labelOption, idx) => (
+                <option key={idx} value={labelOption.text}>
                   {labelOption.text}
-                </button>
-              );
-            })}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
