@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Sparkles, BarChart2, IndianRupee, Clock, AlertTriangle, TrendingUp, Filter } from 'lucide-react';
+import { Sparkles, BarChart2, IndianRupee, Clock, AlertTriangle, TrendingUp, Filter, X } from 'lucide-react';
 import { PERF_DATA, type PerfData, type SalespersonPerformance } from '../data/mockPerformance';
 
 const LABEL_COLORS: Record<string, string> = {
@@ -27,6 +27,7 @@ function formatINR(amount: number) {
 export function SalesPerformance() {
   const [period, setPeriod] = useState<keyof PerfData>('week');
   const [person, setPerson] = useState<string>('all');
+  const [modalState, setModalState] = useState<'captured' | 'missed' | 'potential' | null>(null);
 
   const slice = useMemo(() => {
     const all = PERF_DATA[period];
@@ -122,21 +123,21 @@ export function SalesPerformance() {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <div className="bg-green-50/50 p-4 rounded-xl border border-green-100">
+            <button type="button" onClick={() => setModalState('captured')} className="text-left bg-green-50/50 p-4 rounded-xl border border-green-100 hover:shadow-md hover:border-green-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500">
               <div className="text-[10px] font-bold text-green-700 uppercase tracking-wider mb-1">Captured</div>
               <div className="text-2xl font-black text-green-900 mb-1">{formatINR(slice.captured)}</div>
               <div className="text-[10px] text-green-600 font-medium">from {slice.conversions} conversions</div>
-            </div>
-            <div className="bg-red-50/50 p-4 rounded-xl border border-red-100">
+            </button>
+            <button type="button" onClick={() => setModalState('missed')} className="text-left bg-red-50/50 p-4 rounded-xl border border-red-100 hover:shadow-md hover:border-red-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-500">
               <div className="text-[10px] font-bold text-red-700 uppercase tracking-wider mb-1">Missed</div>
               <div className="text-2xl font-black text-red-900 mb-1">{formatINR(slice.missed)}</div>
               <div className="text-[10px] text-red-600 font-medium">from {slice.losses.length} losses</div>
-            </div>
-            <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+            </button>
+            <button type="button" onClick={() => setModalState('potential')} className="text-left bg-blue-50/50 p-4 rounded-xl border border-blue-100 hover:shadow-md hover:border-blue-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500">
               <div className="text-[10px] font-bold text-blue-700 uppercase tracking-wider mb-1">Potential</div>
               <div className="text-2xl font-black text-blue-900 mb-1">{formatINR(slice.potential)}</div>
               <div className="text-[10px] text-blue-600 font-medium">across {slice.prospects.length} prospects</div>
-            </div>
+            </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -324,6 +325,63 @@ export function SalesPerformance() {
           </div>
         </div>
       </div>
+
+      {/* Popups for Revenue Metrics */}
+      {modalState && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+              <h3 className="font-bold text-gray-900">
+                {modalState === 'captured' && `Captured Leads (${slice.conversions})`}
+                {modalState === 'missed' && `Missed Opportunities (${slice.losses.length})`}
+                {modalState === 'potential' && `Open Prospects (${slice.prospects.length})`}
+              </h3>
+              <button onClick={() => setModalState(null)} className="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto flex-1 space-y-4">
+              
+              {modalState === 'potential' && slice.prospects.map((p, idx) => (
+                <div key={idx} className="border border-gray-100 rounded-lg p-3 bg-gray-50/50">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="font-bold text-sm text-gray-900">{p.lead}</div>
+                    <div className="text-right">
+                      <div className="font-black text-[13px] text-gray-900">₹{p.amount.toLocaleString()}</div>
+                    </div>
+                  </div>
+                  <div className="text-xs text-gray-600 leading-snug">{p.ai}</div>
+                </div>
+              ))}
+              
+              {modalState === 'missed' && slice.losses.map((l, idx) => (
+                <div key={idx} className="border border-red-100 bg-red-50/30 rounded-lg p-3">
+                  <div className="flex justify-between items-start mb-1">
+                    <div className="font-bold text-sm text-gray-900">{l.lead}</div>
+                    <div className="text-[13px] font-black text-gray-900">₹{l.amount.toLocaleString()}</div>
+                  </div>
+                  <div className="text-xs text-gray-600 font-medium italic mb-2">{l.note}</div>
+                  <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-100 text-red-700 flex-shrink-0">
+                    {l.reason}
+                  </span>
+                </div>
+              ))}
+
+              {modalState === 'captured' && (
+                <div className="text-center text-sm text-gray-500 py-8">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 mb-4">
+                    <IndianRupee className="w-6 h-6" />
+                  </div>
+                  <p className="font-medium text-gray-900 mb-1">{slice.conversions} conversions secured</p>
+                  <p>Revenue captured details are currently aggregated.</p>
+                </div>
+              )}
+
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
