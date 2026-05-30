@@ -137,9 +137,6 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
               </ul>
             </div>
           </div>
-        </div>
-
-
 
         {/* Right Column - Context & Uncovered Points */}
         <div className="w-full lg:w-[400px] flex-shrink-0">
@@ -182,6 +179,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
 
             </div>
           </div>
+        </div>
         </div>
 
         {/* Notes Area (Full Width) */}
