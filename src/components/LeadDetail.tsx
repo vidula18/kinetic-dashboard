@@ -110,7 +110,7 @@ export function LeadDetail({ lead }: LeadDetailProps) {
             </div>
           </div>
           
-          <PrimaryActionButton label={lead.actionRequired} />
+          <PrimaryActionButton label="Start Call" />
         </div>
 
         <div className="mt-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-gray-100 pt-5">
@@ -246,14 +246,25 @@ export function LeadDetail({ lead }: LeadDetailProps) {
             <div className="flex items-start relative pb-6 border-l-2 border-gray-200 ml-2">
               <div className="absolute w-3 h-3 rounded-full bg-blue-500 -left-[7px] top-1.5 ring-4 ring-white"></div>
               <div className="ml-6">
-                <p className="text-sm font-bold text-gray-900">Lead Captured</p>
+                <p className="text-sm font-bold text-gray-900">Current Lead Captured</p>
                 <p className="text-sm text-gray-500 mt-0.5">{formatDistanceToNow(lead.timeReceived, { addSuffix: true })} via {lead.source}</p>
               </div>
             </div>
-            <div className="flex items-start relative ml-2">
-              <div className="absolute w-3 h-3 rounded-full bg-gray-300 -left-[7px] top-1.5 ring-4 ring-white"></div>
+            <div className="flex items-start relative pb-6 border-l-2 border-gray-200 ml-2">
+              <div className="absolute w-3 h-3 rounded-full bg-gray-400 -left-[7px] top-1.5 ring-4 ring-white"></div>
               <div className="ml-6">
-                <p className="text-sm font-medium text-gray-500">Awaiting Contact</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-medium text-gray-700">Previous Interaction</p>
+                  <span className="text-[9px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded">Unseen</span>
+                </div>
+                <p className="text-sm text-gray-500 mt-0.5">1 month ago • Outbound Call</p>
+              </div>
+            </div>
+            <div className="flex items-start relative ml-2">
+              <div className="absolute w-3 h-3 rounded-full bg-gray-400 -left-[7px] top-1.5 ring-4 ring-white"></div>
+              <div className="ml-6">
+                <p className="text-sm font-medium text-gray-700">Initial Inquiry</p>
+                <p className="text-sm text-gray-500 mt-0.5">1 year ago • Walk-in</p>
               </div>
             </div>
           </div>
