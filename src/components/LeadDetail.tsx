@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import type { Lead } from '../data/mockLeads';
-import { LabelPill } from './LabelPill';
 import { PrimaryActionButton } from './PrimaryActionButton';
 import { formatDistanceToNow } from 'date-fns';
-import { Phone, Calendar, Clock, Briefcase, Activity, Edit2, Save, X, Star, Tag } from 'lucide-react';
+import { Phone, Calendar, Clock, Briefcase, Activity, Edit2, Save, X, Star } from 'lucide-react';
 import { MOCK_LABELS, type LabelType } from '../data/labelConfig';
 import { LiveCallFlow } from './LiveCallFlow';
 import { CallSummary } from './CallSummary';
@@ -126,16 +125,49 @@ export function LeadDetail({ lead }: LeadDetailProps) {
         </div>
 
         <div className="mt-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-gray-100 pt-5">
-          <div className="flex flex-wrap gap-2">
-            {lead.labels.map((label, idx) => {
-              const Icon = label.icon;
+          <div className="flex flex-wrap gap-2 items-center relative">
+            {(() => {
+              const currentLabelConfig = MOCK_LABELS.find(l => l.text === selectedLabel) || MOCK_LABELS[0];
+              const Icon = currentLabelConfig.icon;
               return (
-                <LabelPill key={idx} color={label.color}>
-                  <Icon className="w-3.5 h-3.5 mr-1.5" />
-                  {label.text}
-                </LabelPill>
+                <div className="relative inline-flex items-center">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Icon className={`w-3.5 h-3.5 ${
+                      currentLabelConfig.color === 'blue' ? 'text-blue-600' :
+                      currentLabelConfig.color === 'green' ? 'text-green-600' :
+                      currentLabelConfig.color === 'orange' ? 'text-orange-600' :
+                      'text-gray-600'
+                    }`} />
+                  </div>
+                  <select
+                    value={selectedLabel}
+                    onChange={(e) => setSelectedLabel(e.target.value as LabelType)}
+                    className={`block w-full pl-8 pr-8 py-1.5 text-sm font-bold border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full shadow-sm cursor-pointer appearance-none ${
+                      currentLabelConfig.color === 'blue' ? 'bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20 hover:bg-blue-100' :
+                      currentLabelConfig.color === 'green' ? 'bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20 hover:bg-green-100' :
+                      currentLabelConfig.color === 'orange' ? 'bg-orange-50 text-orange-700 ring-1 ring-inset ring-orange-600/20 hover:bg-orange-100' :
+                      'bg-gray-50 text-gray-700 ring-1 ring-inset ring-gray-600/20 hover:bg-gray-100'
+                    }`}
+                  >
+                    {MOCK_LABELS.map((labelOption, idx) => (
+                      <option key={idx} value={labelOption.text}>
+                        {labelOption.text}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                    <svg className={`h-4 w-4 ${
+                      currentLabelConfig.color === 'blue' ? 'text-blue-500' :
+                      currentLabelConfig.color === 'green' ? 'text-green-500' :
+                      currentLabelConfig.color === 'orange' ? 'text-orange-500' :
+                      'text-gray-500'
+                    }`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
               );
-            })}
+            })()}
           </div>
 
           <div className="flex items-center gap-3 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
@@ -167,28 +199,6 @@ export function LeadDetail({ lead }: LeadDetailProps) {
       {/* Content Workspace */}
       <div className="p-8 max-w-4xl">
         
-        {/* AI Insight & Context Card */}
-        {/* Label Picker Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6 p-6">
-          <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider flex items-center mb-4">
-            <Tag className="w-4 h-4 mr-2 text-blue-600" /> 
-            Update Lead Status
-          </h3>
-          <div className="max-w-xs relative">
-            <select
-              value={selectedLabel}
-              onChange={(e) => setSelectedLabel(e.target.value as LabelType)}
-              className="block w-full pl-3 pr-10 py-2.5 text-sm font-medium text-gray-700 border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 rounded-md shadow-sm border bg-white cursor-pointer transition-colors"
-            >
-              {MOCK_LABELS.map((labelOption, idx) => (
-                <option key={idx} value={labelOption.text}>
-                  {labelOption.text}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
         {/* AI Insight & Context Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
           <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
