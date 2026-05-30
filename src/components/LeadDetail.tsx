@@ -3,7 +3,8 @@ import type { Lead } from '../data/mockLeads';
 import { LabelPill } from './LabelPill';
 import { PrimaryActionButton } from './PrimaryActionButton';
 import { formatDistanceToNow } from 'date-fns';
-import { Phone, Calendar, Clock, Briefcase, Activity, Edit2, Save, X } from 'lucide-react';
+import { Phone, Calendar, Clock, Briefcase, Activity, Edit2, Save, X, Star, Tag } from 'lucide-react';
+import { MOCK_LABELS } from '../data/labelConfig';
 
 interface LeadDetailProps {
   lead: Lead | null;
@@ -12,12 +13,16 @@ interface LeadDetailProps {
 export function LeadDetail({ lead }: LeadDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [insightText, setInsightText] = useState("");
-  const [leadRate, setLeadRate] = useState("Unrated");
+  const [rating, setRating] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
+  const [selectedLabel, setSelectedLabel] = useState(lead?.labels[0]?.text || "Cold");
 
   useEffect(() => {
     if (lead) {
       setInsightText(lead.aiInsight);
-      setLeadRate("Unrated");
+      setRating(0);
+      setHoveredRating(0);
+      setSelectedLabel(lead.labels[0]?.text || "Cold");
       setIsEditing(false);
     }
   }, [lead?.id]);
@@ -123,18 +128,26 @@ export function LeadDetail({ lead }: LeadDetailProps) {
 
           <div className="flex items-center gap-3 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
             <span className="text-xs font-bold text-gray-600 uppercase tracking-wider">Lead Rate:</span>
-            <select 
-              value={leadRate}
-              onChange={(e) => setLeadRate(e.target.value)}
-              className="bg-white border border-gray-300 text-gray-900 text-xs font-bold rounded focus:ring-blue-500 focus:border-blue-500 py-1.5 px-2.5 shadow-sm cursor-pointer"
-            >
-              <option value="Unrated">Unrated</option>
-              <option value="90%">90%+</option>
-              <option value="75%">75%</option>
-              <option value="50%">50%</option>
-              <option value="25%">25%</option>
-              <option value="10%">10%</option>
-            </select>
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHoveredRating(star)}
+                  onMouseLeave={() => setHoveredRating(0)}
+                  className="focus:outline-none focus:scale-110 transition-transform"
+                >
+                  <Star 
+                    className={`w-5 h-5 transition-colors ${
+                      (hoveredRating ? star <= hoveredRating : star <= rating)
+                        ? 'fill-yellow-400 text-yellow-400' 
+                        : 'text-gray-300'
+                    }`} 
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -143,11 +156,40 @@ export function LeadDetail({ lead }: LeadDetailProps) {
       <div className="p-8 max-w-4xl">
         
         {/* AI Insight & Context Card */}
+        {/* Label Picker Card */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6 p-6">
+          <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider flex items-center mb-4">
+            <Tag className="w-4 h-4 mr-2 text-blue-600" /> 
+            Update Lead Status
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {MOCK_LABELS.map((labelOption, idx) => {
+              const Icon = labelOption.icon;
+              const isSelected = selectedLabel === labelOption.text;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedLabel(labelOption.text)}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
+                    isSelected 
+                      ? 'bg-blue-600 text-white border-blue-700 shadow-sm' 
+                      : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300'
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 mr-1.5 ${isSelected ? 'text-blue-100' : 'text-gray-400'}`} />
+                  {labelOption.text}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* AI Insight & Context Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
           <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/30">
             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider flex items-center">
               <Activity className="w-4 h-4 mr-2 text-blue-600" /> 
-              AI Insight & Context
+              Insight & Context
             </h3>
             
             {!isEditing && (

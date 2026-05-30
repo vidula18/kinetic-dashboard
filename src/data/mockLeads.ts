@@ -53,8 +53,7 @@ export const MOCK_LEADS: Lead[] = Array.from({ length: 15 }).map((_, i) => {
   // Ensure the first few are very recent
   const minutesAgo = i < 3 ? (i + 1) * 2 : i * 45 + 30; 
   const randomLabels = [
-    MOCK_LABELS[i % MOCK_LABELS.length],
-    ...(i % 3 === 0 ? [MOCK_LABELS[(i + 2) % MOCK_LABELS.length]] : [])
+    MOCK_LABELS[i % MOCK_LABELS.length]
   ];
 
   const names = ["Ananya Sharma", "Lakshmi Rao", "Dev Anand", "Ishaan Verma", "Neha Pillai", "Rohit Sinha", "Farah Sheikh", "Manoj Gupta", "Aditya Nair", "Priya Desai", "Karthik Reddy", "Meera Joshi", "Arjun Patel", "Neha Kulkarni", "Rohan Shetty"];

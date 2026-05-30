@@ -117,10 +117,7 @@ export default function App() {
           </div>
         </header>
 
-        <div className="mx-4 sm:mx-6 lg:mx-8 mt-6">
-          <h1 className="text-2xl font-black text-gray-900 tracking-tight">Sales Operations Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-1 mb-4">Monitor leads, alerts, and team performance.</p>
-        </div>
+
 
         {/* Tabs and Filters Area */}
         <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex justify-between items-end border-b border-gray-200">

@@ -1,7 +1,7 @@
-import { TrendingUp, Clock, Globe, Phone, AlertTriangle, MessageSquare, CheckCircle2 } from 'lucide-react';
+import { Calendar, Phone, AlertTriangle, CheckCircle2, Clock, XCircle } from 'lucide-react';
 import type { ElementType } from 'react';
 
-export type LabelType = 'Hot Lead' | 'Ready to Convert' | 'Follow-up' | 'Overdue' | 'Language Gap' | 'Needs Review' | 'Uncontacted' | 'Pending';
+export type LabelType = 'Try 1' | 'Try 2' | 'Try 3' | 'Cold' | 'Ready for the trial' | 'Trial scheduled' | 'Trial rescheduled' | 'Trial cancelled' | 'Future prospect';
 export type LabelColor = 'green' | 'orange' | 'blue' | 'gray';
 
 export interface LeadLabel {
@@ -11,12 +11,13 @@ export interface LeadLabel {
 }
 
 export const MOCK_LABELS: LeadLabel[] = [
-  { text: 'Hot Lead', color: 'green', icon: TrendingUp },
-  { text: 'Follow-up', color: 'orange', icon: Clock },
-  { text: 'Language Gap', color: 'blue', icon: Globe },
-  { text: 'Uncontacted', color: 'gray', icon: Phone },
-  { text: 'Overdue', color: 'orange', icon: AlertTriangle },
-  { text: 'Needs Review', color: 'blue', icon: MessageSquare },
-  { text: 'Ready to Convert', color: 'green', icon: CheckCircle2 },
-  { text: 'Pending', color: 'gray', icon: Clock },
+  { text: 'Try 1', color: 'blue', icon: Phone },
+  { text: 'Try 2', color: 'orange', icon: Phone },
+  { text: 'Try 3', color: 'orange', icon: AlertTriangle },
+  { text: 'Cold', color: 'gray', icon: Clock },
+  { text: 'Ready for the trial', color: 'blue', icon: CheckCircle2 },
+  { text: 'Trial scheduled', color: 'green', icon: Calendar },
+  { text: 'Trial rescheduled', color: 'orange', icon: Calendar },
+  { text: 'Trial cancelled', color: 'gray', icon: XCircle },
+  { text: 'Future prospect', color: 'gray', icon: Clock },
 ];
