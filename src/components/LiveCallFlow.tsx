@@ -91,7 +91,6 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
               </button>
             </div>
           </div>
-        </div>
 
         {/* 2-Column Section */}
         <div className="flex flex-col lg:flex-row gap-12 w-full flex-1">
@@ -137,6 +136,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
               </ul>
             </div>
           </div>
+        </div>
 
         {/* Right Column - Context & Uncovered Points */}
         <div className="w-full lg:w-[400px] flex-shrink-0">
