@@ -9,9 +9,10 @@ import { CallSummary } from './CallSummary';
 
 interface LeadDetailProps {
   lead: Lead | null;
+  onCallStateChange?: (isActive: boolean) => void;
 }
 
-export function LeadDetail({ lead }: LeadDetailProps) {
+export function LeadDetail({ lead, onCallStateChange }: LeadDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [insightText, setInsightText] = useState("");
   const [rating, setRating] = useState(0);
@@ -29,6 +30,10 @@ export function LeadDetail({ lead }: LeadDetailProps) {
       setCallState('idle');
     }
   }, [lead?.id]);
+
+  useEffect(() => {
+    onCallStateChange?.(callState === 'active');
+  }, [callState, onCallStateChange]);
 
   if (!lead) {
     return (

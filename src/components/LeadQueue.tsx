@@ -6,9 +6,10 @@ interface LeadQueueProps {
   leads: Lead[];
   selectedLeadId: string | null;
   onSelectLead: (id: string) => void;
+  isCompact?: boolean;
 }
 
-export function LeadQueue({ leads, selectedLeadId, onSelectLead }: LeadQueueProps) {
+export function LeadQueue({ leads, selectedLeadId, onSelectLead, isCompact }: LeadQueueProps) {
   if (leads.length === 0) {
     return (
       <div className="flex-1 flex items-center justify-center bg-white border-r border-gray-200">
@@ -26,6 +27,7 @@ export function LeadQueue({ leads, selectedLeadId, onSelectLead }: LeadQueueProp
             lead={lead} 
             isSelected={lead.id === selectedLeadId} 
             onClick={() => onSelectLead(lead.id)} 
+            isCompact={isCompact}
           />
         ))}
       </div>

@@ -17,6 +17,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>('SalesTeamPerformance');
   const [activeFilter, setActiveFilter] = useState<LabelType | null>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(MOCK_LEADS[0]?.id || null);
+  const [isCallActive, setIsCallActive] = useState(false);
 
   // Filter leads based on active filter
   const filteredLeads = useMemo(() => {
@@ -182,10 +183,11 @@ export default function App() {
                   leads={filteredLeads} 
                   selectedLeadId={selectedLeadId} 
                   onSelectLead={setSelectedLeadId} 
+                  isCompact={isCallActive}
                 />
               }
               rightPane={
-                <LeadDetail lead={selectedLead} />
+                <LeadDetail lead={selectedLead} onCallStateChange={setIsCallActive} />
               }
             />
           </div>

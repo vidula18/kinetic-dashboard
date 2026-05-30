@@ -6,9 +6,10 @@ interface LeadItemProps {
   lead: Lead;
   isSelected: boolean;
   onClick: () => void;
+  isCompact?: boolean;
 }
 
-export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
+export function LeadItem({ lead, isSelected, onClick, isCompact }: LeadItemProps) {
   // Use the primary label for the queue item to save space
   const primaryLabel = lead.labels[0];
   const Icon = primaryLabel.icon;
@@ -26,7 +27,7 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
   return (
     <div 
       onClick={onClick}
-      className={`p-3 rounded-lg border transition-all duration-200 cursor-pointer flex flex-col justify-center h-full relative overflow-hidden ${
+      className={`${isCompact ? 'p-2' : 'p-3'} rounded-lg border transition-all duration-200 cursor-pointer flex flex-col justify-center h-full relative overflow-hidden ${
         isSelected 
           ? (lead.isFresh 
               ? 'bg-yellow-50 border-y-yellow-400 border-r-yellow-400 border-l-[4px] border-l-yellow-600 shadow-md'
@@ -71,10 +72,12 @@ export function LeadItem({ lead, isSelected, onClick }: LeadItemProps) {
             </span>
           </div>
           
-          {/* Bottom Row: Phone */}
-          <span className="text-[11px] text-gray-500 font-medium truncate flex items-center">
-            {lead.phone}
-          </span>
+          {/* Bottom Row: Phone (hidden if compact) */}
+          {!isCompact && (
+            <span className="text-[11px] text-gray-500 font-medium truncate flex items-center">
+              {lead.phone}
+            </span>
+          )}
         </div>
       </div>
     </div>
