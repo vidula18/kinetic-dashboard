@@ -171,11 +171,11 @@ export function SalesPerformance() {
             {funnelStages.map((st, idx) => (
               <div key={idx} className="flex items-center text-xs">
                 <span className={`w-20 font-bold ${st.conv ? 'text-green-700' : st.all ? 'text-blue-700' : 'text-gray-600'}`}>{st.label}</span>
-                <div className="flex-1 mx-3 flex justify-center">
+                <div className="flex-1 mx-3 bg-gray-50 rounded-md overflow-hidden flex items-center">
                   <div 
-                    className={`h-6 rounded-md transition-all ${st.conv ? 'bg-green-500' : st.all ? 'bg-blue-500' : ''}`}
+                    className={`h-6 rounded-r-md transition-all ${st.conv ? 'bg-green-500' : st.all ? 'bg-blue-500' : ''}`}
                     style={{ 
-                      width: `${Math.max(5, (st.n / fMax) * 100)}%`, 
+                      width: `${Math.max(2, (st.n / fMax) * 100)}%`, 
                       backgroundColor: st.color,
                       opacity: st.color ? 0.9 : 1
                     }}
