@@ -16,13 +16,13 @@ export function SplitScreenLayout({ leftPane, rightPane, topBar }: SplitScreenLa
       )}
       
       <div className="flex flex-col md:flex-row flex-1 overflow-hidden relative z-10">
-        {/* Left Pane: Processing Queue (33%) */}
-        <div className="w-full md:w-1/3 h-1/2 md:h-full flex flex-col border-b md:border-b-0 md:border-r border-gray-200">
+        {/* Left Pane: Processing Queue */}
+        <div className="w-full md:w-[30%] h-1/2 md:h-full flex flex-col border-b md:border-b-0 md:border-r border-gray-200">
           {leftPane}
         </div>
         
-        {/* Right Pane: Context Workspace (67%) */}
-        <div className="w-full md:w-2/3 h-1/2 md:h-full flex flex-col bg-white">
+        {/* Right Pane: Context Workspace */}
+        <div className="w-full md:w-[70%] h-1/2 md:h-full flex flex-col bg-white">
           {rightPane}
         </div>
       </div>
