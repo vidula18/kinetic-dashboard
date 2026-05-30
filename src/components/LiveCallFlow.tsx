@@ -46,7 +46,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
   return (
     <div className="flex-1 flex flex-col bg-white overflow-hidden relative">
       {/* Top Banner */}
-      <div className="bg-red-500 text-white px-8 py-4 flex justify-between items-center shadow-md z-10 sticky top-0">
+      <div className="bg-red-500 text-white px-8 py-3 flex justify-between items-center shadow-md z-10 sticky top-0">
         <div className="flex items-center gap-4">
           <div className="flex items-center justify-center w-3 h-3 rounded-full bg-white animate-pulse">
             <div className="w-2 h-2 rounded-full bg-red-500"></div>
@@ -65,13 +65,10 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-8 flex flex-col lg:flex-row gap-12 max-w-7xl mx-auto w-full">
+      <div className="flex-1 overflow-y-auto p-8 flex flex-col max-w-7xl mx-auto w-full">
         
-        {/* Left Column - Live Scripting & Notes */}
-        <div className="flex-1 flex flex-col min-w-0">
-          
-          {/* Say This Next */}
-          <div className="mb-12 text-center animate-in slide-in-from-bottom-2 fade-in duration-300">
+        {/* Say This Next (Full Width) */}
+        <div className="mb-10 text-center animate-in slide-in-from-bottom-2 fade-in duration-300 w-full">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-4">Say This Next</h3>
             <div className="text-3xl md:text-4xl font-extrabold text-blue-600 leading-tight">
               • {MOCK_SCRIPT_STEPS[scriptStep].replace('[Name]', lead.name.split(' ')[0])}
@@ -94,9 +91,15 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
               </button>
             </div>
           </div>
+        </div>
 
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            {/* Details, Intent, and Pain */}
+        {/* 2-Column Section */}
+        <div className="flex flex-col lg:flex-row gap-12 w-full flex-1">
+          
+          {/* Left Column - Details & Notes */}
+          <div className="flex-1 flex flex-col min-w-0">
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              {/* Details, Intent, and Pain */}
             <div>
               <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Details, Intent, and Pain</h4>
               <ul className="space-y-3">
@@ -192,7 +195,6 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
