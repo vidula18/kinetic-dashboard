@@ -62,10 +62,6 @@ export function SalesTeamPerformance() {
         log={[]}
       />
 
-      {/* Individual Rep Rows */}
-      {reps.map((rep, idx) => (
-        <PersonRow key={idx} isTeam={false} {...rep} />
-      ))}
     </div>
   );
 }
