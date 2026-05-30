@@ -5,6 +5,8 @@ import { PrimaryActionButton } from './PrimaryActionButton';
 import { formatDistanceToNow } from 'date-fns';
 import { Phone, Calendar, Clock, Briefcase, Activity, Edit2, Save, X, Star, Tag } from 'lucide-react';
 import { MOCK_LABELS, type LabelType } from '../data/labelConfig';
+import { LiveCallFlow } from './LiveCallFlow';
+import { CallSummary } from './CallSummary';
 
 interface LeadDetailProps {
   lead: Lead | null;
@@ -16,6 +18,7 @@ export function LeadDetail({ lead }: LeadDetailProps) {
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [selectedLabel, setSelectedLabel] = useState(lead?.labels[0]?.text || "Cold");
+  const [callState, setCallState] = useState<'idle' | 'active' | 'summary'>('idle');
 
   useEffect(() => {
     if (lead) {
@@ -24,6 +27,7 @@ export function LeadDetail({ lead }: LeadDetailProps) {
       setHoveredRating(0);
       setSelectedLabel(lead.labels[0]?.text || "Cold");
       setIsEditing(false);
+      setCallState('idle');
     }
   }, [lead?.id]);
 
@@ -39,6 +43,14 @@ export function LeadDetail({ lead }: LeadDetailProps) {
         </div>
       </div>
     );
+  }
+
+  if (callState === 'active') {
+    return <LiveCallFlow lead={lead} onEndCall={() => setCallState('summary')} />;
+  }
+
+  if (callState === 'summary') {
+    return <CallSummary lead={lead} onClose={() => setCallState('idle')} />;
   }
 
   const handleSave = () => {
@@ -110,7 +122,7 @@ export function LeadDetail({ lead }: LeadDetailProps) {
             </div>
           </div>
           
-          <PrimaryActionButton label="Start Call" />
+          <PrimaryActionButton label="Start Call" onClick={() => setCallState('active')} />
         </div>
 
         <div className="mt-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-gray-100 pt-5">
