@@ -2,7 +2,7 @@ export interface PerformanceCallLog {
   lead: string;
   when: string;
   dur: string;
-  label: number;
+  label: string;
   sent: 'pos' | 'neg';
   tat: string;
   ai: string;
@@ -14,7 +14,7 @@ export interface WeeklyCaller {
   total: number;
   avgTat: string;
   days: [string, number][];
-  labelDist: Record<number, number>;
+  labelDist: Record<string, number>;
   weekAI: string;
   log: PerformanceCallLog[];
 }
@@ -23,29 +23,29 @@ export const WEEKLY_CALLERS: WeeklyCaller[] = [
   {
     name: 'Aarav Mehta', initials: 'AM', total: 24, avgTat: '3.8h',
     days: [['Mon', 5], ['Tue', 4], ['Wed', 6], ['Thu', 4], ['Fri', 3], ['Sat', 2], ['Sun', 0]],
-    labelDist: { 1: 9, 2: 6, 3: 4, 4: 3, 5: 2 },
+    labelDist: { 'Try 1': 9, 'Try 2': 6, 'Try 3': 4, 'Cold': 3, 'Ready for the trial': 2 },
     weekAI: 'Consistent qualification calls with solid discovery — strong at surfacing pain points and quick to first contact (3.8h avg). 15 of 24 clients ended the week at Label 1–2, but a handful drifted to Label 4–5: push harder to book the trial within the first call before intent cools.',
     log: [
-      { lead: 'Ananya Sharma', when: 'Mon, 18 May · 10:24 AM', dur: '06:12', label: 1, sent: 'pos', tat: '1.5h', ai: 'Knee pain, booking for self. High intent, comfortable with online — trial scheduled. Strong qualification.' },
-      { lead: 'Rahul Verma',   when: 'Mon, 18 May · 04:05 PM', dur: '05:20', label: 1, sent: 'pos', tat: '1.1h', ai: 'Lower-back pain, desk job. Qualified fast and handed off for trial — clean call.' },
-      { lead: 'Meera Joshi',   when: 'Tue, 19 May · 11:05 AM', dur: '03:21', label: 2, sent: 'pos', tat: '2.1h', ai: 'Post-pregnancy goals, prefers online. Engaged; asked for trainer credentials before committing.' },
-      { lead: 'Vikram Rao',    when: 'Wed, 20 May · 02:40 PM', dur: '04:38', label: 3, sent: 'neg', tat: '6.2h', ai: 'Enquiring for father (62), offline near Indiranagar. Price-sensitive; follow-up on plans still pending.' },
-      { lead: 'Sara Khan',     when: 'Fri, 22 May · 09:30 AM', dur: '07:02', label: 5, sent: 'neg', tat: '4.0h', ai: 'Language gap flagged mid-call — handed to AI to call back in their language and summarise.' },
-      { lead: 'Karthik Reddy', when: 'Sat, 23 May · 12:15 PM', dur: '05:50', label: 4, sent: 'neg', tat: '9.4h', ai: 'Low urgency, intent 1/5. At risk — needs a win-back nudge or deprioritise.' }
+      { lead: 'Ananya Sharma', when: 'Mon, 18 May · 10:24 AM', dur: '06:12', label: 'Try 1', sent: 'pos', tat: '1.5h', ai: 'Knee pain, booking for self. High intent, comfortable with online — trial scheduled. Strong qualification.' },
+      { lead: 'Rahul Verma',   when: 'Mon, 18 May · 04:05 PM', dur: '05:20', label: 'Try 1', sent: 'pos', tat: '1.1h', ai: 'Lower-back pain, desk job. Qualified fast and handed off for trial — clean call.' },
+      { lead: 'Meera Joshi',   when: 'Tue, 19 May · 11:05 AM', dur: '03:21', label: 'Try 2', sent: 'pos', tat: '2.1h', ai: 'Post-pregnancy goals, prefers online. Engaged; asked for trainer credentials before committing.' },
+      { lead: 'Vikram Rao',    when: 'Wed, 20 May · 02:40 PM', dur: '04:38', label: 'Try 3', sent: 'neg', tat: '6.2h', ai: 'Enquiring for father (62), offline near Indiranagar. Price-sensitive; follow-up on plans still pending.' },
+      { lead: 'Sara Khan',     when: 'Fri, 22 May · 09:30 AM', dur: '07:02', label: 'Ready for the trial', sent: 'neg', tat: '4.0h', ai: 'Language gap flagged mid-call — handed to AI to call back in their language and summarise.' },
+      { lead: 'Karthik Reddy', when: 'Sat, 23 May · 12:15 PM', dur: '05:50', label: 'Cold', sent: 'neg', tat: '9.4h', ai: 'Low urgency, intent 1/5. At risk — needs a win-back nudge or deprioritise.' }
     ]
   },
   {
     name: 'Priya Nair', initials: 'PN', total: 19, avgTat: '5.1h',
     days: [['Mon', 4], ['Tue', 5], ['Wed', 3], ['Thu', 4], ['Fri', 2], ['Sat', 1], ['Sun', 0]],
-    labelDist: { 1: 7, 2: 5, 3: 3, 4: 2, 5: 2 },
+    labelDist: { 'Try 1': 7, 'Try 2': 5, 'Try 3': 3, 'Cold': 2, 'Ready for the trial': 2 },
     weekAI: 'Warm, empathetic calls with good rapport and strong online conversion — 12 of 19 clients ended at Label 1–2. First-call time is slower than target (5.1h avg) and a couple of offline follow-ups are slipping into Label 4. Tighten callback discipline to protect the at-risk ones.',
     log: [
-      { lead: 'Neha Kapoor',  when: 'Mon, 18 May · 11:30 AM', dur: '06:10', label: 1, sent: 'pos', tat: '2.4h', ai: 'PCOS fitness goals, online. Built a 4-week starter plan; good engagement throughout.' },
-      { lead: 'Divya Menon',  when: 'Tue, 19 May · 03:45 PM', dur: '05:48', label: 2, sent: 'pos', tat: '3.6h', ai: 'Knee-rehab focus, online. Explained progression clearly; client requested a nutrition add-on.' },
-      { lead: 'Karan Bhatia', when: 'Wed, 20 May · 12:40 PM', dur: '06:25', label: 2, sent: 'pos', tat: '2.0h', ai: 'Strength baseline taken. Some pricing hesitation; sent plan options, leaning in.' },
-      { lead: 'Rohan Shetty', when: 'Thu, 21 May · 01:12 PM', dur: '04:02', label: 4, sent: 'neg', tat: '8.7h', ai: 'Stalled at 38% likely. At risk — send a testimonial to re-engage.' },
-      { lead: 'Aditya Nair',  when: 'Fri, 22 May · 09:50 AM', dur: '02:55', label: 4, sent: 'neg', tat: '11.0h', ai: 'Not ready yet, requested a callback next week. Low urgency — slow first contact hurt momentum.' },
-      { lead: 'Priya Desai',  when: 'Sat, 23 May · 10:05 AM', dur: '03:30', label: 5, sent: 'neg', tat: '5.5h', ai: 'Rescheduled for an AI callback; queued in AI Alerts.' }
+      { lead: 'Neha Kapoor',  when: 'Mon, 18 May · 11:30 AM', dur: '06:10', label: 'Try 1', sent: 'pos', tat: '2.4h', ai: 'PCOS fitness goals, online. Built a 4-week starter plan; good engagement throughout.' },
+      { lead: 'Divya Menon',  when: 'Tue, 19 May · 03:45 PM', dur: '05:48', label: 'Try 2', sent: 'pos', tat: '3.6h', ai: 'Knee-rehab focus, online. Explained progression clearly; client requested a nutrition add-on.' },
+      { lead: 'Karan Bhatia', when: 'Wed, 20 May · 12:40 PM', dur: '06:25', label: 'Try 2', sent: 'pos', tat: '2.0h', ai: 'Strength baseline taken. Some pricing hesitation; sent plan options, leaning in.' },
+      { lead: 'Rohan Shetty', when: 'Thu, 21 May · 01:12 PM', dur: '04:02', label: 'Cold', sent: 'neg', tat: '8.7h', ai: 'Stalled at 38% likely. At risk — send a testimonial to re-engage.' },
+      { lead: 'Aditya Nair',  when: 'Fri, 22 May · 09:50 AM', dur: '02:55', label: 'Cold', sent: 'neg', tat: '11.0h', ai: 'Not ready yet, requested a callback next week. Low urgency — slow first contact hurt momentum.' },
+      { lead: 'Priya Desai',  when: 'Sat, 23 May · 10:05 AM', dur: '03:30', label: 'Ready for the trial', sent: 'neg', tat: '5.5h', ai: 'Rescheduled for an AI callback; queued in AI Alerts.' }
     ]
   }
 ];
@@ -83,7 +83,7 @@ export interface SalespersonPerformance {
   captured: number;
   tatHours: number;
   convertDays: number;
-  labelDist: Record<number, number>;
+  labelDist: Record<string, number>;
   prospects: Prospect[];
   losses: Loss[];
   misses: Misses;
@@ -103,7 +103,7 @@ export const PERF_DATA: PerfData = {
   week: {
     'Aarav Mehta': {
       leads: 22, called: 19, trial: 13, conversions: 8, captured: 178000, tatHours: 1.8, convertDays: 5.4,
-      labelDist: { 1: 4, 2: 3, 3: 3, 4: 2, 5: 2 },
+      labelDist: { 'Try 1': 4, 'Try 2': 3, 'Try 3': 3, 'Cold': 2, 'Ready for the trial': 2 },
       prospects: [
         { lead: 'Karan Bhatia', amount: 44999, likelihood: 'High', ai: 'Offline trial done, hesitating on price. AI reads intent at 4/5 — send the plan comparison and a testimonial today.' },
         { lead: 'Vikram Rao', amount: 24999, likelihood: 'Medium', ai: 'Booking for father (62). Warm but price-sensitive — AI suggests leading with the 3-month offline plan plus a free doctor consult.' },
@@ -121,7 +121,7 @@ export const PERF_DATA: PerfData = {
     },
     'Priya Nair': {
       leads: 18, called: 15, trial: 9, conversions: 6, captured: 132000, tatHours: 2.9, convertDays: 6.8,
-      labelDist: { 1: 3, 2: 3, 3: 2, 4: 2, 5: 2 },
+      labelDist: { 'Try 1': 3, 'Try 2': 3, 'Try 3': 2, 'Cold': 2, 'Ready for the trial': 2 },
       prospects: [
         { lead: 'Neha Kapoor', amount: 46998, likelihood: 'High', ai: 'PCOS fitness, strong engagement on the trial. AI: nudge toward the 6-month plan with the nutrition add-on.' },
         { lead: 'Meera Joshi', amount: 22999, likelihood: 'High', ai: 'Post-pregnancy goals, asked for trainer credentials. AI: share certified-trainer profiles — likely to book online.' },
@@ -140,7 +140,7 @@ export const PERF_DATA: PerfData = {
   month: {
     'Aarav Mehta': {
       leads: 78, called: 71, trial: 44, conversions: 29, captured: 648000, tatHours: 2.1, convertDays: 6.0,
-      labelDist: { 1: 14, 2: 11, 3: 10, 4: 8, 5: 6 },
+      labelDist: { 'Try 1': 14, 'Try 2': 11, 'Try 3': 10, 'Cold': 8, 'Ready for the trial': 6 },
       prospects: [
         { lead: 'Karan Bhatia', amount: 44999, likelihood: 'High', ai: 'High intent after the offline trial; only price stands in the way. AI: offer the 6-month plan at a small concession.' },
         { lead: 'Lakshmi Iyer', amount: 22999, likelihood: 'High', ai: 'Knee-rehab case comparing us with a physio clinic. AI: emphasise at-home convenience and progress tracking.' },
@@ -167,7 +167,7 @@ export const PERF_DATA: PerfData = {
     },
     'Priya Nair': {
       leads: 64, called: 58, trial: 33, conversions: 21, captured: 458000, tatHours: 3.1, convertDays: 7.2,
-      labelDist: { 1: 12, 2: 10, 3: 9, 4: 7, 5: 5 },
+      labelDist: { 'Try 1': 12, 'Try 2': 10, 'Try 3': 9, 'Cold': 7, 'Ready for the trial': 5 },
       prospects: [
         { lead: 'Neha Kapoor', amount: 46998, likelihood: 'High', ai: 'Strong trial engagement. AI: 6-month plan with the nutrition add-on is the natural next step.' },
         { lead: 'Meera Joshi', amount: 22999, likelihood: 'High', ai: 'Wants trainer credentials before committing. AI: send certified-trainer profiles.' },
@@ -192,7 +192,7 @@ export const PERF_DATA: PerfData = {
   quarter: {
     'Aarav Mehta': {
       leads: 214, called: 196, trial: 121, conversions: 79, captured: 1786000, tatHours: 2.0, convertDays: 6.3,
-      labelDist: { 1: 40, 2: 30, 3: 28, 4: 20, 5: 17 },
+      labelDist: { 'Try 1': 40, 'Try 2': 30, 'Try 3': 28, 'Cold': 20, 'Ready for the trial': 17 },
       prospects: [
         { lead: 'Naveen Kumar', amount: 49998, likelihood: 'High', ai: 'Corporate wellness enquiry for both parents. AI: bundle two memberships — high-value deal.' },
         { lead: 'Karan Bhatia', amount: 44999, likelihood: 'High', ai: 'Only price stands between trial and close. AI: a small 6-month concession should convert.' },
@@ -223,7 +223,7 @@ export const PERF_DATA: PerfData = {
     },
     'Priya Nair': {
       leads: 178, called: 162, trial: 96, conversions: 58, captured: 1268000, tatHours: 3.0, convertDays: 7.0,
-      labelDist: { 1: 34, 2: 28, 3: 24, 4: 18, 5: 16 },
+      labelDist: { 'Try 1': 34, 'Try 2': 28, 'Try 3': 24, 'Cold': 18, 'Ready for the trial': 16 },
       prospects: [
         { lead: 'Neha Kapoor', amount: 46998, likelihood: 'High', ai: '6-month plan with the nutrition add-on is the natural next step.' },
         { lead: 'Ritu Saxena', amount: 24999, likelihood: 'Medium', ai: 'Senior parent wants offline near Whitefield — confirm centre proximity.' },

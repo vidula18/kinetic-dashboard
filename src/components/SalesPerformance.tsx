@@ -2,13 +2,15 @@ import { useState, useMemo } from 'react';
 import { Sparkles, BarChart2, IndianRupee, Clock, AlertTriangle, TrendingUp, Filter } from 'lucide-react';
 import { PERF_DATA, type PerfData, type SalespersonPerformance } from '../data/mockPerformance';
 
-const LABEL_COLORS: Record<number, string> = {
-  1: '#10b981', // green
-  2: '#3b82f6', // blue
-  3: '#f59e0b', // amber
-  4: '#ef4444', // red
-  5: '#8b5cf6', // purple
+const LABEL_COLORS: Record<string, string> = {
+  'Try 1': '#10b981', // green
+  'Try 2': '#3b82f6', // blue
+  'Try 3': '#f59e0b', // amber
+  'Cold': '#ef4444', // red
+  'Ready for the trial': '#8b5cf6', // purple
 };
+
+const LABEL_KEYS = ['Try 1', 'Try 2', 'Try 3', 'Cold', 'Ready for the trial'];
 
 const PERIOD_LABELS: Record<string, string> = { 
   week: 'This Week', 
@@ -47,10 +49,10 @@ export function SalesPerformance() {
       cold: recs.flatMap(r => tag(r.misses.cold, r))
     };
     
-    const labelDist = [1, 2, 3, 4, 5].reduce((acc, l) => {
+    const labelDist = LABEL_KEYS.reduce((acc, l) => {
       acc[l] = recs.reduce((t, r) => t + (r.labelDist[l] || 0), 0);
       return acc;
-    }, {} as Record<number, number>);
+    }, {} as Record<string, number>);
 
     return {
       multi: names.length > 1,
@@ -65,7 +67,7 @@ export function SalesPerformance() {
 
   const funnelStages: Array<{ label: string; n: number; all?: boolean; conv?: boolean; color?: string }> = [
     { label: 'All Leads', n: slice.leads, all: true },
-    ...[1, 2, 3, 4, 5].map(l => ({ label: `Label ${l}`, n: slice.labelDist[l] || 0, color: LABEL_COLORS[l] })),
+    ...LABEL_KEYS.map(l => ({ label: l, n: slice.labelDist[l] || 0, color: LABEL_COLORS[l] })),
     { label: 'Converted', n: slice.conversions, conv: true }
   ];
   const fMax = slice.leads || 1;
