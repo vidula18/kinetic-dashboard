@@ -61,7 +61,10 @@ export function SalesTeamPerformance() {
         weekAI={weekAI}
         log={[]}
       />
-
+      {/* Individual Rep Rows */}
+      {reps.map((rep, idx) => (
+        <PersonRow key={idx} isTeam={false} {...rep} />
+      ))}
     </div>
   );
 }
