@@ -46,7 +46,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
   return (
     <div className="flex-1 flex flex-col bg-white overflow-hidden relative">
       {/* Top Banner */}
-      <div className="bg-red-500 text-white px-8 py-3 flex justify-between items-center shadow-md z-10 sticky top-0">
+      <div className="bg-red-500 text-white px-8 py-2 flex justify-between items-center shadow-md z-10 sticky top-0">
         <div className="flex items-center gap-4">
           <div className="flex items-center justify-center w-3 h-3 rounded-full bg-white animate-pulse">
             <div className="w-2 h-2 rounded-full bg-red-500"></div>
@@ -103,16 +103,16 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
             <div>
               <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Details, Intent, and Pain</h4>
               <ul className="space-y-3">
-                <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0" />
+                <li className="flex items-start gap-3">
+                  <input type="checkbox" className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700 leading-relaxed">Establish the primary fitness goal (weight loss, strength, rehab).</span>
                 </li>
-                <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0" />
+                <li className="flex items-start gap-3">
+                  <input type="checkbox" className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700 leading-relaxed">Ask about past injuries or existing conditions (PCOS, joint pain).</span>
                 </li>
-                <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 mr-3 flex-shrink-0" />
+                <li className="flex items-start gap-3">
+                  <input type="checkbox" className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700 leading-relaxed">Gauge urgency: Why are they starting now vs next month?</span>
                 </li>
               </ul>
@@ -122,36 +122,24 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
             <div>
               <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Book Assessment</h4>
               <ul className="space-y-3">
-                <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 mr-3 flex-shrink-0" />
+                <li className="flex items-start gap-3">
+                  <input type="checkbox" className="mt-1 w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700 leading-relaxed">Offer two specific slots (e.g., "Tomorrow at 9am or 4pm?").</span>
                 </li>
-                <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 mr-3 flex-shrink-0" />
+                <li className="flex items-start gap-3">
+                  <input type="checkbox" className="mt-1 w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700 leading-relaxed">Confirm online vs. offline preference.</span>
                 </li>
-                <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 mr-3 flex-shrink-0" />
+                <li className="flex items-start gap-3">
+                  <input type="checkbox" className="mt-1 w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700 leading-relaxed">Set expectation: "A trainer will call you via video."</span>
                 </li>
               </ul>
             </div>
           </div>
-
-          {/* Notes Area */}
-          <div className="mt-auto">
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center">
-              <Edit2 className="w-3 h-3 mr-1.5" /> Live Notes
-            </h4>
-            <textarea 
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Type your notes here during the call..."
-              className="w-full h-40 p-4 border border-gray-200 rounded-xl bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all resize-none shadow-inner"
-            />
-          </div>
-
         </div>
+
+
 
         {/* Right Column - Context & Uncovered Points */}
         <div className="w-full lg:w-[400px] flex-shrink-0">
@@ -194,6 +182,19 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
 
             </div>
           </div>
+        </div>
+
+        {/* Notes Area (Full Width) */}
+        <div className="mt-8 w-full">
+          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center">
+            <Edit2 className="w-3 h-3 mr-1.5" /> Live Notes
+          </h4>
+          <textarea 
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Type your notes here during the call..."
+            className="w-full h-32 p-4 border border-gray-200 rounded-xl bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all resize-none shadow-inner"
+          />
         </div>
       </div>
     </div>
