@@ -42,6 +42,20 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    // Automatically advance scriptStep every 2 seconds for prototype demonstration
+    const advanceInterval = setInterval(() => {
+      setScriptStep(current => {
+        if (current < MOCK_SCRIPT_STEPS.length - 1) {
+          return current + 1;
+        }
+        clearInterval(advanceInterval);
+        return current;
+      });
+    }, 2000);
+    return () => clearInterval(advanceInterval);
+  }, []);
+
   const formatTime = (totalSeconds: number) => {
     const m = Math.floor(totalSeconds / 60);
     const s = totalSeconds % 60;
@@ -94,13 +108,6 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
             <div className="text-3xl md:text-4xl font-extrabold text-blue-600 leading-tight min-h-[100px] flex items-center justify-center">
               • {MOCK_SCRIPT_STEPS[scriptStep].replace('[Name]', lead.name.split(' ')[0])}
             </div>
-            
-            <button 
-              onClick={() => setScriptStep(s => Math.min(MOCK_SCRIPT_STEPS.length - 1, s + 1))}
-              className={`mt-4 px-6 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold rounded-full text-sm items-center transition-all active:scale-95 ${scriptStep < MOCK_SCRIPT_STEPS.length - 1 ? 'inline-flex' : 'hidden'}`}
-            >
-              Next Prompt →
-            </button>
           </div>
 
         {/* 2-Column Section */}
