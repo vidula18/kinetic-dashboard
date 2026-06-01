@@ -24,7 +24,7 @@ function formatINR(amount: number) {
   return `₹${amount.toLocaleString()}`;
 }
 
-export function SalesPerformance() {
+export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (name: string) => void }) {
   const [period, setPeriod] = useState<keyof PerfData>('week');
   const [person, setPerson] = useState<string>('all');
   const [modalState, setModalState] = useState<'captured' | 'missed' | 'potential' | null>(null);
@@ -86,6 +86,7 @@ export function SalesPerformance() {
 
   const funnelStages: Array<{ label: string; n: number; all?: boolean; conv?: boolean; color?: string }> = [
     { label: 'All Leads', n: slice.leads, all: true },
+    { label: 'Fresh Leads', n: Math.max(0, slice.leads - Object.values(slice.labelDist).reduce((a, b) => a + b, 0) - slice.conversions), color: '#06b6d4' },
     ...LABEL_KEYS.map(l => ({ label: l, n: slice.labelDist[l] || 0, color: LABEL_COLORS[l] })),
     { label: 'Converted', n: slice.conversions, conv: true }
   ];
@@ -140,7 +141,7 @@ export function SalesPerformance() {
             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wide bg-gray-100 px-2 py-0.5 rounded-full">{PERIOD_LABELS[period]}</span>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
             <button type="button" onClick={() => setModalState('captured')} className="text-left bg-green-50/50 p-4 rounded-xl border border-green-100 hover:shadow-md hover:border-green-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500">
               <div className="text-[10px] font-bold text-green-700 uppercase tracking-wider mb-1">Captured</div>
               <div className="text-2xl font-black text-green-900 mb-1">{formatINR(slice.captured)}</div>
@@ -156,6 +157,14 @@ export function SalesPerformance() {
               <div className="text-2xl font-black text-blue-900 mb-1">{formatINR(slice.potential)}</div>
               <div className="text-[10px] text-blue-600 font-medium">across {slice.prospects.length} prospects</div>
             </button>
+          </div>
+          
+          <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100 flex items-center justify-between mb-4">
+            <div className="flex items-center">
+              <Clock className="w-5 h-5 text-blue-600 mr-2" />
+              <span className="text-sm font-bold text-gray-700">Median Call Duration</span>
+            </div>
+            <div className="text-lg font-black text-blue-900">05:12</div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -363,7 +372,7 @@ export function SalesPerformance() {
               {modalState === 'potential' && slice.prospects.map((p, idx) => (
                 <div key={idx} className="border border-gray-100 rounded-lg p-3 bg-gray-50/50">
                   <div className="flex justify-between items-start mb-2">
-                    <div className="font-bold text-sm text-gray-900">{p.lead}</div>
+                    <button onClick={() => onNavigateToLead?.(p.lead)} className="font-bold text-sm text-blue-600 hover:underline text-left cursor-pointer focus:outline-none">{p.lead}</button>
                     <div className="text-right">
                       <div className="font-black text-[13px] text-gray-900">₹{p.amount.toLocaleString()}</div>
                     </div>
@@ -375,7 +384,7 @@ export function SalesPerformance() {
               {modalState === 'missed' && slice.losses.map((l, idx) => (
                 <div key={idx} className="border border-red-100 bg-red-50/30 rounded-lg p-3">
                   <div className="flex justify-between items-start mb-1">
-                    <div className="font-bold text-sm text-gray-900">{l.lead}</div>
+                    <button onClick={() => onNavigateToLead?.(l.lead)} className="font-bold text-sm text-blue-600 hover:underline text-left cursor-pointer focus:outline-none">{l.lead}</button>
                     <div className="text-[13px] font-black text-gray-900">₹{l.amount.toLocaleString()}</div>
                   </div>
                   <div className="text-xs text-gray-600 font-medium italic mb-2">{l.note}</div>
@@ -393,7 +402,7 @@ export function SalesPerformance() {
                   {capturedDetails.map((c, idx) => (
                     <div key={idx} className="border border-green-100 bg-green-50/30 rounded-lg p-3">
                       <div className="flex justify-between items-start mb-1">
-                        <div className="font-bold text-sm text-gray-900">{c.lead}</div>
+                        <button onClick={() => onNavigateToLead?.(c.lead)} className="font-bold text-sm text-blue-600 hover:underline text-left cursor-pointer focus:outline-none">{c.lead}</button>
                         <div className="text-[13px] font-black text-gray-900">₹{c.amount.toLocaleString()}</div>
                       </div>
                       <div className="flex justify-between items-center mb-2">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Phone, Clock, Sparkles, ChevronDown, ChevronRight } from 'lucide-react';
+import { Phone, Clock, Sparkles, ChevronDown, ChevronRight, TrendingUp, TrendingDown } from 'lucide-react';
 import { WEEKLY_CALLERS, type WeeklyCaller } from '../data/mockPerformance';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -149,7 +149,10 @@ function PersonRow(props: WeeklyCaller & { isTeam: boolean }) {
         </div>
         <div className="text-right mr-4">
           <div className="text-lg font-black text-gray-900">{props.total}</div>
-          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wide">Calls this week</div>
+          <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wide mb-0.5">Calls this week</div>
+          <div className="flex items-center justify-end text-[9px] font-bold text-green-600">
+            <TrendingUp className="w-3 h-3 mr-0.5" /> 12% vs last week
+          </div>
         </div>
         {!props.isTeam && (
           <div className="text-gray-400">
@@ -170,12 +173,20 @@ function PersonRow(props: WeeklyCaller & { isTeam: boolean }) {
               <span className="text-4xl font-black text-gray-900">{props.total}</span>
               <span className="text-sm text-gray-500 ml-2 font-medium">calls</span>
             </div>
+            <div className="flex items-center text-xs font-bold text-green-600 mb-6 mt-[-1rem]">
+              <TrendingUp className="w-3.5 h-3.5 mr-1" />
+              12% higher vs last week
+            </div>
             
             <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 flex items-center">
               <Clock className="w-5 h-5 text-blue-600 mr-3" />
               <div>
                 <div className="text-lg font-bold text-blue-900">{props.avgTat}</div>
-                <div className="text-[10px] font-semibold text-blue-600 uppercase tracking-wide">Avg time · lead → first call</div>
+                <div className="text-[10px] font-semibold text-blue-600 uppercase tracking-wide mb-1">Avg time · lead → first call</div>
+                <div className="flex items-center text-[10px] font-bold text-green-600">
+                  <TrendingDown className="w-3 h-3 mr-1" />
+                  0.5h faster vs last week
+                </div>
               </div>
             </div>
           </div>

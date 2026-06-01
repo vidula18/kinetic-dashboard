@@ -171,7 +171,7 @@ export default function App() {
         )}
 
         {activeTab === 'SalesPerformance' && (
-          <SalesPerformance />
+          <SalesPerformance onNavigateToLead={handleNavigateToLead} />
         )}
 
         {activeTab === 'Leads' && (
