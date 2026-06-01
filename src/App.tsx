@@ -10,8 +10,9 @@ import { AIAlertsTable } from './components/AIAlertsTable';
 import { FreshLeadsTable } from './components/FreshLeadsTable';
 import { SalesTeamPerformance } from './components/SalesTeamPerformance';
 import { SalesPerformance } from './components/SalesPerformance';
+import { LeadAnalysis } from './components/LeadAnalysis';
 
-type TabType = 'Alerts' | 'Leads' | 'SalesTeamPerformance' | 'SalesPerformance';
+type TabType = 'Alerts' | 'Leads' | 'SalesTeamPerformance' | 'SalesPerformance' | 'LeadAnalysis';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>('SalesTeamPerformance');
@@ -153,6 +154,13 @@ export default function App() {
               }`}>
               Sales Performance
             </button>
+            <button 
+              onClick={() => setActiveTab('LeadAnalysis')}
+              className={`px-6 py-3 text-sm font-bold transition-all whitespace-nowrap border-b-2 ${
+                activeTab === 'LeadAnalysis' ? 'border-blue-600 text-blue-700 bg-blue-50/50' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'
+              }`}>
+              Lead Analysis
+            </button>
           </div>
           
           {activeTab === 'Leads' && (
@@ -172,6 +180,10 @@ export default function App() {
 
         {activeTab === 'SalesPerformance' && (
           <SalesPerformance onNavigateToLead={handleNavigateToLead} />
+        )}
+
+        {activeTab === 'LeadAnalysis' && (
+          <LeadAnalysis />
         )}
 
         {activeTab === 'Leads' && (
