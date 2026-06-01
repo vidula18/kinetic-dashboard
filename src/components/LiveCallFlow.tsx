@@ -97,10 +97,8 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
           
           {/* Left Column - Details & Notes */}
           <div className="flex-1 flex flex-col min-w-0">
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              {/* Details, Intent, and Pain */}
-            <div>
-              <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Details, Intent, and Pain</h4>
+            <div className="mb-8">
+              <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Call Checklist</h4>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3">
                   <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
@@ -114,13 +112,6 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
                   <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Urgency (Why now?)</span>
                 </li>
-              </ul>
-            </div>
-
-            {/* Book Assessment */}
-            <div>
-              <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Book Assessment</h4>
-              <ul className="space-y-3">
                 <li className="flex items-center gap-3">
                   <input type="checkbox" className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Offer two specific slots</span>
@@ -136,7 +127,6 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
               </ul>
             </div>
           </div>
-        </div>
 
         {/* Right Column - Context & Uncovered Points */}
         <div className="w-full lg:w-[400px] flex-shrink-0">

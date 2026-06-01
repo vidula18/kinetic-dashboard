@@ -102,9 +102,17 @@ export function LeadDetail({ lead, onCallStateChange }: LeadDetailProps) {
         )}
         <div>
           <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
-             Focus Points
+             Remember for Call
           </h4>
           <p className="text-sm leading-snug text-gray-900 font-medium bg-blue-50/50 p-2 rounded-md border border-blue-100">{renderMarkdown(nextAction)}</p>
+        </div>
+        <div>
+          <h4 className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1 flex items-center">
+             Call Notes
+          </h4>
+          <p className="text-sm leading-snug text-gray-800 bg-yellow-50/50 p-2 rounded-md border border-yellow-100 italic">
+            No notes logged for previous calls.
+          </p>
         </div>
       </div>
     );
