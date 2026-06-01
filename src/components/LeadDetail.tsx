@@ -142,7 +142,7 @@ export function LeadDetail({ lead, onCallStateChange }: LeadDetailProps) {
           </div>
         </div>
 
-        <div className="mt-5 flex flex-col sm:flex-row sm:justify-start sm:gap-8 sm:items-center border-t border-gray-100 pt-5">
+        <div className="mt-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-gray-100 pt-5">
           <div className="flex flex-wrap gap-2 items-center relative">
             {(() => {
               const currentLabelConfig = MOCK_LABELS.find(l => l.text === selectedLabel) || MOCK_LABELS[0];
@@ -188,10 +188,10 @@ export function LeadDetail({ lead, onCallStateChange }: LeadDetailProps) {
             })()}
           </div>
 
-          <div className="flex flex-col gap-2 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-gray-600 uppercase tracking-wider mr-4">Lead</span>
-              <div className="flex items-center gap-1">
+          <div className="flex flex-wrap items-center gap-4 bg-gray-50 px-4 py-2.5 rounded-lg border border-gray-200 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Lead Rating</span>
+              <div className="flex items-center gap-0.5">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -212,9 +212,12 @@ export function LeadDetail({ lead, onCallStateChange }: LeadDetailProps) {
                 ))}
               </div>
             </div>
-            <div className="border-t border-gray-200 pt-2 w-full mt-1">
-              <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Lead Quality</span>
-              <select className="w-full text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded p-1.5 focus:outline-none focus:border-blue-500 cursor-pointer">
+            
+            <div className="hidden sm:block h-5 w-px bg-gray-300"></div>
+            
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Quality</span>
+              <select className="text-xs font-bold text-gray-800 bg-transparent border-none p-0 focus:ring-0 cursor-pointer outline-none">
                 <option>Marketing qualified lead</option>
                 <option>Sales qualified lead</option>
                 <option>Non qualified lead</option>
