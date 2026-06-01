@@ -102,17 +102,17 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
             <div>
               <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Details, Intent, and Pain</h4>
               <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <input type="checkbox" className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
-                  <span className="text-sm font-medium text-gray-700 leading-relaxed">Establish the primary fitness goal (weight loss, strength, rehab).</span>
+                <li className="flex items-center gap-3">
+                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
+                  <span className="text-sm font-medium text-gray-700">Primary fitness goal</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <input type="checkbox" className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
-                  <span className="text-sm font-medium text-gray-700 leading-relaxed">Ask about past injuries or existing conditions (PCOS, joint pain).</span>
+                <li className="flex items-center gap-3">
+                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
+                  <span className="text-sm font-medium text-gray-700">Past injuries or conditions</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <input type="checkbox" className="mt-1 w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
-                  <span className="text-sm font-medium text-gray-700 leading-relaxed">Gauge urgency: Why are they starting now vs next month?</span>
+                <li className="flex items-center gap-3">
+                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
+                  <span className="text-sm font-medium text-gray-700">Urgency (Why now?)</span>
                 </li>
               </ul>
             </div>
@@ -121,17 +121,17 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
             <div>
               <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Book Assessment</h4>
               <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <input type="checkbox" className="mt-1 w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
-                  <span className="text-sm font-medium text-gray-700 leading-relaxed">Offer two specific slots (e.g., "Tomorrow at 9am or 4pm?").</span>
+                <li className="flex items-center gap-3">
+                  <input type="checkbox" className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
+                  <span className="text-sm font-medium text-gray-700">Offer two specific slots</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <input type="checkbox" className="mt-1 w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
-                  <span className="text-sm font-medium text-gray-700 leading-relaxed">Confirm online vs. offline preference.</span>
+                <li className="flex items-center gap-3">
+                  <input type="checkbox" className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
+                  <span className="text-sm font-medium text-gray-700">Confirm online/offline</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <input type="checkbox" className="mt-1 w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
-                  <span className="text-sm font-medium text-gray-700 leading-relaxed">Set expectation: "A trainer will call you via video."</span>
+                <li className="flex items-center gap-3">
+                  <input type="checkbox" className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
+                  <span className="text-sm font-medium text-gray-700">Set expectation for video call</span>
                 </li>
               </ul>
             </div>
@@ -146,34 +146,34 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
               <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider">Insight & Context</h3>
             </div>
             
-            <div className="p-5 space-y-6">
+            <div className="p-4 space-y-4">
               
               {/* Context */}
               <div>
-                <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Background</h4>
-                <p className="text-sm text-gray-700 leading-snug">
+                <h4 className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Background</h4>
+                <p className="text-xs text-gray-700 leading-tight">
                   {renderMarkdown(lead.aiInsight.split('. ')[0] + '.')}
                 </p>
               </div>
 
               {/* Uncovered Points (Red) */}
-              <div className="bg-red-50 border border-red-100 rounded-lg p-4">
-                <h4 className="text-[10px] font-bold text-red-500 uppercase tracking-wider mb-2">Uncovered Points</h4>
-                <ul className="space-y-2">
-                  <li className="text-sm font-medium text-red-700 leading-snug">
-                    • Exact availability for the assessment has not been verified yet.
+              <div className="bg-red-50 border border-red-100 rounded-md p-3">
+                <h4 className="text-[9px] font-bold text-red-500 uppercase tracking-wider mb-1.5">Uncovered Points</h4>
+                <ul className="space-y-1.5">
+                  <li className="text-xs font-medium text-red-700 leading-tight">
+                    • Verify assessment availability.
                   </li>
-                  <li className="text-sm font-medium text-red-700 leading-snug">
-                    • Motivation/Pain point is vague (need to dig deeper into why now).
+                  <li className="text-xs font-medium text-red-700 leading-tight">
+                    • Dig deeper into motivation.
                   </li>
                 </ul>
               </div>
 
               {/* Suggestions */}
               <div>
-                <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Suggested Approach</h4>
-                <p className="text-sm text-gray-700 leading-snug bg-gray-50 p-3 rounded border border-gray-100">
-                  Highlight that our premium early-bird packages match their scheduling constraints. Keep tone consultative rather than pushy.
+                <h4 className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Suggested Approach</h4>
+                <p className="text-xs text-gray-700 leading-tight bg-gray-50 p-2 rounded border border-gray-100">
+                  Pitch premium packages based on schedule. Keep consultative tone.
                 </p>
               </div>
 
@@ -183,7 +183,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
         </div>
 
         {/* Notes Area (Full Width) */}
-        <div className="mt-8 w-full">
+        <div className="mt-4 w-full">
           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center">
             <Edit2 className="w-3 h-3 mr-1.5" /> Live Notes
           </h4>
