@@ -17,7 +17,7 @@ const MOCK_SCRIPT_STEPS = [
 
 export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
   const [seconds, setSeconds] = useState(0);
-  const [scriptStep, setScriptStep] = useState(2); // Start at step 2 to match mockup "Got it..."
+  const [scriptStep] = useState(2); // Start at step 2 to match mockup "Got it..."
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
@@ -72,23 +72,6 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-4">Say This Next</h3>
             <div className="text-3xl md:text-4xl font-extrabold text-blue-600 leading-tight">
               • {MOCK_SCRIPT_STEPS[scriptStep].replace('[Name]', lead.name.split(' ')[0])}
-            </div>
-            
-            <div className="mt-6 flex justify-center gap-3">
-              <button 
-                onClick={() => setScriptStep(s => Math.max(0, s - 1))}
-                disabled={scriptStep === 0}
-                className="px-4 py-1.5 text-sm font-semibold text-gray-500 hover:text-gray-900 disabled:opacity-30 transition-colors"
-              >
-                Previous
-              </button>
-              <button 
-                onClick={() => setScriptStep(s => Math.min(MOCK_SCRIPT_STEPS.length - 1, s + 1))}
-                disabled={scriptStep === MOCK_SCRIPT_STEPS.length - 1}
-                className="px-6 py-1.5 text-sm font-bold text-white bg-blue-500 rounded-full hover:bg-blue-600 disabled:opacity-50 transition-all shadow-sm hover:shadow"
-              >
-                Next Prompt
-              </button>
             </div>
           </div>
 
@@ -153,22 +136,13 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
                   {renderMarkdown(lead.aiInsight)}
                 </p>
               </div>
-
-              {/* Suggestions */}
-              <div>
-                <h4 className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Suggested Approach</h4>
-                <p className="text-xs text-gray-700 leading-tight bg-gray-50 p-2 rounded border border-gray-100">
-                  Pitch premium packages based on schedule. Keep consultative tone.
-                </p>
-              </div>
-
             </div>
           </div>
         </div>
         </div>
 
         {/* Notes Area (Full Width) */}
-        <div className="mt-4 w-full">
+        <div className="mt-0 w-full">
           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center">
             <Edit2 className="w-3 h-3 mr-1.5" /> Live Notes
           </h4>
