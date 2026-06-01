@@ -124,6 +124,14 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
                   <input type="checkbox" className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Set expectation for video call</span>
                 </li>
+                <li className="flex items-center gap-3">
+                  <input type="checkbox" className="w-4 h-4 text-red-600 rounded border-red-300 focus:ring-red-500 cursor-pointer" />
+                  <span className="text-sm font-medium text-red-600">Verify assessment availability</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <input type="checkbox" className="w-4 h-4 text-red-600 rounded border-red-300 focus:ring-red-500 cursor-pointer" />
+                  <span className="text-sm font-medium text-red-600">Dig deeper into motivation</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -141,22 +149,9 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
               {/* Context */}
               <div>
                 <h4 className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Background</h4>
-                <p className="text-xs text-gray-700 leading-tight">
-                  {renderMarkdown(lead.aiInsight.split('. ')[0] + '.')}
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  {renderMarkdown(lead.aiInsight)}
                 </p>
-              </div>
-
-              {/* Uncovered Points (Red) */}
-              <div className="bg-red-50 border border-red-100 rounded-md p-3">
-                <h4 className="text-[9px] font-bold text-red-500 uppercase tracking-wider mb-1.5">Uncovered Points</h4>
-                <ul className="space-y-1.5">
-                  <li className="text-xs font-medium text-red-700 leading-tight">
-                    • Verify assessment availability.
-                  </li>
-                  <li className="text-xs font-medium text-red-700 leading-tight">
-                    • Dig deeper into motivation.
-                  </li>
-                </ul>
               </div>
 
               {/* Suggestions */}
