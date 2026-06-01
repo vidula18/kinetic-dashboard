@@ -88,7 +88,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
         <div className="flex gap-3">
           <button className="bg-white/10 text-white border border-white/20 font-bold px-4 py-2 rounded-md shadow-sm hover:bg-white/20 active:scale-[0.98] flex items-center transition-all">
             <Calendar className="w-4 h-4 mr-2" />
-            Schedule Call
+            Schedule Trial
           </button>
           <button 
             onClick={onEndCall}
