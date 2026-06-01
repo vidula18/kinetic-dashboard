@@ -123,7 +123,7 @@ export default function App() {
 
 
         {/* Tabs and Filters Area */}
-        <div className="mb-2 mx-4 sm:mx-6 lg:mx-8 flex justify-between items-end border-b border-gray-200">
+        <div className="mt-2 mb-2 mx-4 sm:mx-6 lg:mx-8 flex justify-between items-end border-b border-gray-200">
           <div className="flex space-x-1 overflow-x-auto min-w-0">
             <button 
               onClick={() => setActiveTab('Alerts')}
