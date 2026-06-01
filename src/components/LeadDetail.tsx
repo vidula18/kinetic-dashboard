@@ -134,7 +134,7 @@ export function LeadDetail({ lead, onCallStateChange }: LeadDetailProps) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button className="px-4 py-2 text-sm font-bold bg-white text-blue-600 border border-blue-200 hover:bg-blue-50 rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center">
+            <button className="px-6 py-2.5 text-sm font-bold bg-white text-blue-600 border border-blue-200 hover:bg-blue-50 rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center">
               <Calendar className="w-4 h-4 mr-2" />
               Schedule Trial
             </button>

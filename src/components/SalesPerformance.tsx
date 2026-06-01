@@ -101,7 +101,7 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
     <div className="mx-4 sm:mx-6 lg:mx-8 mb-12 mt-4 space-y-6">
       
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
         <div className="flex items-center space-x-2">
           <Filter className="w-4 h-4 text-gray-500" />
           <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Period</span>

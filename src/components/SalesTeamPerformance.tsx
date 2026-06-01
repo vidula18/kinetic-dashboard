@@ -141,7 +141,7 @@ function PersonRow(props: WeeklyCaller & { isTeam: boolean }) {
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-6">
       {/* Header */}
       <div 
-        className={`flex items-center p-4 bg-gray-50 border-b border-gray-100 ${!props.isTeam ? 'cursor-pointer hover:bg-gray-100 transition-colors' : ''}`}
+        className={`flex items-center p-6 bg-gray-50 border-b border-gray-100 ${!props.isTeam ? 'cursor-pointer hover:bg-gray-100 transition-colors' : ''}`}
         onClick={() => !props.isTeam && setExpanded(!expanded)}
       >
         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-sm flex-shrink-0 ${props.isTeam ? 'bg-gradient-to-br from-indigo-500 to-purple-600' : 'bg-blue-600'}`}>
@@ -168,10 +168,10 @@ function PersonRow(props: WeeklyCaller & { isTeam: boolean }) {
       {/* Body */}
       {expanded && (
         <div className="p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           
           {/* Card 1: Total Calls & TAT */}
-          <div className="bg-white p-5 rounded-lg border border-gray-200 shadow-sm flex flex-col justify-center">
+          <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm flex flex-col justify-center">
             <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Calls this week</h4>
             <div className="flex items-baseline mb-6">
               <span className="text-4xl font-black text-gray-900">{props.total}</span>
@@ -196,13 +196,13 @@ function PersonRow(props: WeeklyCaller & { isTeam: boolean }) {
           </div>
 
           {/* Card 2: Calls per day */}
-          <div className="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+          <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
             <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Calls per day</h4>
             <DayChart days={props.days} />
           </div>
 
           {/* Card 3: Label Dist */}
-          <div className="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+          <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
             <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Label Distribution</h4>
             <p className="text-[10px] text-gray-400 font-medium">Where each client sits by end of week</p>
             <LabelDistChart dist={props.labelDist} />

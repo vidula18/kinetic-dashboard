@@ -86,13 +86,13 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
           </span>
         </div>
         <div className="flex gap-3">
-          <button className="bg-white/10 text-white border border-white/20 font-bold px-4 py-2 rounded-md shadow-sm hover:bg-white/20 active:scale-[0.98] flex items-center transition-all">
+          <button className="bg-white/10 text-white border border-white/20 font-bold px-6 py-2.5 rounded-lg shadow-sm hover:bg-white/20 active:scale-[0.98] flex items-center transition-all text-sm">
             <Calendar className="w-4 h-4 mr-2" />
             Schedule Trial
           </button>
           <button 
             onClick={onEndCall}
-            className="bg-white text-red-600 font-bold px-6 py-2 rounded-md shadow hover:bg-gray-50 active:scale-[0.98] flex items-center transition-all"
+            className="bg-white text-red-600 font-bold px-6 py-2.5 rounded-lg shadow hover:bg-gray-50 active:scale-[0.98] flex items-center transition-all text-sm"
           >
             <PhoneOff className="w-4 h-4 mr-2" />
             End Call
@@ -100,7 +100,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-8 flex flex-col max-w-7xl mx-auto w-full">
+      <div className="flex-1 overflow-y-auto p-6 flex flex-col max-w-7xl mx-auto w-full">
         
         {/* Say This Next (Full Width) */}
           <div className="mb-6 text-center animate-in slide-in-from-bottom-2 fade-in duration-300 w-full relative">
