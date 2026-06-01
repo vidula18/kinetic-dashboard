@@ -106,7 +106,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
           <div className="mb-6 text-center animate-in slide-in-from-bottom-2 fade-in duration-300 w-full relative">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-4">Say This Next</h3>
             <div className="text-3xl md:text-4xl font-extrabold text-blue-600 leading-tight min-h-[100px] flex items-center justify-center">
-              • {MOCK_SCRIPT_STEPS[scriptStep].replace('[Name]', lead.name.split(' ')[0])}
+              {MOCK_SCRIPT_STEPS[scriptStep].replace('[Name]', lead.name.split(' ')[0])}
             </div>
           </div>
 
