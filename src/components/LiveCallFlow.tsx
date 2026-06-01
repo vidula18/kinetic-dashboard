@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Lead } from '../data/mockLeads';
-import { PhoneOff, Activity, Edit2 } from 'lucide-react';
+import { PhoneOff, Calendar, Activity, Edit2 } from 'lucide-react';
 
 interface LiveCallFlowProps {
   lead: Lead;
@@ -17,8 +17,23 @@ const MOCK_SCRIPT_STEPS = [
 
 export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
   const [seconds, setSeconds] = useState(0);
-  const [scriptStep] = useState(2); // Start at step 2 to match mockup "Got it..."
+  const [scriptStep, setScriptStep] = useState(0);
   const [notes, setNotes] = useState("");
+  const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({});
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCheckedItems(prev => {
+        const next = { ...prev };
+        if (scriptStep >= 1) next[0] = true;
+        if (scriptStep >= 2) next[1] = true;
+        if (scriptStep >= 3) { next[2] = true; next[3] = true; }
+        if (scriptStep >= 4) { next[4] = true; next[5] = true; next[6] = true; next[7] = true; }
+        return next;
+      });
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [scriptStep]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,27 +71,40 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
             {formatTime(seconds)}
           </span>
         </div>
-        <button 
-          onClick={onEndCall}
-          className="bg-white text-red-600 font-bold px-6 py-2 rounded-md shadow hover:bg-gray-50 flex items-center transition-colors"
-        >
-          <PhoneOff className="w-4 h-4 mr-2" />
-          End Call
-        </button>
+        <div className="flex gap-3">
+          <button className="bg-white/10 text-white border border-white/20 font-bold px-4 py-2 rounded-md shadow-sm hover:bg-white/20 active:scale-[0.98] flex items-center transition-all">
+            <Calendar className="w-4 h-4 mr-2" />
+            Schedule Call
+          </button>
+          <button 
+            onClick={onEndCall}
+            className="bg-white text-red-600 font-bold px-6 py-2 rounded-md shadow hover:bg-gray-50 active:scale-[0.98] flex items-center transition-all"
+          >
+            <PhoneOff className="w-4 h-4 mr-2" />
+            End Call
+          </button>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-8 flex flex-col max-w-7xl mx-auto w-full">
         
         {/* Say This Next (Full Width) */}
-        <div className="mb-6 text-center animate-in slide-in-from-bottom-2 fade-in duration-300 w-full">
+          <div className="mb-6 text-center animate-in slide-in-from-bottom-2 fade-in duration-300 w-full relative">
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-4">Say This Next</h3>
-            <div className="text-3xl md:text-4xl font-extrabold text-blue-600 leading-tight">
+            <div className="text-3xl md:text-4xl font-extrabold text-blue-600 leading-tight min-h-[100px] flex items-center justify-center">
               • {MOCK_SCRIPT_STEPS[scriptStep].replace('[Name]', lead.name.split(' ')[0])}
             </div>
+            
+            <button 
+              onClick={() => setScriptStep(s => Math.min(MOCK_SCRIPT_STEPS.length - 1, s + 1))}
+              className={`mt-4 px-6 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 font-bold rounded-full text-sm items-center transition-all active:scale-95 ${scriptStep < MOCK_SCRIPT_STEPS.length - 1 ? 'inline-flex' : 'hidden'}`}
+            >
+              Next Prompt →
+            </button>
           </div>
 
         {/* 2-Column Section */}
-        <div className="flex flex-col lg:flex-row gap-8 w-full flex-1">
+        <div className="flex flex-col lg:flex-row gap-8 w-full mb-4">
           
           {/* Left Column - Details & Notes */}
           <div className="flex-1 flex flex-col min-w-0">
@@ -84,35 +112,35 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
               <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Call Checklist</h4>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
+                  <input type="checkbox" checked={checkedItems[0] || false} onChange={e => setCheckedItems(p => ({...p, 0: e.target.checked}))} className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Primary fitness goal</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
+                  <input type="checkbox" checked={checkedItems[1] || false} onChange={e => setCheckedItems(p => ({...p, 1: e.target.checked}))} className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Past injuries or conditions</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
+                  <input type="checkbox" checked={checkedItems[2] || false} onChange={e => setCheckedItems(p => ({...p, 2: e.target.checked}))} className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Urgency (Why now?)</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
+                  <input type="checkbox" checked={checkedItems[3] || false} onChange={e => setCheckedItems(p => ({...p, 3: e.target.checked}))} className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Offer two specific slots</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
+                  <input type="checkbox" checked={checkedItems[4] || false} onChange={e => setCheckedItems(p => ({...p, 4: e.target.checked}))} className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Confirm online/offline</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
+                  <input type="checkbox" checked={checkedItems[5] || false} onChange={e => setCheckedItems(p => ({...p, 5: e.target.checked}))} className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Set expectation for video call</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-red-600 rounded border-red-300 focus:ring-red-500 cursor-pointer" />
+                  <input type="checkbox" checked={checkedItems[6] || false} onChange={e => setCheckedItems(p => ({...p, 6: e.target.checked}))} className="w-4 h-4 text-red-600 rounded border-red-300 focus:ring-red-500 cursor-pointer" />
                   <span className="text-sm font-medium text-red-600">Verify assessment availability</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <input type="checkbox" className="w-4 h-4 text-red-600 rounded border-red-300 focus:ring-red-500 cursor-pointer" />
+                  <input type="checkbox" checked={checkedItems[7] || false} onChange={e => setCheckedItems(p => ({...p, 7: e.target.checked}))} className="w-4 h-4 text-red-600 rounded border-red-300 focus:ring-red-500 cursor-pointer" />
                   <span className="text-sm font-medium text-red-600">Dig deeper into motivation</span>
                 </li>
               </ul>
@@ -142,7 +170,7 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
         </div>
 
         {/* Notes Area (Full Width) */}
-        <div className="mt-0 w-full">
+        <div className="mt-4 w-full flex-1 flex flex-col min-h-[160px]">
           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center">
             <Edit2 className="w-3 h-3 mr-1.5" /> Live Notes
           </h4>

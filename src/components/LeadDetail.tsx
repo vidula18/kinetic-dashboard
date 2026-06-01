@@ -142,7 +142,7 @@ export function LeadDetail({ lead, onCallStateChange }: LeadDetailProps) {
           </div>
         </div>
 
-        <div className="mt-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border-t border-gray-100 pt-5">
+        <div className="mt-5 flex flex-col sm:flex-row sm:justify-start sm:gap-8 sm:items-center border-t border-gray-100 pt-5">
           <div className="flex flex-wrap gap-2 items-center relative">
             {(() => {
               const currentLabelConfig = MOCK_LABELS.find(l => l.text === selectedLabel) || MOCK_LABELS[0];
@@ -214,11 +214,11 @@ export function LeadDetail({ lead, onCallStateChange }: LeadDetailProps) {
             </div>
             <div className="border-t border-gray-200 pt-2 w-full mt-1">
               <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Lead Quality</span>
-              <select className="w-full text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded p-1.5 focus:outline-none focus:border-blue-500">
-                <option>High Quality</option>
-                <option>Medium Quality</option>
-                <option>Low Quality</option>
-                <option>Unqualified</option>
+              <select className="w-full text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded p-1.5 focus:outline-none focus:border-blue-500 cursor-pointer">
+                <option>Marketing qualified lead</option>
+                <option>Sales qualified lead</option>
+                <option>Non qualified lead</option>
+                <option>Not responding</option>
               </select>
             </div>
           </div>
