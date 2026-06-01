@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Phone, Clock, Sparkles, ChevronDown, ChevronRight, TrendingUp, TrendingDown } from 'lucide-react';
 import { WEEKLY_CALLERS, type WeeklyCaller } from '../data/mockPerformance';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts';
 
 const LABEL_COLORS: Record<string, string> = {
   'Try 1': '#10b981',
@@ -78,17 +78,18 @@ function DayChart({ days }: { days: [string, number][] }) {
   return (
     <div className="h-32 mt-4 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={chartData} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
+        <BarChart data={chartData} margin={{ top: 20, right: 0, left: -25, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
           <XAxis 
             dataKey="name" 
-            axisLine={false} 
-            tickLine={false} 
+            axisLine={{ stroke: '#e5e7eb' }} 
+            tickLine={{ stroke: '#e5e7eb' }} 
             tick={{ fontSize: 10, fill: '#6b7280', fontWeight: 600 }}
             dy={5}
           />
           <YAxis 
-            axisLine={false} 
-            tickLine={false} 
+            axisLine={{ stroke: '#e5e7eb' }} 
+            tickLine={{ stroke: '#e5e7eb' }} 
             tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 500 }}
             tickCount={4}
           />
@@ -107,25 +108,28 @@ function DayChart({ days }: { days: [string, number][] }) {
 }
 
 function LabelDistChart({ dist }: { dist: Record<string, number> }) {
-  const total = Object.values(dist).reduce((a, b) => a + b, 0) || 1;
+  const chartData = LABEL_KEYS.map(l => ({ name: l, value: dist[l] || 0, color: LABEL_COLORS[l] }));
+
   return (
-    <div className="space-y-2.5 mt-4">
-      {LABEL_KEYS.map(l => {
-        const n = dist[l] || 0;
-        const pct = Math.max(2, Math.round((n / total) * 100));
-        return (
-          <div key={l} className="flex items-center text-xs">
-            <span className="w-24 font-semibold text-gray-600 truncate" title={l}>{l}</span>
-            <div className="flex-1 mx-3 h-2 bg-gray-100 rounded-full overflow-hidden">
-              <div 
-                className="h-full rounded-full" 
-                style={{ width: `${pct}%`, backgroundColor: LABEL_COLORS[l] }}
-              />
-            </div>
-            <span className="w-6 text-right font-bold text-gray-800">{n}</span>
-          </div>
-        );
-      })}
+    <div className="h-40 mt-4 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart layout="vertical" data={chartData} margin={{ top: 10, right: 30, left: 30, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={true} stroke="#f3f4f6" />
+          <XAxis type="number" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 10, fill: '#6b7280' }} />
+          <YAxis type="category" dataKey="name" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 10, fill: '#4b5563', fontWeight: 600 }} width={80} />
+          <Tooltip 
+            cursor={{ fill: '#f3f4f6' }}
+            contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', fontSize: '12px', fontWeight: 'bold' }}
+            formatter={(value: any) => [`${value} leads`, 'Count']}
+            labelStyle={{ color: '#6b7280', marginBottom: '4px' }}
+          />
+          <Bar dataKey="value" name="Leads" radius={[0, 4, 4, 0]}>
+            {chartData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }

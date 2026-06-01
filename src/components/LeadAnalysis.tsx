@@ -7,7 +7,7 @@ import {
   MOCK_COMBINATION_METRICS, 
   MOCK_FUNNEL_STAGES 
 } from '../data/mockAnalysis';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid } from 'recharts';
 
 function formatINR(amount: number) {
   if (amount >= 100000) return `₹${(amount / 100000).toFixed(1)}L`;
@@ -16,8 +16,6 @@ function formatINR(amount: number) {
 
 export function LeadAnalysis() {
   const [dateRange, setDateRange] = useState('This Month');
-
-  const maxFunnelCount = Math.max(...MOCK_FUNNEL_STAGES.map(s => s.count));
 
   return (
     <div className="mx-4 sm:mx-6 lg:mx-8 mb-12 mt-4 space-y-6 animate-in fade-in duration-300">
@@ -116,9 +114,10 @@ export function LeadAnalysis() {
           
           <div className="h-64 mb-4">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={MOCK_SOURCE_METRICS} layout="vertical" margin={{ top: 0, right: 0, left: 40, bottom: 0 }}>
-                <XAxis type="number" hide />
-                <YAxis dataKey="source" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#4b5563', fontWeight: 600 }} />
+              <BarChart data={MOCK_SOURCE_METRICS} layout="vertical" margin={{ top: 20, right: 30, left: 40, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={true} stroke="#f3f4f6" />
+                <XAxis type="number" tick={{ fontSize: 11, fill: '#6b7280' }} axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} />
+                <YAxis dataKey="source" type="category" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 11, fill: '#4b5563', fontWeight: 600 }} />
                 <Tooltip 
                   cursor={{ fill: '#f3f4f6' }}
                   contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
@@ -164,34 +163,24 @@ export function LeadAnalysis() {
             <h3 className="text-[15px] font-bold text-gray-900">Lead Funnel & Drop-off</h3>
           </div>
 
-          <div className="flex-1 flex flex-col justify-center space-y-4 py-4">
-            {MOCK_FUNNEL_STAGES.map((stage, idx) => {
-              const widthPct = Math.max(5, (stage.count / maxFunnelCount) * 100);
-              return (
-                <div key={idx} className="flex flex-col">
-                  <div className="flex justify-between items-end mb-1">
-                    <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">{stage.stage}</span>
-                    <span className="text-sm font-black text-gray-900">{stage.count}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-gray-100 h-8 rounded-md overflow-hidden relative">
-                      <div 
-                        className="h-full bg-blue-500 rounded-md transition-all duration-500"
-                        style={{ width: `${widthPct}%`, opacity: 1 - (idx * 0.15) }}
-                      />
-                    </div>
-                    {idx > 0 && (
-                      <div className="w-16 text-right">
-                        <span className="text-[10px] font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded">
-                          -{stage.dropoffRate}
-                        </span>
-                      </div>
-                    )}
-                    {idx === 0 && <div className="w-16" />}
-                  </div>
-                </div>
-              );
-            })}
+          <div className="h-64 mt-4 mb-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={MOCK_FUNNEL_STAGES} layout="vertical" margin={{ top: 20, right: 30, left: 60, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={true} stroke="#f3f4f6" />
+                <XAxis type="number" tick={{ fontSize: 11, fill: '#6b7280' }} axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} />
+                <YAxis dataKey="stage" type="category" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 11, fill: '#4b5563', fontWeight: 600 }} />
+                <Tooltip 
+                  cursor={{ fill: '#f3f4f6' }}
+                  contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                  labelStyle={{ fontWeight: 'bold', color: '#111827', marginBottom: '4px' }}
+                />
+                <Bar dataKey="count" name="Leads" fill="#3b82f6" radius={[0, 4, 4, 0]}>
+                  {MOCK_FUNNEL_STAGES.map((_, index) => (
+                    <Cell key={`cell-${index}`} fillOpacity={1 - (index * 0.15)} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>

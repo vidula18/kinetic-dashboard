@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Sparkles, BarChart2, IndianRupee, Clock, AlertTriangle, TrendingUp, TrendingDown, Filter, X } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts';
 import { PERF_DATA, type PerfData, type SalespersonPerformance } from '../data/mockPerformance';
 
 const LABEL_COLORS: Record<string, string> = {
@@ -90,7 +91,6 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
     ...LABEL_KEYS.map(l => ({ label: l, n: slice.labelDist[l] || 0, color: LABEL_COLORS[l] })),
     { label: 'Converted', n: slice.conversions, conv: true }
   ];
-  const fMax = slice.leads || 1;
   const convRate = slice.leads ? Math.round((slice.conversions / slice.leads) * 100) : 0;
 
   const missCount = slice.misses.reminder.length + slice.misses.fresh.length + slice.misses.cold.length;
@@ -203,23 +203,24 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wide bg-gray-100 px-2 py-0.5 rounded-full">{PERIOD_LABELS[period]}</span>
           </div>
 
-          <div className="space-y-3 mb-6">
-            {funnelStages.map((st, idx) => (
-              <div key={idx} className="flex items-center text-xs">
-                <span className={`w-20 font-bold ${st.conv ? 'text-green-700' : st.all ? 'text-blue-700' : 'text-gray-600'}`}>{st.label}</span>
-                <div className="flex-1 mx-3 bg-gray-50 rounded-md overflow-hidden flex items-center">
-                  <div 
-                    className={`h-6 rounded-r-md transition-all ${st.conv ? 'bg-green-500' : st.all ? 'bg-blue-500' : ''}`}
-                    style={{ 
-                      width: `${Math.max(2, (st.n / fMax) * 100)}%`, 
-                      backgroundColor: st.color,
-                      opacity: st.color ? 0.9 : 1
-                    }}
-                  />
-                </div>
-                <span className={`w-10 text-right font-black ${st.conv ? 'text-green-700' : st.all ? 'text-blue-700' : 'text-gray-900'}`}>{st.n}</span>
-              </div>
-            ))}
+          <div className="h-64 mt-4 mb-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={funnelStages} layout="vertical" margin={{ top: 20, right: 30, left: 80, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={true} stroke="#f3f4f6" />
+                <XAxis type="number" tick={{ fontSize: 11, fill: '#6b7280' }} axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} />
+                <YAxis dataKey="label" type="category" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 11, fill: '#4b5563', fontWeight: 600 }} />
+                <Tooltip 
+                  cursor={{ fill: '#f3f4f6' }}
+                  contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+                  labelStyle={{ fontWeight: 'bold', color: '#111827', marginBottom: '4px' }}
+                />
+                <Bar dataKey="n" name="Leads" radius={[0, 4, 4, 0]}>
+                  {funnelStages.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color || '#e5e7eb'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
           
           <div className="bg-gray-50 border border-gray-100 rounded-lg p-3 text-center text-xs font-semibold text-gray-600">
