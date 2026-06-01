@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Lead } from '../data/mockLeads';
-import { PhoneOff, Calendar, Activity, Edit2 } from 'lucide-react';
+import { PhoneOff, Calendar, Activity, Edit2, CheckSquare } from 'lucide-react';
 
 interface LiveCallFlowProps {
   lead: Lead;
@@ -115,9 +115,13 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
           
           {/* Left Column - Details & Notes */}
           <div className="flex-1 flex flex-col min-w-0">
-            <div className="mb-0">
-              <h4 className="text-sm font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4">Call Checklist</h4>
-              <ul className="space-y-3">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="px-5 py-3 border-b border-gray-100 bg-gray-50/50 flex items-center">
+                <CheckSquare className="w-4 h-4 mr-2 text-blue-600" />
+                <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider">Call Checklist</h3>
+              </div>
+              <div className="p-4">
+                <ul className="space-y-3">
                 <li className="flex items-center gap-3">
                   <input type="checkbox" checked={checkedItems[0] || false} onChange={e => setCheckedItems(p => ({...p, 0: e.target.checked}))} className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer" />
                   <span className="text-sm font-medium text-gray-700">Primary fitness goal</span>
@@ -150,7 +154,8 @@ export function LiveCallFlow({ lead, onEndCall }: LiveCallFlowProps) {
                   <input type="checkbox" checked={checkedItems[7] || false} onChange={e => setCheckedItems(p => ({...p, 7: e.target.checked}))} className="w-4 h-4 text-red-600 rounded border-red-300 focus:ring-red-500 cursor-pointer" />
                   <span className="text-sm font-medium text-red-600">Dig deeper into motivation</span>
                 </li>
-              </ul>
+                </ul>
+              </div>
             </div>
           </div>
 
