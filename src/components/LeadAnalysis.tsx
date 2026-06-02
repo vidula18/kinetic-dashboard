@@ -34,7 +34,7 @@ const renderPieLabel = (props: any) => {
   let line1 = name;
   let line2 = '';
   
-  if (name.length > 14 && words.length > 1) {
+  if (name.length > 10 && words.length > 1) {
     const mid = Math.ceil(words.length / 2);
     line1 = words.slice(0, mid).join(' ');
     line2 = words.slice(mid).join(' ');
