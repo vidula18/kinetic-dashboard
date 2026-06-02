@@ -174,7 +174,7 @@ export function LeadAnalysis() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
           <select 
             value={filters.timeline} onChange={e => updateFilter('timeline', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="All Time">All Time</option>
             <option value="This Week">This Week</option>
@@ -183,7 +183,7 @@ export function LeadAnalysis() {
           
           <select 
             value={filters.stars} onChange={e => updateFilter('stars', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="All">Any Rating</option>
             <option value="5">5 Stars</option>
@@ -195,7 +195,7 @@ export function LeadAnalysis() {
 
           <select 
             value={filters.quality} onChange={e => updateFilter('quality', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="All">All Qualities</option>
             <option value="Marketing qualified lead">Marketing Qualified Lead</option>
@@ -206,7 +206,7 @@ export function LeadAnalysis() {
 
           <select 
             value={filters.campaignName} onChange={e => updateFilter('campaignName', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="All">All Campaigns</option>
             <option value="Summer Shred">Summer Shred</option>
@@ -216,7 +216,7 @@ export function LeadAnalysis() {
 
           <select 
             value={filters.campaignId} onChange={e => updateFilter('campaignId', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="All">All Campaign IDs</option>
             <option value="CMP-001">CMP-001</option>
@@ -226,7 +226,7 @@ export function LeadAnalysis() {
 
           <select 
             value={filters.source} onChange={e => updateFilter('source', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="All">All Sources</option>
             <option value="Meta Ads">Meta Ads</option>
