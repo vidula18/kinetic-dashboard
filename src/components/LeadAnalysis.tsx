@@ -6,6 +6,57 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Cartes
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 
+const renderPieLabel = (props: any) => {
+  const { cx, cy, midAngle, outerRadius, percent, name, fill } = props;
+  const RADIAN = Math.PI / 180;
+  const sin = Math.sin(-midAngle * RADIAN);
+  const cos = Math.cos(-midAngle * RADIAN);
+  
+  // Start line slightly away from pie
+  const sx = cx + (outerRadius + 6) * cos;
+  const sy = cy + (outerRadius + 6) * sin;
+  
+  // Mid point further out
+  const mx = cx + (outerRadius + 18) * cos;
+  const my = cy + (outerRadius + 18) * sin;
+  
+  // End point horizontal extension
+  const ex = mx + (cos >= 0 ? 1 : -1) * 12;
+  const ey = my;
+  
+  const textAnchor = cos >= 0 ? 'start' : 'end';
+  const tx = ex + (cos >= 0 ? 6 : -6);
+  
+  const percentText = `${(percent * 100).toFixed(0)}%`;
+  
+  // Wrap long text
+  const words = name.split(' ');
+  let line1 = name;
+  let line2 = '';
+  
+  if (name.length > 14 && words.length > 1) {
+    const mid = Math.ceil(words.length / 2);
+    line1 = words.slice(0, mid).join(' ');
+    line2 = words.slice(mid).join(' ');
+  }
+
+  return (
+    <g>
+      <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" strokeWidth={1.5} opacity={0.5} />
+      <text x={tx} y={ey} fill={fill} textAnchor={textAnchor} dominantBaseline="central" fontSize={11} fontWeight={600}>
+        {line2 ? (
+          <>
+            <tspan x={tx} dy="-0.6em">{line1}</tspan>
+            <tspan x={tx} dy="1.3em">{line2} {percentText}</tspan>
+          </>
+        ) : (
+          <tspan x={tx} dy="0">{line1} {percentText}</tspan>
+        )}
+      </text>
+    </g>
+  );
+};
+
 export function LeadAnalysis() {
   const [showSummary, setShowSummary] = useState(false);
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(null);
@@ -254,12 +305,8 @@ export function LeadAnalysis() {
               <div className="h-48">
                 {summaryData.funnelStages[0].value > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart margin={{ top: 10, right: 80, bottom: 10, left: 80 }}>
-                      <Pie data={summaryData.funnelStages} cx="50%" cy="50%" innerRadius={25} outerRadius={40} paddingAngle={2} dataKey="value" label={(props: any) => (
-                        <text x={props.x} y={props.y} fill={props.fill} textAnchor={props.x > props.cx ? 'start' : 'end'} dominantBaseline="central" fontSize={11} fontWeight={600}>
-                          {props.name} {(props.percent * 100).toFixed(0)}%
-                        </text>
-                      )}>
+                    <PieChart margin={{ top: 30, right: 70, bottom: 30, left: 70 }}>
+                      <Pie data={summaryData.funnelStages} cx="50%" cy="50%" innerRadius={25} outerRadius={35} paddingAngle={2} dataKey="value" labelLine={false} label={renderPieLabel}>
                         {summaryData.funnelStages.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
@@ -282,12 +329,8 @@ export function LeadAnalysis() {
               <div className="h-48">
                 {summaryData.services.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart margin={{ top: 10, right: 80, bottom: 10, left: 80 }}>
-                      <Pie data={summaryData.services} cx="50%" cy="50%" innerRadius={0} outerRadius={40} dataKey="value" label={(props: any) => (
-                        <text x={props.x} y={props.y} fill={props.fill} textAnchor={props.x > props.cx ? 'start' : 'end'} dominantBaseline="central" fontSize={11} fontWeight={600}>
-                          {props.name} {(props.percent * 100).toFixed(0)}%
-                        </text>
-                      )}>
+                    <PieChart margin={{ top: 30, right: 70, bottom: 30, left: 70 }}>
+                      <Pie data={summaryData.services} cx="50%" cy="50%" innerRadius={0} outerRadius={35} dataKey="value" labelLine={false} label={renderPieLabel}>
                         {summaryData.services.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
@@ -310,12 +353,8 @@ export function LeadAnalysis() {
               <div className="h-48">
                 {summaryData.qualities.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart margin={{ top: 10, right: 80, bottom: 10, left: 80 }}>
-                      <Pie data={summaryData.qualities} cx="50%" cy="50%" innerRadius={25} outerRadius={40} dataKey="value" label={(props: any) => (
-                        <text x={props.x} y={props.y} fill={props.fill} textAnchor={props.x > props.cx ? 'start' : 'end'} dominantBaseline="central" fontSize={11} fontWeight={600}>
-                          {props.name} {(props.percent * 100).toFixed(0)}%
-                        </text>
-                      )}>
+                    <PieChart margin={{ top: 30, right: 70, bottom: 30, left: 70 }}>
+                      <Pie data={summaryData.qualities} cx="50%" cy="50%" innerRadius={25} outerRadius={35} dataKey="value" labelLine={false} label={renderPieLabel}>
                         {summaryData.qualities.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
