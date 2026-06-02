@@ -254,7 +254,7 @@ export function LeadAnalysis() {
               <div className="h-48">
                 {summaryData.funnelStages[0].value > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart margin={{ top: 10, right: 50, bottom: 10, left: 50 }}>
                       <Pie data={summaryData.funnelStages} cx="50%" cy="50%" innerRadius={30} outerRadius={50} paddingAngle={2} dataKey="value" label={(props: any) => `${props.name} ${(props.percent * 100).toFixed(0)}%`}>
                         {summaryData.funnelStages.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -278,7 +278,7 @@ export function LeadAnalysis() {
               <div className="h-48">
                 {summaryData.services.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart margin={{ top: 10, right: 50, bottom: 10, left: 50 }}>
                       <Pie data={summaryData.services} cx="50%" cy="50%" innerRadius={0} outerRadius={50} dataKey="value" label={(props: any) => `${props.name} ${(props.percent * 100).toFixed(0)}%`}>
                         {summaryData.services.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -302,7 +302,7 @@ export function LeadAnalysis() {
               <div className="h-48">
                 {summaryData.qualities.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart margin={{ top: 10, right: 50, bottom: 10, left: 50 }}>
                       <Pie data={summaryData.qualities} cx="50%" cy="50%" innerRadius={30} outerRadius={50} dataKey="value" label={(props: any) => `${props.name.substring(0, 3)} ${(props.percent * 100).toFixed(0)}%`}>
                         {summaryData.qualities.map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
