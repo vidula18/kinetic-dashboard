@@ -10,6 +10,11 @@ export interface Lead {
   aiInsight: string;
   actionRequired: string;
   isFresh?: boolean;
+  stars?: number;
+  quality?: string;
+  campaignName?: string;
+  campaignId?: string;
+  serviceInterest?: string;
 }
 
 const AI_INSIGHTS = [
@@ -58,6 +63,15 @@ export const MOCK_LEADS: Lead[] = Array.from({ length: 15 }).map((_, i) => {
 
   const names = ["Ananya Sharma", "Lakshmi Rao", "Dev Anand", "Ishaan Verma", "Neha Pillai", "Rohit Sinha", "Farah Sheikh", "Manoj Gupta", "Aditya Nair", "Priya Desai", "Karthik Reddy", "Meera Joshi", "Arjun Patel", "Neha Kulkarni", "Rohan Shetty"];
   const sources = ["Meta Ads", "Google Ads", "Instagram", "Referral", "WhatsApp"];
+  const qualities = ['Marketing qualified lead', 'Sales qualified lead', 'Non qualified lead', 'Not responding'];
+  const campaigns = [
+    { name: 'Summer Shred', id: 'CMP-001' },
+    { name: 'Postpartum Wellness', id: 'CMP-002' },
+    { name: 'Knee Rehab', id: 'CMP-003' }
+  ];
+  const services = ['Personal Training', 'Rehab & Recovery', 'Nutrition Plan'];
+  
+  const campaign = campaigns[i % campaigns.length];
   
   return {
     id: `lead-${i}`,
@@ -68,6 +82,11 @@ export const MOCK_LEADS: Lead[] = Array.from({ length: 15 }).map((_, i) => {
     labels: randomLabels,
     aiInsight: AI_INSIGHTS[i],
     actionRequired: ACTIONS[i],
-    isFresh: i < 3
+    isFresh: i < 3,
+    stars: (i % 5) + 1,
+    quality: qualities[i % qualities.length],
+    campaignName: campaign.name,
+    campaignId: campaign.id,
+    serviceInterest: services[i % services.length]
   };
 });
