@@ -428,7 +428,7 @@ export function LeadAnalysis() {
               <div className="space-y-3 flex-1">
                 {combinations.length > 0 ? (
                   combinations.map((c, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-white hover:shadow-sm transition-all hover:border-gray-200">
+                    <div key={idx} className="flex items-center justify-between p-3 rounded-lg border border-gray-100 bg-gray-50">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-100 px-2 py-0.5 rounded-full">{c.source}</span>
