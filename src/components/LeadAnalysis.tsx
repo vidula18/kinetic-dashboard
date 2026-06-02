@@ -147,10 +147,10 @@ export function LeadAnalysis() {
             className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-8 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="All">All Qualities</option>
-            <option value="Marketing qualified lead">MQL</option>
-            <option value="Sales qualified lead">SQL</option>
-            <option value="Non qualified lead">NQL</option>
-            <option value="Not responding">Not responding</option>
+            <option value="Marketing qualified lead">Marketing Qualified Lead</option>
+            <option value="Sales qualified lead">Sales Qualified Lead</option>
+            <option value="Non qualified lead">Non Qualified Lead</option>
+            <option value="Not responding">Not Responding</option>
           </select>
 
           <select 
