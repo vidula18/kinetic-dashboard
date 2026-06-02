@@ -29,6 +29,7 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
   const [period, setPeriod] = useState<keyof PerfData>('week');
   const [person, setPerson] = useState<string>('all');
   const [modalState, setModalState] = useState<'captured' | 'missed' | 'potential' | null>(null);
+  const comparisonText = period === 'month' ? 'vs last month' : period === 'quarter' ? 'vs last quarter' : 'vs last week';
 
   const slice = useMemo(() => {
     const all = PERF_DATA[period];
@@ -146,19 +147,19 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
               <div className="text-[10px] font-bold text-green-700 uppercase tracking-wider mb-1">Captured</div>
               <div className="text-2xl font-black text-green-900 mb-1">{formatINR(slice.captured)}</div>
               <div className="text-[10px] text-green-600 font-medium mb-1.5">from {slice.conversions} conversions</div>
-              <div className="text-[9px] font-bold text-green-600 flex items-center"><TrendingUp className="w-3 h-3 mr-0.5" /> 8% vs last week</div>
+              <div className="text-[9px] font-bold text-green-600 flex items-center"><TrendingUp className="w-3 h-3 mr-0.5" /> 8% {comparisonText}</div>
             </button>
             <button type="button" onClick={() => setModalState('missed')} className="text-left bg-red-50/50 p-4 rounded-xl border border-red-100 hover:shadow-md hover:border-red-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-500">
               <div className="text-[10px] font-bold text-red-700 uppercase tracking-wider mb-1">Missed</div>
               <div className="text-2xl font-black text-red-900 mb-1">{formatINR(slice.missed)}</div>
               <div className="text-[10px] text-red-600 font-medium mb-1.5">from {slice.losses.length} losses</div>
-              <div className="text-[9px] font-bold text-red-600 flex items-center"><TrendingUp className="w-3 h-3 mr-0.5" /> 5% vs last week</div>
+              <div className="text-[9px] font-bold text-red-600 flex items-center"><TrendingUp className="w-3 h-3 mr-0.5" /> 5% {comparisonText}</div>
             </button>
             <button type="button" onClick={() => setModalState('potential')} className="text-left bg-blue-50/50 p-4 rounded-xl border border-blue-100 hover:shadow-md hover:border-blue-200 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500">
               <div className="text-[10px] font-bold text-blue-700 uppercase tracking-wider mb-1">Potential</div>
               <div className="text-2xl font-black text-blue-900 mb-1">{formatINR(slice.potential)}</div>
               <div className="text-[10px] text-blue-600 font-medium mb-1.5">across {slice.prospects.length} prospects</div>
-              <div className="text-[9px] font-bold text-blue-600 flex items-center"><TrendingUp className="w-3 h-3 mr-0.5" /> 18% vs last week</div>
+              <div className="text-[9px] font-bold text-blue-600 flex items-center"><TrendingUp className="w-3 h-3 mr-0.5" /> 18% {comparisonText}</div>
             </button>
           </div>
           
@@ -169,7 +170,7 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
             </div>
             <div className="text-right">
               <div className="text-lg font-black text-blue-900">05:12</div>
-              <div className="text-[9px] font-bold text-blue-600 flex items-center justify-end mt-0.5"><TrendingUp className="w-3 h-3 mr-0.5" /> 1m vs last week</div>
+              <div className="text-[9px] font-bold text-blue-600 flex items-center justify-end mt-0.5"><TrendingUp className="w-3 h-3 mr-0.5" /> 1m {comparisonText}</div>
             </div>
           </div>
 
@@ -179,7 +180,7 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
               <div>
                 <div className="text-lg font-black text-gray-900">{slice.tatHours.toFixed(1)}h</div>
                 <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Turn Around Time</div>
-                <div className="text-[9px] font-bold text-green-600 flex items-center"><TrendingDown className="w-3 h-3 mr-0.5" /> 0.3h vs last week</div>
+                <div className="text-[9px] font-bold text-green-600 flex items-center"><TrendingDown className="w-3 h-3 mr-0.5" /> 0.3h {comparisonText}</div>
               </div>
             </div>
             <div className="flex items-center p-3 bg-gray-50 border border-gray-100 rounded-lg">
@@ -187,7 +188,7 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
               <div>
                 <div className="text-lg font-black text-gray-900">{slice.convertDays.toFixed(1)}d</div>
                 <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Time to Convert</div>
-                <div className="text-[9px] font-bold text-green-600 flex items-center"><TrendingDown className="w-3 h-3 mr-0.5" /> 0.8d vs last week</div>
+                <div className="text-[9px] font-bold text-green-600 flex items-center"><TrendingDown className="w-3 h-3 mr-0.5" /> 0.8d {comparisonText}</div>
               </div>
             </div>
           </div>
