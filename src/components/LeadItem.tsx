@@ -38,12 +38,12 @@ export function LeadItem({ lead, isSelected, onClick, isCompact }: LeadItemProps
       }`}
     >
       {isSelected && (
-        <div className={`absolute right-1 top-1/2 -translate-y-1/2 ${lead.isFresh ? 'text-yellow-600' : 'text-blue-600'}`}>
-          <ChevronRight className="w-4 h-4" />
+        <div className={`absolute right-3 top-1/2 -translate-y-1/2 ${lead.isFresh ? 'text-yellow-600' : 'text-blue-600'}`}>
+          <ChevronRight className="w-5 h-5" />
         </div>
       )}
 
-      <div className={`flex items-center gap-2.5 ${isSelected ? 'pr-5' : ''}`}>
+      <div className={`flex items-center gap-2.5 ${isSelected ? 'pr-8' : ''}`}>
         {/* Avatar */}
         <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isSelected ? (lead.isFresh ? 'bg-yellow-500 text-white shadow-sm' : 'bg-blue-600 text-white shadow-sm') : lead.isFresh ? 'bg-yellow-50 text-yellow-600 border border-yellow-100' : 'bg-gray-100 text-gray-600 border border-gray-200'}`}>
           {initials}

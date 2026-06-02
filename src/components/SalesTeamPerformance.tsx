@@ -113,10 +113,10 @@ function LabelDistChart({ dist }: { dist: Record<string, number> }) {
   return (
     <div className="h-40 mt-4 w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart layout="vertical" data={chartData} margin={{ top: 10, right: 30, left: 30, bottom: 0 }}>
+        <BarChart layout="vertical" data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={true} stroke="#f3f4f6" />
           <XAxis type="number" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 10, fill: '#6b7280' }} />
-          <YAxis type="category" dataKey="name" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 10, fill: '#4b5563', fontWeight: 600 }} width={80} />
+          <YAxis type="category" dataKey="name" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 10, fill: '#4b5563', fontWeight: 600 }} width={110} />
           <Tooltip 
             cursor={{ fill: '#f3f4f6' }}
             contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', fontSize: '12px', fontWeight: 'bold' }}

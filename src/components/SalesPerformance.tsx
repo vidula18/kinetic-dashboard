@@ -205,10 +205,10 @@ export function SalesPerformance({ onNavigateToLead }: { onNavigateToLead?: (nam
 
           <div className="h-64 mt-4 mb-4">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={funnelStages} layout="vertical" margin={{ top: 20, right: 30, left: 80, bottom: 20 }}>
+              <BarChart data={funnelStages} layout="vertical" margin={{ top: 20, right: 30, left: 10, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={true} stroke="#f3f4f6" />
                 <XAxis type="number" tick={{ fontSize: 11, fill: '#6b7280' }} axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} />
-                <YAxis dataKey="label" type="category" axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 11, fill: '#4b5563', fontWeight: 600 }} />
+                <YAxis dataKey="label" type="category" width={110} axisLine={{ stroke: '#e5e7eb' }} tickLine={{ stroke: '#e5e7eb' }} tick={{ fontSize: 11, fill: '#4b5563', fontWeight: 600 }} />
                 <Tooltip 
                   cursor={{ fill: '#f3f4f6' }}
                   contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}

@@ -57,8 +57,10 @@ export const MOCK_LEADS: Lead[] = Array.from({ length: 250 }).map((_, i) => {
   const now = new Date();
   // Ensure the first few are very recent, others spread out over 30 days
   const minutesAgo = i < 5 ? (i + 1) * 2 : Math.floor(Math.random() * 43200); 
+  const trialLabel = MOCK_LABELS.find(l => l.text.toLowerCase().includes('trial')) || MOCK_LABELS[0];
+  const isConverted = Math.random() < 0.3; // 30% chance of conversion
   const randomLabels = [
-    MOCK_LABELS[Math.floor(Math.random() * MOCK_LABELS.length)]
+    isConverted ? trialLabel : MOCK_LABELS[Math.floor(Math.random() * MOCK_LABELS.length)]
   ];
 
   const names = ["Ananya Sharma", "Lakshmi Rao", "Dev Anand", "Ishaan Verma", "Neha Pillai", "Rohit Sinha", "Farah Sheikh", "Manoj Gupta", "Aditya Nair", "Priya Desai", "Karthik Reddy", "Meera Joshi", "Arjun Patel", "Neha Kulkarni", "Rohan Shetty", "Vikram Singh", "Pooja Patel", "Rahul Deshmukh", "Kavya Menon", "Aarav Gupta"];
