@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Filter, BarChart2, PieChart as PieChartIcon, Activity, Sparkles, Star, Search } from 'lucide-react';
+import { Filter, BarChart2, PieChart as PieChartIcon, Activity, Sparkles, Star, Search, Users, CheckCircle, TrendingUp, Calendar, DollarSign } from 'lucide-react';
 import { MOCK_LEADS } from '../data/mockLeads';
 import { LeadItem } from './LeadItem';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid, PieChart, Pie } from 'recharts';
@@ -30,6 +30,47 @@ export function LeadAnalysis() {
     });
   }, [filters]);
 
+  const overviewMetrics = useMemo(() => {
+    const total = filteredLeads.length;
+    let qualified = 0;
+    let trialsBooked = 0;
+    
+    filteredLeads.forEach(lead => {
+        if (lead.quality === 'Marketing qualified lead' || lead.quality === 'Sales qualified lead') qualified++;
+        if (lead.labels && lead.labels.some(l => l.text.includes('Trial'))) trialsBooked++;
+    });
+    
+    const conversionRate = total > 0 ? ((trialsBooked / total) * 100).toFixed(1) + '%' : '0%';
+    const pipelineValue = `₹${(total * 25000 / 100000).toFixed(1)}L`; 
+    const avgQuality = total > 0 ? (filteredLeads.reduce((sum, lead) => sum + (lead.stars || 0), 0) / total).toFixed(1) : '0';
+
+    return { total, qualified, conversionRate, trialsBooked, pipelineValue, avgQuality };
+  }, [filteredLeads]);
+
+  const combinations = useMemo(() => {
+    const map = new Map();
+    filteredLeads.forEach(lead => {
+        if (lead.source && lead.serviceInterest) {
+            const key = `${lead.source}|${lead.serviceInterest}`;
+            const data = map.get(key) || { leads: 0, converted: 0 };
+            data.leads++;
+            if (lead.labels && lead.labels.some(l => l.text.includes('Trial'))) data.converted++;
+            map.set(key, data);
+        }
+    });
+    
+    return Array.from(map.entries()).map(([key, data]) => {
+        const [source, service] = key.split('|');
+        return {
+            source,
+            service,
+            leads: data.leads,
+            conversions: data.converted,
+            rate: data.leads > 0 ? ((data.converted / data.leads) * 100).toFixed(1) + '%' : '0%'
+        };
+    }).sort((a, b) => b.leads - a.leads).slice(0, 5); 
+  }, [filteredLeads]);
+
   const summaryData = useMemo(() => {
     const sourceMap = new Map();
     const serviceMap = new Map();
@@ -45,7 +86,6 @@ export function LeadAnalysis() {
     const services = Array.from(serviceMap.entries()).map(([name, value]) => ({ name, value }));
     const qualities = Array.from(qualityMap.entries()).map(([name, value]) => ({ name, value }));
     
-    // Funnel mock based on filtered subset size to show dropoff
     const total = filteredLeads.length;
     const funnelStages = [
       { name: 'Total Leads', value: total },
@@ -150,6 +190,136 @@ export function LeadAnalysis() {
       {showSummary ? (
         /* Summary Analytics Mode */
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          
+          {/* Level 1: Overview KPIs */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-4 h-4 text-blue-600" />
+                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Total Leads</h4>
+              </div>
+              <div className="text-2xl font-black text-gray-900">{overviewMetrics.total}</div>
+            </div>
+            
+            <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle className="w-4 h-4 text-green-600" />
+                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Qualified</h4>
+              </div>
+              <div className="text-2xl font-black text-gray-900">{overviewMetrics.qualified}</div>
+            </div>
+
+            <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <TrendingUp className="w-4 h-4 text-purple-600" />
+                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Conversion</h4>
+              </div>
+              <div className="text-2xl font-black text-gray-900">{overviewMetrics.conversionRate}</div>
+            </div>
+
+            <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <Calendar className="w-4 h-4 text-orange-600" />
+                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Trials Booked</h4>
+              </div>
+              <div className="text-2xl font-black text-gray-900">{overviewMetrics.trialsBooked}</div>
+            </div>
+
+            <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <DollarSign className="w-4 h-4 text-emerald-600" />
+                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Pipeline</h4>
+              </div>
+              <div className="text-2xl font-black text-gray-900">{overviewMetrics.pipelineValue}</div>
+            </div>
+
+            <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <Activity className="w-4 h-4 text-red-600" />
+                <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Avg Quality</h4>
+              </div>
+              <div className="text-2xl font-black text-gray-900">{overviewMetrics.avgQuality}</div>
+            </div>
+          </div>
+
+          {/* Level 2: Pie Charts Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            {/* Conversion Stages Pie Chart */}
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col">
+              <div className="flex items-center mb-6 border-b border-gray-100 pb-3">
+                <Activity className="w-5 h-5 mr-2 text-blue-600" />
+                <h3 className="text-[15px] font-bold text-gray-900">Conversion Stages</h3>
+              </div>
+              <div className="h-48">
+                {summaryData.funnelStages[0].value > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={summaryData.funnelStages} cx="50%" cy="50%" innerRadius={45} outerRadius={70} paddingAngle={2} dataKey="value" label={(props: any) => `${props.name} ${(props.percent * 100).toFixed(0)}%`}>
+                        {summaryData.funnelStages.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data</div>
+                )}
+              </div>
+            </div>
+
+            {/* Service Interest Pie Chart */}
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col">
+              <div className="flex items-center mb-6 border-b border-gray-100 pb-3">
+                <Sparkles className="w-5 h-5 mr-2 text-emerald-600" />
+                <h3 className="text-[15px] font-bold text-gray-900">Service Interest</h3>
+              </div>
+              <div className="h-48">
+                {summaryData.services.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={summaryData.services} cx="50%" cy="50%" innerRadius={0} outerRadius={70} dataKey="value" label={(props: any) => `${props.name} ${(props.percent * 100).toFixed(0)}%`}>
+                        {summaryData.services.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data</div>
+                )}
+              </div>
+            </div>
+
+            {/* Lead Quality Pie Chart */}
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col">
+              <div className="flex items-center mb-6 border-b border-gray-100 pb-3">
+                <Star className="w-5 h-5 mr-2 text-orange-600" />
+                <h3 className="text-[15px] font-bold text-gray-900">Lead Quality</h3>
+              </div>
+              <div className="h-48">
+                {summaryData.qualities.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={summaryData.qualities} cx="50%" cy="50%" innerRadius={45} outerRadius={70} dataKey="value" label={(props: any) => `${props.name.substring(0, 3)} ${(props.percent * 100).toFixed(0)}%`}>
+                        {summaryData.qualities.map((_, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data</div>
+                )}
+              </div>
+            </div>
+
+          </div>
+
+          {/* Level 3: Performance Analysis */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             {/* Top Source Performance */}
@@ -174,83 +344,43 @@ export function LeadAnalysis() {
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data for selected filters</div>
+                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data</div>
                 )}
               </div>
             </div>
 
-            {/* Lead Funnel Pie Chart */}
+            {/* Top Performing Combinations Matrix */}
             <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col">
               <div className="flex items-center mb-6 border-b border-gray-100 pb-3">
-                <Activity className="w-5 h-5 mr-2 text-blue-600" />
-                <h3 className="text-[15px] font-bold text-gray-900">Lead Funnel</h3>
+                <Activity className="w-5 h-5 mr-2 text-purple-600" />
+                <h3 className="text-[15px] font-bold text-gray-900">Top Performing Combinations</h3>
               </div>
-              <div className="h-64">
-                {summaryData.funnelStages[0].value > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie data={summaryData.funnelStages} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={2} dataKey="value" label={(props: any) => `${props.name} ${(props.percent * 100).toFixed(0)}%`}>
-                        {summaryData.funnelStages.map((_, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
-                    </PieChart>
-                  </ResponsiveContainer>
+
+              <div className="space-y-3 flex-1">
+                {combinations.length > 0 ? (
+                  combinations.map((c, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-white hover:shadow-sm transition-all hover:border-gray-200">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-100 px-2 py-0.5 rounded-full">{c.source}</span>
+                          <span className="text-gray-400">→</span>
+                          <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider bg-emerald-100 px-2 py-0.5 rounded-full">{c.service}</span>
+                        </div>
+                        <div className="text-xs text-gray-500 font-medium mt-1.5">
+                          {c.leads} leads · {c.conversions} conversions
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-xl font-black text-green-600">{c.rate}</div>
+                        <div className="text-[9px] uppercase tracking-wider text-gray-400 font-bold">Conversion</div>
+                      </div>
+                    </div>
+                  ))
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data for selected filters</div>
+                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data</div>
                 )}
               </div>
             </div>
-
-            {/* Service Interest Pie Chart */}
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col">
-              <div className="flex items-center mb-6 border-b border-gray-100 pb-3">
-                <Sparkles className="w-5 h-5 mr-2 text-emerald-600" />
-                <h3 className="text-[15px] font-bold text-gray-900">Service Interest</h3>
-              </div>
-              <div className="h-64">
-                {summaryData.services.length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie data={summaryData.services} cx="50%" cy="50%" innerRadius={0} outerRadius={80} dataKey="value" label={(props: any) => `${props.name} ${(props.percent * 100).toFixed(0)}%`}>
-                        {summaryData.services.map((_, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data for selected filters</div>
-                )}
-              </div>
-            </div>
-
-            {/* Lead Quality Pie Chart */}
-            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col">
-              <div className="flex items-center mb-6 border-b border-gray-100 pb-3">
-                <Star className="w-5 h-5 mr-2 text-orange-600" />
-                <h3 className="text-[15px] font-bold text-gray-900">Lead Quality Breakdown</h3>
-              </div>
-              <div className="h-64">
-                {summaryData.qualities.length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie data={summaryData.qualities} cx="50%" cy="50%" innerRadius={40} outerRadius={80} dataKey="value" label={(props: any) => `${props.name.substring(0, 3)} ${(props.percent * 100).toFixed(0)}%`}>
-                        {summaryData.qualities.map((_, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400 font-medium text-sm">No data for selected filters</div>
-                )}
-              </div>
-            </div>
-
           </div>
         </div>
       ) : (
