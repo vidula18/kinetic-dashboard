@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Filter, BarChart2, PieChart as PieChartIcon, Activity, Sparkles, Star, Search, Users, CheckCircle, TrendingUp, Calendar, DollarSign } from 'lucide-react';
+import { Filter, BarChart2, PieChart as PieChartIcon, Activity, Sparkles, Star, Search, Users, CheckCircle, TrendingUp, Calendar, DollarSign, ChevronDown } from 'lucide-react';
 import { MOCK_LEADS } from '../data/mockLeads';
 import { LeadItem } from './LeadItem';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid, PieChart, Pie } from 'recharts';
@@ -172,69 +172,87 @@ export function LeadAnalysis() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          <select 
-            value={filters.timeline} onChange={e => updateFilter('timeline', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="All Time">All Time</option>
-            <option value="This Week">This Week</option>
-            <option value="This Month">This Month</option>
-          </select>
+          <div className="relative">
+            <select 
+              value={filters.timeline} onChange={e => updateFilter('timeline', e.target.value)}
+              className="appearance-none w-full text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-10 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="All Time">All Time</option>
+              <option value="This Week">This Week</option>
+              <option value="This Month">This Month</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+          </div>
           
-          <select 
-            value={filters.stars} onChange={e => updateFilter('stars', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="All">Any Rating</option>
-            <option value="5">5 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="2">2 Stars</option>
-            <option value="1">1 Star</option>
-          </select>
+          <div className="relative">
+            <select 
+              value={filters.stars} onChange={e => updateFilter('stars', e.target.value)}
+              className="appearance-none w-full text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-10 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="All">Any Rating</option>
+              <option value="5">5 Stars</option>
+              <option value="4">4 Stars</option>
+              <option value="3">3 Stars</option>
+              <option value="2">2 Stars</option>
+              <option value="1">1 Star</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+          </div>
 
-          <select 
-            value={filters.quality} onChange={e => updateFilter('quality', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="All">All Qualities</option>
-            <option value="Marketing qualified lead">Marketing Qualified Lead</option>
-            <option value="Sales qualified lead">Sales Qualified Lead</option>
-            <option value="Non qualified lead">Non Qualified Lead</option>
-            <option value="Not responding">Not Responding</option>
-          </select>
+          <div className="relative">
+            <select 
+              value={filters.quality} onChange={e => updateFilter('quality', e.target.value)}
+              className="appearance-none w-full text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-10 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="All">All Qualities</option>
+              <option value="Marketing qualified lead">Marketing Qualified Lead</option>
+              <option value="Sales qualified lead">Sales Qualified Lead</option>
+              <option value="Non qualified lead">Non Qualified Lead</option>
+              <option value="Not responding">Not Responding</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+          </div>
 
-          <select 
-            value={filters.campaignName} onChange={e => updateFilter('campaignName', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="All">All Campaigns</option>
-            <option value="Summer Shred">Summer Shred</option>
-            <option value="Postpartum Wellness">Postpartum Wellness</option>
-            <option value="Knee Rehab">Knee Rehab</option>
-          </select>
+          <div className="relative">
+            <select 
+              value={filters.campaignName} onChange={e => updateFilter('campaignName', e.target.value)}
+              className="appearance-none w-full text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-10 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="All">All Campaigns</option>
+              <option value="Summer Shred">Summer Shred</option>
+              <option value="Postpartum Wellness">Postpartum Wellness</option>
+              <option value="Knee Rehab">Knee Rehab</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+          </div>
 
-          <select 
-            value={filters.campaignId} onChange={e => updateFilter('campaignId', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="All">All Campaign IDs</option>
-            <option value="CMP-001">CMP-001</option>
-            <option value="CMP-002">CMP-002</option>
-            <option value="CMP-003">CMP-003</option>
-          </select>
+          <div className="relative">
+            <select 
+              value={filters.campaignId} onChange={e => updateFilter('campaignId', e.target.value)}
+              className="appearance-none w-full text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-10 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="All">All Campaign IDs</option>
+              <option value="CMP-001">CMP-001</option>
+              <option value="CMP-002">CMP-002</option>
+              <option value="CMP-003">CMP-003</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+          </div>
 
-          <select 
-            value={filters.source} onChange={e => updateFilter('source', e.target.value)}
-            className="text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-12 bg-[position:right_1rem_center] focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="All">All Sources</option>
-            <option value="Meta Ads">Meta Ads</option>
-            <option value="Google Ads">Google Ads</option>
-            <option value="Instagram">Instagram</option>
-            <option value="Referral">Referral</option>
-            <option value="WhatsApp">WhatsApp</option>
-          </select>
+          <div className="relative">
+            <select 
+              value={filters.source} onChange={e => updateFilter('source', e.target.value)}
+              className="appearance-none w-full text-sm font-semibold text-gray-700 border-gray-300 rounded-md shadow-sm border bg-gray-50 py-2 pl-3 pr-10 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="All">All Sources</option>
+              <option value="Meta Ads">Meta Ads</option>
+              <option value="Google Ads">Google Ads</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Referral">Referral</option>
+              <option value="WhatsApp">WhatsApp</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+          </div>
         </div>
       </div>
 
