@@ -53,15 +53,15 @@ const ACTIONS = [
   "Verify Lead Quality"
 ];
 
-export const MOCK_LEADS: Lead[] = Array.from({ length: 15 }).map((_, i) => {
+export const MOCK_LEADS: Lead[] = Array.from({ length: 250 }).map((_, i) => {
   const now = new Date();
-  // Ensure the first few are very recent
-  const minutesAgo = i < 3 ? (i + 1) * 2 : i * 45 + 30; 
+  // Ensure the first few are very recent, others spread out over 30 days
+  const minutesAgo = i < 5 ? (i + 1) * 2 : Math.floor(Math.random() * 43200); 
   const randomLabels = [
-    MOCK_LABELS[i % MOCK_LABELS.length]
+    MOCK_LABELS[Math.floor(Math.random() * MOCK_LABELS.length)]
   ];
 
-  const names = ["Ananya Sharma", "Lakshmi Rao", "Dev Anand", "Ishaan Verma", "Neha Pillai", "Rohit Sinha", "Farah Sheikh", "Manoj Gupta", "Aditya Nair", "Priya Desai", "Karthik Reddy", "Meera Joshi", "Arjun Patel", "Neha Kulkarni", "Rohan Shetty"];
+  const names = ["Ananya Sharma", "Lakshmi Rao", "Dev Anand", "Ishaan Verma", "Neha Pillai", "Rohit Sinha", "Farah Sheikh", "Manoj Gupta", "Aditya Nair", "Priya Desai", "Karthik Reddy", "Meera Joshi", "Arjun Patel", "Neha Kulkarni", "Rohan Shetty", "Vikram Singh", "Pooja Patel", "Rahul Deshmukh", "Kavya Menon", "Aarav Gupta"];
   const sources = ["Meta Ads", "Google Ads", "Instagram", "Referral", "WhatsApp"];
   const qualities = ['Marketing qualified lead', 'Sales qualified lead', 'Non qualified lead', 'Not responding'];
   const campaigns = [
@@ -71,22 +71,22 @@ export const MOCK_LEADS: Lead[] = Array.from({ length: 15 }).map((_, i) => {
   ];
   const services = ['Personal Training', 'Rehab & Recovery', 'Nutrition Plan'];
   
-  const campaign = campaigns[i % campaigns.length];
+  const campaign = campaigns[Math.floor(Math.random() * campaigns.length)];
   
   return {
     id: `lead-${i}`,
-    name: names[i] || `Lead ${i+1}`,
-    source: sources[i % sources.length],
+    name: names[Math.floor(Math.random() * names.length)] || `Lead ${i+1}`,
+    source: sources[Math.floor(Math.random() * sources.length)],
     phone: `+91 98${Math.floor(10000000 + Math.random() * 90000000)}`,
     timeReceived: new Date(now.getTime() - minutesAgo * 60000),
     labels: randomLabels,
-    aiInsight: AI_INSIGHTS[i],
-    actionRequired: ACTIONS[i],
-    isFresh: i < 3,
-    stars: (i % 5) + 1,
-    quality: qualities[i % qualities.length],
+    aiInsight: AI_INSIGHTS[Math.floor(Math.random() * AI_INSIGHTS.length)],
+    actionRequired: ACTIONS[Math.floor(Math.random() * ACTIONS.length)],
+    isFresh: i < 5,
+    stars: Math.floor(Math.random() * 5) + 1,
+    quality: qualities[Math.floor(Math.random() * qualities.length)],
     campaignName: campaign.name,
     campaignId: campaign.id,
-    serviceInterest: services[i % services.length]
+    serviceInterest: services[Math.floor(Math.random() * services.length)]
   };
 });
